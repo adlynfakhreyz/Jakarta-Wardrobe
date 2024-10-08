@@ -1,4 +1,4 @@
-# Tahap 1
+<summary> # Tahap 1 </summary>
 
 ## Kelompok : BO4
 
@@ -21,7 +21,7 @@ Keberadaan aplikasi JaWa diharapkan dapat membantu pengguna untuk mengakses dan 
 
 __Kebermanfaatan Aplikasi:__ 
 
-1. __Memberikan informasi yang komprehensif__ tentang produk fashion di Jakarta, sehingga pengguna dapat dengan mudah menemukan produk yang mereka cari.
+1. __Memberikan informasi yang komprehensif__ tentang produk fashion di Jakarta, sehingga pengguna dapat dengan mudah menemukan produk yang  dicari.
 2. __Membantu pengguna memilih produk berdasarkan lokasi serta rating dan ulasan__ yang diberikan oleh pengguna lain, meningkatkan pengalaman eksplorasi.
 3. __Menawarkan fitur personalisasi__ melalui fitur *User Choice*, yang memungkinkan pengguna menyimpan produk favorit mereka untuk referensi di masa mendatang.
 4. __Mempermudah pencarian produk__ dengan fitur filter berdasarkan jenis fashion, nama produk (*alphabetical*), dan lokasi toko.
@@ -101,6 +101,7 @@ longitude: Float untuk posisi bujur toko
 ### iv. Sumber initial dataset kategori utama produk
 
 
+
 ### v. Role atau Peran Pengguna
 
 1. *Rating* \
@@ -123,3 +124,5 @@ Dalam fitur ini pengguna dapat menyaring produk berdasarkan lokasi pengguna.
 
 
 ### vi. Tautan Deployment
+
+[http://sayyid-thariq31-jawaapp.pbp.cs.ui.ac.id/]
