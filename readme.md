@@ -2,7 +2,7 @@
 
 ## Kelompok : BO4
 
-__i. Anggota Kelompok__ 
+### i. Anggota Kelompok
 
 1. Sayyid Thariq Gilang Muttaqien (2306275714)
 2. Rizki Amani Hasanah (2306213376)
@@ -11,7 +11,7 @@ __i. Anggota Kelompok__
 5. Rama Aditya Rifki Harmono (2306165502)
 6. Salomo Immanuel Putra (2306219745)
 
-__ii. Deskripsi Aplikasi__
+ ### ii. Deskripsi Aplikasi
 
 __Nama Aplikasi: Jakarta Wardrobe (JaWa)__ 
 
@@ -30,7 +30,7 @@ __Kebermanfaatan Aplikasi:__
 Dengan fitur-fitur ini, Jakarta Wardrobe menjadi solusi efektif bagi pengguna yang ingin mengetahui ketersediaan produk fashion di Jakarta sebelum mengunjungi toko, sehingga dapat menghemat waktu dan memastikan produk yang diinginkan tersedia. Aplikasi ini menyediakan informasi yang berguna bagi para warga Jakarta maupun pengunjung untuk merencanakan pembelian produk dengan lebih efisien.
 
 
-__iii. Daftar Modul__
+### iii. Daftar Modul
 
 1. #### *Rating (Review Page)* 
 
@@ -98,10 +98,10 @@ location_name: Nama lokasi toko yang menjual produk \
 latitude: Float untuk posisi lintang toko \
 longitude: Float untuk posisi bujur toko 
 
-__iv. Sumber initial dataset kategori utama produk__
+### iv. Sumber initial dataset kategori utama produk
 
 
-__v. Role atau Peran Pengguna__
+### v. Role atau Peran Pengguna
 
 1. *Rating* \
 Pengguna dapat melihat dan memberikan rating untuk produk.
@@ -122,4 +122,4 @@ Dalam fitur ini pengguna dapat mengelompokkan produk ke dalam kategori-kategori 
 Dalam fitur ini pengguna dapat menyaring produk berdasarkan lokasi pengguna.
 
 
-__vi. Tautan Deployment__
+### vi. Tautan Deployment
