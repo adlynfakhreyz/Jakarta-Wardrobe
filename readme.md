@@ -81,10 +81,10 @@ favorite_products: Array atau relasi *Many-to-Many* ke tabel Produk yang menyimp
 Modul ini mengelompokkan produk berdasarkan kategori tertentu. Setiap produk terkait dengan satu kategori melalui category_id, yang memungkinkan pengelompokan produk dan penelusuran lebih mudah. Kategori yang tersedia tercantum dalam tabel *Categories*.
 
 #### *Attributes*:
-category_id: Primary Key \
-category_name: String untuk nama kategori, misalnya “Tops”, "Bottoms", "Dress", "Footwear" \
-description: Text untuk deskripsi kategori \
-Produk Attributes: product_id, category_id untuk menghubungkan produk dengan kategori 
+<span style="color: green;">category_id: </span>  Primary Key \
+<span style="color: green;">category_name: </span>  String untuk nama kategori, misalnya “Tops”, "Bottoms", "Dress", "Footwear" \
+<span style="color: green;">category_id: </span>  Text untuk deskripsi kategori \
+Produk Attributes: <span style="color: green;">product_id, category_id</span>  untuk menghubungkan produk dengan kategori
 
 6. #### *Location (Filter)* 
 
