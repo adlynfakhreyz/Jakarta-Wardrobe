@@ -30,6 +30,7 @@ Dengan fitur-fitur ini, Jakarta Wardrobe menjadi solusi efektif bagi pengguna ya
 ## Daftar Modul
 
 1. #### *Rating (Review Page)* 
+(Dikerjakan oleh: Rama Aditya Rifki Harmono)
 
 Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk. Rating diberikan dalam bentuk angka dengan range 1 sampai 5 yang disimpan sebagai atribut rating_value dalam tabel. Pada impleemntasinya, modul ini akan mengumpulkan dan menghitung rata-rata rating dari semua pengguna untuk setiap produk.
 
@@ -41,6 +42,7 @@ Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk
 - timestamp: Timestamp untuk merekam waktu pemberian rating 
 
 2. #### *Comment (Review Page)* 
+(Dikerjakan oleh: Dara Zakya Apriani)
 
 Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh pengguna pada setiap produk. Setiap komentar dihubungkan dengan produk dan pengguna melalui __product_id__ dan __user_id__. Modul ini memungkinkan penyimpanan komentar dalam bentuk teks (comment_text), dengan waktu pembuatan disimpan dalam timestamp. Implementasi comment dan rating akan dijadikan satu dalam review page.
 
@@ -52,6 +54,7 @@ Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh penggun
 - timestamp: Timestamp untuk waktu pemberian komentar 
 
 3. #### *Edit Profile* 
+(Dikerjakan oleh: Rizki Amani Hasanah)
 
 Modul ini bertanggung jawab untuk mengelola fitur edit profile. Modul ini disusun untuk mengelola data profil pengguna yang dapat diedit secara individual. Setiap profil pengguna memiliki atribut seperti __username__, __profile_image__, dan __email__. Modul ini menyimpan perubahan data pengguna dalam tabel User, memungkinkan pengguna untuk memperbarui informasi personal mereka secara *real-time*.
 
@@ -63,6 +66,7 @@ Modul ini bertanggung jawab untuk mengelola fitur edit profile. Modul ini disusu
 - date_joined: Timestamp untuk menyimpan tanggal bergabung pengguna 
 
 4. #### *User Choice* 
+(Dikerjakan oleh: Andi Muhammad Adlyn Fakhreyza Khairi Putra)
 
 Modul ini bertanggung jawab untuk mengelola fitur User Choice. Pengguna akan memiliki halaman personal yang menampilkan barang-barang yang mereka masukkan ke dalam daftar favorit, disebut sebagai __*User Choice*__. Modul ini menyimpan pilihan produk berdasarkan preferensi pengguna, yang akan ditampilkan secara khusus pada halaman tersebut. Setiap produk favorit dihubungkan dengan pengguna melalui __user_id__ dan disimpan dalam bentuk daftar produk yang telah ditambahkan ke dalam pilihan mereka.
 
@@ -73,6 +77,7 @@ Modul ini bertanggung jawab untuk mengelola fitur User Choice. Pengguna akan mem
 
 
 5. #### *Categories* 
+(Dikerjakan oleh: Salomo Immanuel Putra)
 	
 Modul ini bertanggung jawab untuk mengelompokkan produk berdasarkan kategori tertentu. Setiap produk terkait dengan satu kategori melalui __category_id__, yang memungkinkan pengelompokan produk dan penelusuran lebih mudah. Kategori yang tersedia tercantum dalam tabel __*Categories*__.
 
@@ -83,6 +88,7 @@ Modul ini bertanggung jawab untuk mengelompokkan produk berdasarkan kategori ter
 - Produk Attributes: product_id, category_id untuk menghubungkan produk dengan kategori 
 
 6. #### *Location (Filter)* 
+(Dikerjakan oleh: Sayyid Thariq Gilang Muttaqien)
 
 Modul ini menyaring produk berdasarkan lokasi yang relevan. Setiap produk memiliki atribut lokasi seperti __city__ dan __district__, memungkinkan pengguna untuk menyaring daftar produk berdasarkan lokasi yang lebih ter-filter di Jakarta.
 
