@@ -1,4 +1,4 @@
-**Tahap 1**
+# Tahap 1
 
 Kelompok : BO4
 
@@ -17,20 +17,22 @@ __Nama Aplikasi: Jakarta Wardrobe (JaWa)__
 
 __iii. Daftar Modul__
 
-1. Rating
+1. *Rating* \
 Pengguna dapat melihat dan memberikan rating untuk produk.
 
-2. Comment
+2. *Comment* \
 Pengguna dapat melihat dan memberikan komentar untuk produk.
 
-3. Edit Profile
+3. *Edit Profile* \
 Pengguna dapat menyunting profil pengguna, seperti id, nama, dan gambar pengguna.
 
-4. User Choice
+4. *User Choice* \
 Pengguna dapat menyesuaikan preferensi mereka untuk menyesuaikan konten dan pengalaman di website agar lebih interaktif dan personal.
-Categories
+
+5. *Categories* \
 Fitur yang akan mengelompokkan produk ke dalam kategori-kategori tertentu.
-Location (filter)
+
+6. *Location (Filter)* \
 Fitur untuk menyaring produk berdasarkan lokasi pengguna.
 
 
