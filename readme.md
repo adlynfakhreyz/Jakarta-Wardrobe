@@ -53,7 +53,7 @@ Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh penggun
 
 3. #### *Edit Profile* 
 
-Modul ini disusun untuk mengelola data profil pengguna yang dapat diedit secara individual. Setiap profil pengguna memiliki atribut seperti username, profile_image, dan email. Modul ini menyimpan perubahan data pengguna dalam tabel User, memungkinkan pengguna untuk memperbarui informasi personal mereka secara *real-time*.
+Modul ini bertanggung jawab untuk mengelola fitur edit profile. Modul ini disusun untuk mengelola data profil pengguna yang dapat diedit secara individual. Setiap profil pengguna memiliki atribut seperti __username__, __profile_image__, dan __email__. Modul ini menyimpan perubahan data pengguna dalam tabel User, memungkinkan pengguna untuk memperbarui informasi personal mereka secara *real-time*.
 
 #### *Attributes*:
 - id: Primary Key 
@@ -64,7 +64,7 @@ Modul ini disusun untuk mengelola data profil pengguna yang dapat diedit secara 
 
 4. #### *User Choice* 
 
-Modul ini memungkinkan setiap pengguna untuk memiliki halaman personal yang menampilkan barang-barang yang mereka masukkan ke dalam daftar favorit, disebut sebagai *User Choice*. Modul ini menyimpan pilihan produk berdasarkan preferensi pengguna, yang akan ditampilkan secara khusus pada halaman tersebut. Setiap produk favorit dihubungkan dengan pengguna melalui user_id dan disimpan dalam bentuk daftar produk yang telah ditambahkan ke dalam pilihan mereka.
+Modul ini bertanggung jawab untuk mengelola fitur User Choice. Pengguna akan memiliki halaman personal yang menampilkan barang-barang yang mereka masukkan ke dalam daftar favorit, disebut sebagai __*User Choice*__. Modul ini menyimpan pilihan produk berdasarkan preferensi pengguna, yang akan ditampilkan secara khusus pada halaman tersebut. Setiap produk favorit dihubungkan dengan pengguna melalui __user_id__ dan disimpan dalam bentuk daftar produk yang telah ditambahkan ke dalam pilihan mereka.
 
 #### *Attributes*:
 - id: Primary Key 
@@ -74,7 +74,7 @@ Modul ini memungkinkan setiap pengguna untuk memiliki halaman personal yang mena
 
 5. #### *Categories* 
 	
-Modul ini mengelompokkan produk berdasarkan kategori tertentu. Setiap produk terkait dengan satu kategori melalui category_id, yang memungkinkan pengelompokan produk dan penelusuran lebih mudah. Kategori yang tersedia tercantum dalam tabel *Categories*.
+Modul ini bertanggung jawab untuk mengelompokkan produk berdasarkan kategori tertentu. Setiap produk terkait dengan satu kategori melalui __category_id__, yang memungkinkan pengelompokan produk dan penelusuran lebih mudah. Kategori yang tersedia tercantum dalam tabel __*Categories*__.
 
 #### *Attributes*:
 - category_id: Primary Key 
@@ -102,22 +102,22 @@ Jakarta Wardrobe (JaWa) memanfaatkan dataset dari 5 sumber website toko produk f
 ## Role atau Peran Pengguna
 
 1. *Rating* \
-Pengguna dapat melihat dan memberikan rating untuk produk.
+Pengguna dapat melihat dan memberikan penilaian terhadap produk yang ditampilkan melalui fitur ini. 
 
 2. *Comment* \
-Pengguna dapat melihat dan memberikan komentar untuk produk.
+Pengguna dapat melihat dan meninggalkan komentar terkait suatu produk yang nantinya dapat dilihat oleh pengguna lain.
 
 3. *Edit Profile* \
-Pengguna dapat menyunting profil pengguna, seperti ID, nama, dan gambar pengguna.
+Pengguna dapat menyunting profil pengguna, seperti ID, nama, dan profile picture, dan informasi terkait akun mereka secara *real-time*. 
 
 4. *User Choice* \
 Pengguna dapat menyesuaikan preferensi mereka untuk menyesuaikan konten dan pengalaman di website agar lebih interaktif dan personal.
 
 5. *Categories* \
-Dalam fitur ini pengguna dapat mengelompokkan produk ke dalam kategori-kategori tertentu.
+Pengguna dapat memilih kategori produk yang mereka inginkan dan nantinya akan ditampilkan.
 
 6. *Location (Filter)* \
-Dalam fitur ini pengguna dapat menyaring produk berdasarkan lokasi pengguna.
+Pengguna dapat menyaring daftar produk berdasarkan lokasi yang lebih ter-filter di Jakarta.
 
 
 ## Tautan Deployment
