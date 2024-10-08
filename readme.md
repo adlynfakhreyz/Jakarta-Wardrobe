@@ -38,42 +38,42 @@ Dengan fitur-fitur ini, Jakarta Wardrobe menjadi solusi efektif bagi pengguna ya
 Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk. Rating diberikan dalam bentuk angka dengan range 1 sampai 5 yang disimpan sebagai atribut rating_value dalam tabel. Pada impleemntasinya, modul ini akan mengumpulkan dan menghitung rata-rata rating dari semua pengguna untuk setiap produk.
 
 #### *Attributes*:
-id: Primary Key \
-product_id: Foreign Key yang terhubung ke tabel Produk \
-user_id: Foreign Key yang terhubung ke tabel Pengguna \
-rating_value: Integer yang menyimpan nilai rating (1–5) \
-timestamp: Timestamp untuk merekam waktu pemberian rating 
+- id: Primary Key \
+- product_id: Foreign Key yang terhubung ke tabel Produk \
+- user_id: Foreign Key yang terhubung ke tabel Pengguna \
+- rating_value: Integer yang menyimpan nilai rating (1–5) \
+- timestamp: Timestamp untuk merekam waktu pemberian rating 
 
 2. #### *Comment (Review Page)* 
 
 Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh pengguna pada setiap produk. Setiap komentar dihubungkan dengan produk dan pengguna melalui product_id dan user_id. Modul ini memungkinkan penyimpanan komentar dalam bentuk teks (comment_text), dengan waktu pembuatan disimpan dalam timestamp. Implementasi comment dan rating akan dijadikan satu dalam review page.
 
 #### *Attributes*:
-id: Primary Key \
-product_id: Foreign Key yang mengacu pada tabel Produk \
-user_id: Foreign Key yang mengacu pada tabel Pengguna \
-comment_text: Text yang menyimpan isi komentar \
-timestamp: Timestamp untuk waktu pemberian komentar 
+- id: Primary Key \
+- product_id: Foreign Key yang mengacu pada tabel Produk \
+- user_id: Foreign Key yang mengacu pada tabel Pengguna \
+- comment_text: Text yang menyimpan isi komentar \
+- timestamp: Timestamp untuk waktu pemberian komentar 
 
 3. #### *Edit Profile* 
 
 Modul ini disusun untuk mengelola data profil pengguna yang dapat diedit secara individual. Setiap profil pengguna memiliki atribut seperti username, profile_image, dan email. Modul ini menyimpan perubahan data pengguna dalam tabel User, memungkinkan pengguna untuk memperbarui informasi personal mereka secara *real-time*.
 
 #### *Attributes*:
-id: Primary Key \
-username: String untuk menyimpan nama pengguna \
-profile_image: URL atau path untuk menyimpan lokasi gambar profil pengguna \
-email: String untuk alamat email pengguna \
-date_joined: Timestamp untuk menyimpan tanggal bergabung pengguna 
+- id: Primary Key \
+- username: String untuk menyimpan nama pengguna \
+- profile_image: URL atau path untuk menyimpan lokasi gambar profil pengguna \
+- email: String untuk alamat email pengguna \
+- date_joined: Timestamp untuk menyimpan tanggal bergabung pengguna 
 
 4. #### *User Choice* 
 
 Modul ini memungkinkan setiap pengguna untuk memiliki halaman personal yang menampilkan barang-barang yang mereka masukkan ke dalam daftar favorit, disebut sebagai *User Choice*. Modul ini menyimpan pilihan produk berdasarkan preferensi pengguna, yang akan ditampilkan secara khusus pada halaman tersebut. Setiap produk favorit dihubungkan dengan pengguna melalui user_id dan disimpan dalam bentuk daftar produk yang telah ditambahkan ke dalam pilihan mereka.
 
 #### *Attributes*:
-id: Primary Key \
-user_id: Foreign Key yang terhubung ke pengguna tertentu \
-favorite_products: Array atau relasi *Many-to-Many* ke tabel Produk yang menyimpan daftar produk favorit pengguna 
+- id: Primary Key \
+- user_id: Foreign Key yang terhubung ke pengguna tertentu \
+- favorite_products: Array atau relasi *Many-to-Many* ke tabel Produk yang menyimpan daftar produk favorit pengguna 
 
 
 5. #### *Categories* 
@@ -81,23 +81,23 @@ favorite_products: Array atau relasi *Many-to-Many* ke tabel Produk yang menyimp
 Modul ini mengelompokkan produk berdasarkan kategori tertentu. Setiap produk terkait dengan satu kategori melalui category_id, yang memungkinkan pengelompokan produk dan penelusuran lebih mudah. Kategori yang tersedia tercantum dalam tabel *Categories*.
 
 #### *Attributes*:
-<span style="color: green;">category_id: </span>  Primary Key \
-<span style="color: green;">category_name: </span>  String untuk nama kategori, misalnya “Tops”, "Bottoms", "Dress", "Footwear" \
-<span style="color: green;">category_id: </span>  Text untuk deskripsi kategori \
-Produk Attributes: <span style="color: green;">product_id, category_id</span>  untuk menghubungkan produk dengan kategori
+- category_id: Primary Key \
+- category_name: String untuk nama kategori, misalnya “Tops”, "Bottoms", "Dress", "Footwear" \
+- description: Text untuk deskripsi kategori \
+- Produk Attributes: product_id, category_id untuk menghubungkan produk dengan kategori 
 
 6. #### *Location (Filter)* 
 
-Modul ini menyaring produk berdasarkan lokasi yang relevan. Setiap produk memiliki atribut lokasi seperti *city* dan *district*, memungkinkan pengguna untuk menyaring daftar produk berdasarkan lokasi yang lebih ter-filter di Jakarta.
+Modul ini menyaring produk berdasarkan lokasi yang relevan. Setiap produk memiliki atribut lokasi seperti __city__ dan __district__, memungkinkan pengguna untuk menyaring daftar produk berdasarkan lokasi yang lebih ter-filter di Jakarta.
 
 #### *Attributes:*
-id: Primary Key \
-product_id: Foreign Key yang terhubung ke tabel Produk \
-city: String yang menyimpan kota \
-district: String yang menyimpan kecamatan \
-location_name: Nama lokasi toko yang menjual produk \
-latitude: Float untuk posisi lintang toko \
-longitude: Float untuk posisi bujur toko 
+- id: Primary Key \
+- product_id: Foreign Key yang terhubung ke tabel Produk \
+- city: String yang menyimpan kota \
+- district: String yang menyimpan kecamatan \
+- location_name: Nama lokasi toko yang menjual produk \
+- latitude: Float untuk posisi lintang toko \
+- longitude: Float untuk posisi bujur toko 
 
 ### iv. Sumber initial dataset kategori utama produk
 
