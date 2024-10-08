@@ -97,7 +97,7 @@ Modul ini menyaring produk berdasarkan lokasi yang relevan. Setiap produk memili
 
 ## Sumber Dataset
 
-
+Jakarta Wardrobe (JaWa) memanfaatkan dataset dari 5 sumber website toko produk fashion yang ada di Jakarta dengan melakukan webscrapping. Toko produk fashion tersebut adalah Parang Kencana, Nayara, Buttonscarves, THIS IS APRIL, dan thenblank. Alasan pemilihan toko-toko tersebut dijadikan sebagai dataset, karena sudah mencakup seluruh field yang diperlukan oleh website Jakarta Wardrobe, selain itu terdapat field   berupa gambar yang terdapat pada link. Dengan ini, halaman katalog Jakarta Wardrobe dapat menampilkan foto-foto produk.
 
 ## Role atau Peran Pengguna
 
