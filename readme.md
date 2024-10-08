@@ -1,4 +1,5 @@
-<summary> # Tahap 1 </summary>
+<details>
+<summary> Tahap 1 </summary>
 
 ## Kelompok : BO4
 
@@ -126,3 +127,5 @@ Dalam fitur ini pengguna dapat menyaring produk berdasarkan lokasi pengguna.
 ### vi. Tautan Deployment
 
 [http://sayyid-thariq31-jawaapp.pbp.cs.ui.ac.id/]
+
+</details>
