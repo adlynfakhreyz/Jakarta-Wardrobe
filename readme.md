@@ -16,9 +16,9 @@ __ii. Deskripsi Aplikasi__
 __Nama Aplikasi: Jakarta Wardrobe (JaWa)__ 
 
 Jakarta Wardrobe (JaWa) adalah sebuah aplikasi informasi yang menyediakan data lengkap mengenai produk fashion yang tersedia di berbagai toko di wilayah Jakarta. Aplikasi ini bukanlah sebuah *platform* berbelanja *online*, melainkan sebuah wadah informasi yang memudahkan pengguna, baik warga Jakarta maupun pendatang, untuk menemukan dan mengeksplorasi produk fashion, seperti celana, baju, dress, sepatu, dan lainnya. Kategori yang disediakan di antaranya adalah *women’s clothing*, *men’s clothing*, dan *footwear*. 
-\
+
 Keberadaan aplikasi JaWa diharapkan dapat membantu pengguna untuk mengakses dan mendapatkan informasi setiap produk yang dicari, termasuk deskripsi, detail produk, ulasan, dan lokasi toko yang menjual produk tersebut. Aplikasi ini dilengkapi dengan berbagai fitur menarik, seperti *rating* dan *comment* yang akan tersedia pada laman ulasan, memungkinkan pengguna memberikan penilaian serta ulasan terhadap produk, sehingga dapat membantu pengguna lain dalam mengambil keputusan yang lebih terinformasi. Selain itu, pengguna juga dapat menyimpan produk favorit mereka ke dalam halaman khusus yang disebut *User Choice*, di mana mereka dapat dengan mudah mengakses kembali produk-produk yang mereka sukai di masa mendatang. Selain fitur-fitur diatasm JaWa juga menyediakan fitur *categories* yang mengelompokkan produk berdasarkan jenis fashion, serta modul filter location, yang memungkinkan pengguna menyaring produk berdasarkan lokasi toko, sehingga mereka dapat menemukan produk fashion yang tersedia di daerah terdekat. 
-\
+
 __Kebermanfaatan Aplikasi:__ 
 
 1. __Memberikan informasi yang komprehensif__ tentang produk fashion di Jakarta, sehingga pengguna dapat dengan mudah menemukan produk yang mereka cari.
@@ -26,7 +26,7 @@ __Kebermanfaatan Aplikasi:__
 3. __Menawarkan fitur personalisasi__ melalui fitur *User Choice*, yang memungkinkan pengguna menyimpan produk favorit mereka untuk referensi di masa mendatang.
 4. __Mempermudah pencarian produk__ dengan fitur filter berdasarkan jenis fashion, nama produk (*alphabetical*), dan lokasi toko.
 5. __Mendorong interaksi komunitas__ melalui fitur komentar dan ulasan, di mana pengguna dapat berbagi pengalaman mereka mengenai produk tertentu. 
-\
+
 Dengan fitur-fitur ini, Jakarta Wardrobe menjadi solusi efektif bagi pengguna yang ingin mengetahui ketersediaan produk fashion di Jakarta sebelum mengunjungi toko, sehingga dapat menghemat waktu dan memastikan produk yang diinginkan tersedia. Aplikasi ini menyediakan informasi yang berguna bagi para warga Jakarta maupun pengunjung untuk merencanakan pembelian produk dengan lebih efisien.
 
 
@@ -41,7 +41,7 @@ id: Primary Key \
 product_id: Foreign Key yang terhubung ke tabel Produk \
 user_id: Foreign Key yang terhubung ke tabel Pengguna \
 rating_value: Integer yang menyimpan nilai rating (1–5) \
-timestamp: Timestamp untuk merekam waktu pemberian rating \
+timestamp: Timestamp untuk merekam waktu pemberian rating 
 
 2. #### *Comment (Review Page)* 
 
@@ -52,7 +52,7 @@ id: Primary Key \
 product_id: Foreign Key yang mengacu pada tabel Produk \
 user_id: Foreign Key yang mengacu pada tabel Pengguna \
 comment_text: Text yang menyimpan isi komentar \
-timestamp: Timestamp untuk waktu pemberian komentar \
+timestamp: Timestamp untuk waktu pemberian komentar 
 
 3. #### *Edit Profile* 
 
@@ -63,27 +63,27 @@ id: Primary Key \
 username: String untuk menyimpan nama pengguna \
 profile_image: URL atau path untuk menyimpan lokasi gambar profil pengguna \
 email: String untuk alamat email pengguna \
-date_joined: Timestamp untuk menyimpan tanggal bergabung pengguna \
+date_joined: Timestamp untuk menyimpan tanggal bergabung pengguna 
 
 4. #### *User Choice* 
 
-Modul ini memungkinkan setiap pengguna untuk memiliki halaman personal yang menampilkan barang-barang yang mereka masukkan ke dalam daftar favorit, disebut sebagai "User Choice." Modul ini menyimpan pilihan produk berdasarkan preferensi pengguna, yang akan ditampilkan secara khusus pada halaman tersebut. Setiap produk favorit dihubungkan dengan pengguna melalui user_id dan disimpan dalam bentuk daftar produk yang telah ditambahkan ke dalam pilihan mereka.
+Modul ini memungkinkan setiap pengguna untuk memiliki halaman personal yang menampilkan barang-barang yang mereka masukkan ke dalam daftar favorit, disebut sebagai *User Choice*. Modul ini menyimpan pilihan produk berdasarkan preferensi pengguna, yang akan ditampilkan secara khusus pada halaman tersebut. Setiap produk favorit dihubungkan dengan pengguna melalui user_id dan disimpan dalam bentuk daftar produk yang telah ditambahkan ke dalam pilihan mereka.
 
 #### *Attributes*:
 id: Primary Key \
 user_id: Foreign Key yang terhubung ke pengguna tertentu \
-favorite_products: Array atau relasi Many-to-Many ke tabel Produk yang menyimpan daftar produk favorit pengguna \
+favorite_products: Array atau relasi *Many-to-Many* ke tabel Produk yang menyimpan daftar produk favorit pengguna 
 
 
 5. #### *Categories* 
 	
-Modul ini mengelompokkan produk berdasarkan kategori tertentu. Setiap produk terkait dengan satu kategori melalui category_id, yang memungkinkan pengelompokan produk dan penelusuran lebih mudah. Kategori yang tersedia tercantum dalam tabel Categories.
+Modul ini mengelompokkan produk berdasarkan kategori tertentu. Setiap produk terkait dengan satu kategori melalui category_id, yang memungkinkan pengelompokan produk dan penelusuran lebih mudah. Kategori yang tersedia tercantum dalam tabel *Categories*.
 
 #### *Attributes*:
 category_id: Primary Key \
 category_name: String untuk nama kategori, misalnya “Tops”, "Bottoms", "Dress", "Footwear" \
 description: Text untuk deskripsi kategori \
-Produk Attributes: product_id, category_id untuk menghubungkan produk dengan kategori \
+Produk Attributes: product_id, category_id untuk menghubungkan produk dengan kategori 
 
 6. #### *Location (Filter)* 
 
@@ -96,7 +96,7 @@ city: String yang menyimpan kota \
 district: String yang menyimpan kecamatan \
 location_name: Nama lokasi toko yang menjual produk \
 latitude: Float untuk posisi lintang toko \
-longitude: Float untuk posisi bujur toko \
+longitude: Float untuk posisi bujur toko 
 
 __iv. Sumber initial dataset kategori utama produk__
 
