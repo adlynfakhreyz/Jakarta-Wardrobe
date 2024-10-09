@@ -30,7 +30,6 @@ Dengan fitur-fitur ini, Jakarta Wardrobe menjadi solusi efektif bagi pengguna ya
 ## Daftar Modul
 
 1. #### *Rating (Review Page)* 
-(Dikerjakan oleh: Rama Aditya Rifki Harmono)
 
 Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk. Rating diberikan dalam bentuk angka dengan range 1 sampai 5 yang disimpan sebagai atribut rating_value dalam tabel. Pada impleemntasinya, modul ini akan mengumpulkan dan menghitung rata-rata rating dari semua pengguna untuk setiap produk.
 
@@ -42,7 +41,6 @@ Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk
 - timestamp: Timestamp untuk merekam waktu pemberian rating 
 
 2. #### *Comment (Review Page)* 
-(Dikerjakan oleh: Dara Zakya Apriani)
 
 Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh pengguna pada setiap produk. Setiap komentar dihubungkan dengan produk dan pengguna melalui __product_id__ dan __user_id__. Modul ini memungkinkan penyimpanan komentar dalam bentuk teks (comment_text), dengan waktu pembuatan disimpan dalam timestamp. Implementasi comment dan rating akan dijadikan satu dalam review page.
 
@@ -54,7 +52,6 @@ Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh penggun
 - timestamp: Timestamp untuk waktu pemberian komentar 
 
 3. #### *Edit Profile* 
-(Dikerjakan oleh: Rizki Amani Hasanah)
 
 Modul ini bertanggung jawab untuk mengelola fitur edit profile. Modul ini disusun untuk mengelola data profil pengguna yang dapat diedit secara individual. Setiap profil pengguna memiliki atribut seperti __username__, __profile_image__, dan __email__. Modul ini menyimpan perubahan data pengguna dalam tabel User, memungkinkan pengguna untuk memperbarui informasi personal mereka secara *real-time*.
 
@@ -66,7 +63,6 @@ Modul ini bertanggung jawab untuk mengelola fitur edit profile. Modul ini disusu
 - date_joined: Timestamp untuk menyimpan tanggal bergabung pengguna 
 
 4. #### *User Choice* 
-(Dikerjakan oleh: Andi Muhammad Adlyn Fakhreyza Khairi Putra)
 
 Modul ini bertanggung jawab untuk mengelola fitur User Choice. Pengguna akan memiliki halaman personal yang menampilkan barang-barang yang mereka masukkan ke dalam daftar favorit, disebut sebagai __*User Choice*__. Modul ini menyimpan pilihan produk berdasarkan preferensi pengguna, yang akan ditampilkan secara khusus pada halaman tersebut. Setiap produk favorit dihubungkan dengan pengguna melalui __user_id__ dan disimpan dalam bentuk daftar produk yang telah ditambahkan ke dalam pilihan mereka.
 
@@ -76,34 +72,70 @@ Modul ini bertanggung jawab untuk mengelola fitur User Choice. Pengguna akan mem
 - favorite_products: Array atau relasi *Many-to-Many* ke tabel Produk yang menyimpan daftar produk favorit pengguna 
 
 
-5. #### *Categories* 
-(Dikerjakan oleh: Salomo Immanuel Putra)
-	
-Modul ini bertanggung jawab untuk mengelompokkan produk berdasarkan kategori tertentu. Setiap produk terkait dengan satu kategori melalui __category_id__, yang memungkinkan pengelompokan produk dan penelusuran lebih mudah. Kategori yang tersedia tercantum dalam tabel __*Categories*__.
+5. #### *Filter Categories & Location*
+
+Modul ini bertanggung jawab untuk mengelompokkan dan menyaring produk berdasarkan kategori dan lokasi toko yang menjual setiap produk. Pengguna dapat memilih kategori produk yang mereka inginkan serta lokasi toko yang tersedia, sehingga hanya produk yang sesuai dengan preferensi tersebut yang akan ditampilkan. Setiap produk dihubungkan dengan kategori melalui __category_id__ dan dengan lokasi melalui __location_id__, yang memungkinkan pengelompokan dan penelusuran yang lebih terfokus.
 
 #### *Attributes*:
-- category_id: Primary Key 
-- category_name: String untuk nama kategori, misalnya “Tops”, "Bottoms", "Dress", "Footwear" 
-- description: Text untuk deskripsi kategori 
-- Produk Attributes: product_id, category_id untuk menghubungkan produk dengan kategori 
+- category_id: Primary Key untuk kategori
+- category_name: String yang menyimpan nama kategori, misalnya “Women’s Clothing”, “Men’s Clothing”, “Footwear”.
+- description: Text opsional untuk deskripsi kategori
+- location_id: Primary Key untuk lokasi
+- location_name: String untuk nama lokasi atau area toko
+- Produk Attributes:
+  1. product_id: Foreign Key yang menghubungkan ke produk tertentu
+  2. category_id: Foreign Key untuk menghubungkan produk dengan kategori tertentu
+  3. location_id: Foreign Key untuk menghubungkan produk dengan lokasi tertentu
 
-6. #### *Location (Filter)* 
-(Dikerjakan oleh: Sayyid Thariq Gilang Muttaqien)
 
-Modul ini menyaring produk berdasarkan lokasi yang relevan. Setiap produk memiliki atribut lokasi seperti __city__ dan __district__, memungkinkan pengguna untuk menyaring daftar produk berdasarkan lokasi yang lebih ter-filter di Jakarta.
+6. #### *Global Chat* 
 
-#### *Attributes:*
-- id: Primary Key 
-- product_id: Foreign Key yang terhubung ke tabel Produk 
-- city: String yang menyimpan kota 
-- district: String yang menyimpan kecamatan 
-- location_name: Nama lokasi toko yang menjual produk 
-- latitude: Float untuk posisi lintang toko 
-- longitude: Float untuk posisi bujur toko 
+Modul ini menyediakan ruang komunitas bagi pengguna Jakarta Wardrobe (JaWa) untuk saling berinteraksi dan berdiskusi. Setiap pengguna dapat mengirim dan membaca pesan di ruang obrolan umum, di mana semua pengguna dapat berpartisipasi. Modul ini menyimpan pesan dalam bentuk teks, beserta informasi pengguna yang mengirim pesan dan waktu pengiriman, untuk membangun pengalaman komunitas yang aktif dan terbuka.
+
+#### *Attributes*:
+- id: Primary Key
+- user_id: Foreign Key yang menghubungkan pesan dengan pengguna tertentu
+- message_text: Text yang menyimpan isi pesan
+- timestamp: Timestamp untuk merekam waktu pengiriman pesan
+
 
 ## Sumber Dataset
+- __Nama Dataset__: Jakarta Wardrobe Product Dataset (JWP-dataset)
 
-Jakarta Wardrobe (JaWa) memanfaatkan dataset dari 5 sumber website toko produk fashion yang ada di Jakarta dengan melakukan webscrapping. Toko produk fashion tersebut adalah Parang Kencana, Nayara, Buttonscarves, THIS IS APRIL, dan thenblank. Alasan pemilihan toko-toko tersebut dijadikan sebagai dataset, karena sudah mencakup seluruh field yang diperlukan oleh website Jakarta Wardrobe, selain itu terdapat field   berupa gambar yang terdapat pada link. Dengan ini, halaman katalog Jakarta Wardrobe dapat menampilkan foto-foto produk.
+- __Link Sumber__: [JWP-Dataset](https://docs.google.com/spreadsheets/d/10Y80cMgyFb1CXp-TrQPabfEax1dL02Cxw_cFlwhmYKs/edit?usp=sharing)
+
+
+
+- __Deskripsi Umum__:
+
+Dataset ini menyediakan informasi mengenai produk fashion yang tersedia di sekitar Jakarta. Terdapat total 150 baris data, di mana setiap baris merepresentasikan satu produk. Tiap produk tergolong kedalam salah satu dari 5 kategori produk. Didalam dataset ini juga tersedia informasi terkait harga, stock, deskripsi, sumber gambar produk (dalam link url), serta nama dan lokasi toko dimana produk dijual. Dataset ini disusun berdasarkan data yang dikumpulkan dengan metode scraping pada 5 website toko berikut:
+
+- __Referensi__:
+
+1. [Parang Kencana](https://eshop.parangkencana.com/)
+2. [Nayara](https://nayara.id/)
+3. [Buttonscarves](https://www.buttonscarves.com/)
+4. [thenblank](https://thenblank.com/) 
+5. [THISISAPRIL](https://thisisapril.com/)
+
+- __Catatan__: 
+
+Beberapa produk mungkin memiliki deskripsi yang tidak lengkap dan format deskripsi antar produk yang diambil dari toko berbeda tidak seragam, serta harga dan stok yang tidak eksak.
+
+- __Ukuran Dataset__:
+
+1. Jumlah Baris: 150
+2. Jumlah Kolom: 9
+
+- __Format Data__: CSV
+
+- __Deskripsi Kolom__:
+
+1. category: Kategori produk.
+2. nama: Nama produk.
+3. price: Harga produk dalam rupiah pada saat data dikumpulkan.
+4. stock: Jumlah ketersediaan produk.
+5. desc: Deskripsi singkat tentang produk.
 
 ## Role atau Peran Pengguna
 
