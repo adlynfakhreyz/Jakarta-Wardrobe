@@ -51,16 +51,23 @@ Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh penggun
 - comment_text: Text yang menyimpan isi komentar 
 - timestamp: Timestamp untuk waktu pemberian komentar 
 
-3. #### *Edit Profile* 
+3. #### *Profile Page* 
 
-Modul ini bertanggung jawab untuk mengelola fitur edit profile. Modul ini disusun untuk mengelola data profil pengguna yang dapat diedit secara individual. Setiap profil pengguna memiliki atribut seperti __username__, __profile_image__, dan __email__. Modul ini menyimpan perubahan data pengguna dalam tabel User, memungkinkan pengguna untuk memperbarui informasi personal mereka secara *real-time*.
+Modul __*Profile Page*__ memberikan pengguna kendali penuh atas data profil mereka, sekaligus menyajikan ringkasan aktivitas yang dilakukan dalam aplikasi __Jakarta Wardrobe__. Di dalam halaman profil, pengguna dapat melihat rekapan dari aktivitas-aktivitas mereka, termasuk ulasan yang diberikan, artikel atau blog yang mungkin mereka tulis serta interaksi dalam fitur __*Global Chat*__. Dengan fitur ini, pengguna memiliki akses langsung untuk mengelola aktivitas mereka, baik itu mengedit, menghapus, maupun memperbarui konten sesuai keinginan.
+
 
 #### *Attributes*:
-- id: Primary Key 
-- username: String untuk menyimpan nama pengguna 
-- profile_image: URL atau path untuk menyimpan lokasi gambar profil pengguna 
-- email: String untuk alamat email pengguna 
-- date_joined: Timestamp untuk menyimpan tanggal bergabung pengguna 
+- id: Primary Key
+- username: String untuk nama pengguna
+- profile_image: URL atau path untuk menyimpan gambar profil
+- email: String untuk alamat email pengguna
+- date_joined: Timestamp untuk tanggal bergabung
+- activity_summary: Relasi One-to-Many dengan tabel Aktivitas yang mencakup ringkasan ulasan, artikel, dan interaksi di Global Chat
+- total_reviews: Integer yang menyimpan jumlah total ulasan pengguna
+- total_articles: Integer yang menyimpan jumlah total artikel atau blog pengguna
+- total_chat_interactions: Integer yang menyimpan jumlah total interaksi di Global Chat
+- activity_history: Array atau relasi dengan tabel Aktivitas yang mencatat perubahan atau penghapusan yang dilakukan pengguna
+
 
 4. #### *User Choice* 
 
