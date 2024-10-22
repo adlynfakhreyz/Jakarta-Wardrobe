@@ -1,37 +1,54 @@
-<nav class="bg-white shadow-md fixed w-full z-10">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+{% load static %}
+<div class="bg-white shadow-md fixed z-10 w-full">
+    <div class="container mx-10 flex justify-center items-center space-x-14 py-4">
       
       <!-- Logo -->
-      <a href="" class="text-xl font-bold text-gray-800">
-        JaWa
+      <a class="font-bold text-gray-800 transition-transform duration-300 transform hover:scale-105">
+        <img src="{% static 'images/logo.png' %}" alt="logo" class="h-10">
       </a>
       
       <!-- Navigation Links -->
       <div class="hidden md:flex space-x-8">
-        <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Home</a>
-        <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Categories</a>
-        <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Filter</a>
+        <a href = "{%url 'main:show_main'%} "class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Home</a>
+        
+        <!-- Categories Dropdown -->
+        <div class="relative inline-block text-left">
+          <div>
+            <button type="button" class="inline-flex justify-center gap-x-1.5 rounded-md bg-white shadow-sm hover:bg-gray-50" id="categories-button" aria-expanded="true" aria-haspopup="true">
+              Categories
+              <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Dropdown Menu -->
+          <div class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="categories-button" tabindex="-1" id="categories-menu">
+            <div class="py-1" role="none">
+              <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Footwear</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Men's Clothing</a>
+              <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Women's Clothing</a>
+            </div>
+          </div>
+        </div>
+
+        <a href="{% url 'products:show_products_by_price' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Products</a>
         <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">User Choice</a>
         <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">About</a>
         <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Contact</a>
       </div>
       
       <!-- Search Bar -->
-      <div class="hidden md:block ">
-        <form method="GET" >
+      <div class="hidden md:block">
+        <form method="GET">
           <input type="text" name="q" class="mt-2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800" placeholder="Search...">
         </form>
       </div>
   
       <!-- User Options -->
-      <div class="hidden md:flex items-center space-x-4">
-        {% comment %} {% if user.is_authenticated %} {% endcomment %}
-          <a  class="text-gray-600 hover:text-blue-600">Profile</a>
-          <a  class="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transform hover:scale-105">Logout</a>
-        {% comment %} {% else %} {% endcomment %}
-          <a  class="text-gray-600 hover:text-blue-600">Login</a>
-          {% comment %} <a  class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Sign Up</a> {% endcomment %}
-        {% comment %} {% endif %} {% endcomment %}
+      <div class="hidden md:flex space-x-4 items-center">
+        <img src="{% static 'images/shopping-cart.png' %}" alt="cart" class="h-6 w-6">
+        <img src="{% static 'images/user.png' %}" alt="user" class="h-6 w-6">
       </div>
   
       <!-- Mobile Menu Button -->
@@ -47,30 +64,35 @@
   
     <!-- Mobile Menu -->
     <div id="menu" class="hidden md:hidden px-4 py-3 space-y-2 bg-white shadow-md">
-      <a  class="block text-gray-600 hover:text-blue-600">Home</a>
-      <a  class="block text-gray-600 hover:text-blue-600">Categories</a>
-      <a  class="block text-gray-600 hover:text-blue-600">Filter</a>
-      <a  class="block text-gray-600 hover:text-blue-600">User Choice</a>
-      <a  class="block text-gray-600 hover:text-blue-600">About</a>
-      <a  class="block text-gray-600 hover:text-blue-600">Contact</a>
+      <a class="block text-gray-600 hover:text-blue-600">Home</a>
+      <a class="block text-gray-600 hover:text-blue-600">Categories</a>
+      <a class="block text-gray-600 hover:text-blue-600">Filter</a>
+      <a class="block text-gray-600 hover:text-blue-600">User Choice</a>
+      <a class="block text-gray-600 hover:text-blue-600">About</a>
+      <a class="block text-gray-600 hover:text-blue-600">Contact</a>
   
       <!-- Mobile User Options -->
       {% comment %} {% if user.is_authenticated %} {% endcomment %}
-        <a  class="block text-gray-600 hover:text-blue-600">Profile</a>
-        <a  class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Logout</a>
+        <a class="block text-gray-600 hover:text-blue-600">Profile</a>
+        <a class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Logout</a>
       {% comment %} {% else %} {% endcomment %}
-        <a  class="block text-gray-600 hover:text-blue-600">Login</a>
-        <a  class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Sign Up</a>
+        <a class="block text-gray-600 hover:text-blue-600">Login</a>
+        <a class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Sign Up</a>
       {% comment %} {% endif %} {% endcomment %}
     </div>
-  </nav>
+  </div>
   
-  <script>
+<script>
     const menuBtn = document.getElementById('menu-btn');
     const menu = document.getElementById('menu');
+    const categoriesButton = document.getElementById('categories-button');
+    const categoriesMenu = document.getElementById('categories-menu');
   
     menuBtn.addEventListener('click', () => {
       menu.classList.toggle('hidden');
     });
-  </script>
-  
+
+    categoriesButton.addEventListener('click', () => {
+      categoriesMenu.classList.toggle('hidden');
+    });
+</script>

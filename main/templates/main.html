@@ -1,57 +1,157 @@
 {% load static %}
 
 {% block content %}
-{% include "navbar.html" %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  </head>
-  <body class="bg-gray-100">
-    <!-- Menambahkan padding-top sesuai dengan tinggi navbar -->
-    <div class="pt-[64px] border-2 border-gray-800 rounded-lg mx-[200px] my-[100px] min-h-[400px]">
-      <div class="flex justify-center items-center h-full">
-        <h1 class="text-2xl font-bold text-gray-800">Hai.</h1>
+    <style>
+      .hero-bg {
+        background-image: url("{% static 'images/fashion2.jpg' %}");
+        background-size: cover;
+        background-position: center;
+        height: 500px;
+        margin-top: 50px;
+        border-radius: 1rem;
+        position: relative;
+        overflow: hidden; /* Ensure the container doesn't show anything outside the border */
+      }
+      .hero-bg::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        border-radius: 1rem; /* Ensure the overlay respects the border radius */
+      }
+      .hero-text {
+        position: absolute;
+        text-align: center;
+        color: white;
+        z-index: 1;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Shadow to make text more readable */
+      }
+      .hero-text p {
+        padding: 5px 40px;
+        border-radius: 5px;
+      }
+    </style>
+  </head> 
+  {% include "navbar.html" %}
+  <body class="bg-gray-100 flex flex-col min-h-screenfont-sans">
+    <div class="mx-5 mt-10">
+    <div class="hero flex-col m-10 mt-20 h-screen">
+      <div class="hero-bg flex flex-col justify-center items-center m-20 mt-10 p-20">
+        <div class="hero-text flex flex-col justify-center">
+        <p class="text-lg">Hi, Welcome to  <span class="text-lg font-bold">Jakarta Wardrobe</span></p>
+        <p class="text-2xl font-bold text-gray-400 flex justify-center">Explore Jakarta's vibrant fashion scene, from local streetwear to luxury brands, all in one dynamic online hub.</p>
+        </div>
       </div>
     </div>
-
-
-    <div class-"review-info-container" style="background-color: #c9d1d5; min-height: 100vh; overflow-x: hidden;">
-      <h1 class="text-center pt-5">Reviews</h1>
-    <div class="row d-flex justify-content-center">
-      <div class="col-md-8 col-lg-6">
-        <div class="card shadow-0 border" style="background-color: #f0f2f5;">
-          <div class="card-body p-4">
-          {% for review in reviews %}
-            <div class="card mb-4">
-              <div class="card-body">
-                <p>{{review.text}}</p>
-                <div class="d-flex justify-content-between">
-                  <div class="d-flex flex-row align-items-center">
-                    {%if review.user.profile.picture%}
-                    <img src="{{review.user.profile.picture.url}}" alt="avatar" width="25" height="25" />
-                    {%else%}
-                    <img src="{%static 'img/blank.jpg' %}" alt="avatar" width="25"height="25" />
-                    {%endif%}
-                    <p class="small mb-0 ms-2"><a href="{% url 'profile' review.user.username %}" style="text-decoration:none;">{{review.user.username}}</a> on {{review.date}} </p>
-                  </div>
-                  <div class="d-flex flex-row align-items-center">
-                    <p class="small text-muted mb-0">Rated {{review.rate}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {%endfor%}
-            
-  
+    <div class="flex-grow">
+      <!-- Hero Section with Slider -->
+      <div class="relative flex justify-center items-center h-screen mt-0">
+        <div class="overflow-hidden relative flex justify-center items-center">
+          <p class="absolute text-4xl font-bold text-white">Welcome to our store</p>
+          <div class="flex transition-transform duration-500 ease-in-out" id="slider" style="width: calc(100% * 3);"> <!-- Multiplied by the number of slides -->
+            <img src="{% static 'images/jakarta.jpg' %}" alt="slide1" class="h-96 w-80 object-cover rounded-xl opacity-80" style="min-width: 100%;">
+            <img src="{% static 'images/fotojkt.jpg' %}" alt="slide2" class="h-96 w-80 object-cover rounded-xl opacity-80" style="min-width: 100%;">
+            <img src="{% static 'images/jkt2.jpg' %}" alt="slide3" class="h-96 w-80 object-cover rounded-xl opacity-80" style="min-width: 100%;">
+          </div>
+        </div>
+        <!-- Navigation Buttons -->
+        <button class="absolute left-0 ml-4 text-white px-4 py-2 " id="prevBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button class="absolute right-0 mr-4 text-white px-4 py-2" id="nextBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+      <!-- Categories and Best Sellers Sections remain unchanged -->
+      <h2 class="text-3xl flex justify-center font-bold text-gray-800">Categories</h2>
+      <div id="categories" class="flex justify-center items-center my-10 mt-5">
+        <div class="grid grid-cols-4 gap-4 mt-4 mx-10">
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/userchoice.jpg' %}" alt="food" class="h-40 w-full object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">User Choices</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/woman.jpg' %}" alt="clothes" class="h-40 w-full object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Womens Clothing</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/men.jpg' %}" alt="electronics" class="h-40 w-full object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Mens Clothing</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/footwear.jpg' %}" alt="furniture" class="h-40 w-full object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Footwear</h3>
+          </div>
+        </div>
+      </div>
+      <h2 class="text-3xl flex justify-center font-bold text-gray-800">Best Seller</h2>
+      <div id="bestseller" class="flex justify-center items-center my-10 mt-5">
+        <div class="grid grid-cols-3 gap-4 mt-4 mx-10">
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105 animate-shine">
+            <img src="{% static 'images/food.jpg' %}" alt="food" class="h-40 w-40 object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Food</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/clothes.jpg' %}" alt="clothes" class="h-40 w-40 object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Clothes</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/electronics.jpg' %}" alt="electronics" class="h-40 w-40 object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Electronics</h3>
           </div>
         </div>
       </div>
     </div>
-
     </div>
+    {% include "footer.html" %}
   </body>  
 </html>
+
+<script>
+  const slider = document.getElementById('slider');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let currentIndex = 0;
+
+  function showSlide(index) {
+    const slides = slider.children;
+    const totalSlides = slides.length;
+    if (index >= totalSlides) {
+      currentIndex = 0;
+    } else if (index < 0) {
+      currentIndex = totalSlides - 1;
+    } else {
+      currentIndex = index;
+    }
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`; // Ensures only one slide is visible at a time
+  }
+
+  prevBtn.addEventListener('click', () => {
+    showSlide(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    showSlide(currentIndex + 1);
+  });
+
+</script>
+ {% comment %} <div class="relative flex flex-col m-10 ml-5 w:1/2">
+          <p class="text-lg">Hi, Welcome to <span class="text-lg font-bold">Jakarta Wardrobe</span></p>
+          <p class="text-2xl font-bold text-gray-400 mr-10">Explore Jakarta's vibrant fashion scene, from local streetwear to luxury brands, all in one dynamic online hub.</p>
+        </div>
+        <div class="flex flex-col mt-10">
+          <img src="{% static 'images/jakarta.jpg' %}" alt="Jakarta" class="h-96 w-96 object-cover rounded-xl">
+</div> {% endcomment %}
 {% endblock content %}

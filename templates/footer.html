@@ -1,0 +1,26 @@
+{% load static %}
+<footer class="bg-white shadow-xl w-full mt-10">
+    <div class="container flex justify-between items-center py-4">
+      
+      <!-- Logo -->
+      <a class="font-bold text-gray-800">
+        <img src="{% static 'images/logo.png' %}" alt="logo" class="h-10">
+        <p class="text-sm text-gray-600">© 2021 All Rights Reserved</p>
+      </a>
+      
+      <!-- Footer Links -->
+      <div class="hidden md:flex space-x-10">
+        <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Privacy Policy</a>
+        <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Terms of Service</a>
+        <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">FAQ</a>
+        <a class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Support</a>
+      </div>
+      
+      <!-- Social Media Icons -->
+      <div class="hidden md:flex space-x-8 ">
+        <a href="#"><img src="{% static 'images/facebook.png' %}" alt="Facebook" class="h-6 w-6"></a>
+        <a href="#"><img src="{% static 'images/instagram.png' %}" alt="Instagram" class="h-6 w-6"></a>
+      </div>
+  
+    </div>
+</footer>
