@@ -1,7 +1,6 @@
 {% load static %}
 
 {% block content %}
-{% include "navbar.html" %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,13 +8,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   </head>
-  <body class="bg-gray-100">
-    <!-- Menambahkan padding-top sesuai dengan tinggi navbar -->
-    <div class="pt-[64px] border-2 border-gray-800 rounded-lg mx-[200px] my-[100px] min-h-[400px]">
-      <div class="flex justify-center items-center h-full">
-        <h1 class="text-2xl font-bold text-gray-800">Hai.</h1>
+  <body class="bg-gray-100 flex flex-col min-h-screen">
+    {% include "navbar.html" %}
+    <div class="flex-grow">
+      <!-- Hero Section with Slider -->
+      <div class="relative flex justify-center items-center h-screen">
+        <div class="h-full overflow-hidden relative flex justify-center items-center">
+          <div class="flex transition-transform duration-500 ease-in-out" id="slider" style="width: calc(100% * 3);"> <!-- Multiplied by the number of slides -->
+            <img src="{% static 'images/jakarta.jpg' %}" alt="slide1" class="h-80 w-80 object-cover rounded-xl opacity-80" style="min-width: 100%;">
+            <img src="{% static 'images/jkt2.jpg' %}" alt="slide2" class="h-80 w-80 object-cover rounded-xl opacity-80" style="min-width: 100%;">
+            <img src="{% static 'images/jkt1.jpg' %}" alt="slide3" class="h-80 w-80 object-cover rounded-xl opacity-80" style="min-width: 100%;">
+          </div>
+        </div>
+        <!-- Navigation Buttons -->
+        <button class="absolute left-0 ml-4 text-white px-4 py-2 " id="prevBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button class="absolute right-0 mr-4 text-white px-4 py-2" id="nextBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Categories and Best Sellers Sections remain unchanged -->
+      <h2 class="text-3xl flex justify-center font-bold text-gray-800">Categories</h2>
+      <div id="categories" class="flex justify-center items-center my-10 mt-5">
+        <div class="grid grid-cols-4 gap-4 mt-4 mx-10">
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/userchoice.jpg' %}" alt="food" class="h-40 w-full object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">User Choices</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/woman.jpg' %}" alt="clothes" class="h-40 w-full object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Womens Clothing</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/men.jpg' %}" alt="electronics" class="h-40 w-full object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Mens Clothing</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/footwear.jpg' %}" alt="furniture" class="h-40 w-full object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Footwear</h3>
+          </div>
+        </div>
+      </div>
+      <h2 class="text-3xl flex justify-center font-bold text-gray-800">Best Seller</h2>
+      <div id="bestseller" class="flex justify-center items-center my-10 mt-5">
+        <div class="grid grid-cols-3 gap-4 mt-4 mx-10">
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105 animate-shine">
+            <img src="{% static 'images/food.jpg' %}" alt="food" class="h-40 w-40 object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Food</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/clothes.jpg' %}" alt="clothes" class="h-40 w-40 object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Clothes</h3>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/electronics.jpg' %}" alt="electronics" class="h-40 w-40 object-cover rounded-lg">
+            <h3 class="text-lg font-bold mt-2">Electronics</h3>
+          </div>
+        </div>
       </div>
     </div>
+    {% include "footer.html" %}
   </body>  
 </html>
+
+<script>
+  const slider = document.getElementById('slider');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let currentIndex = 0;
+
+  function showSlide(index) {
+    const slides = slider.children;
+    const totalSlides = slides.length;
+    if (index >= totalSlides) {
+      currentIndex = 0;
+    } else if (index < 0) {
+      currentIndex = totalSlides - 1;
+    } else {
+      currentIndex = index;
+    }
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`; // Ensures only one slide is visible at a time
+  }
+
+  prevBtn.addEventListener('click', () => {
+    showSlide(currentIndex - 1);
+  });
+
+  nextBtn.addEventListener('click', () => {
+    showSlide(currentIndex + 1);
+  });
+
+  // Auto slide every 5 seconds
+  setInterval(() => {
+    showSlide(currentIndex + 1);
+  }, 5000);
+</script>
 {% endblock content %}
