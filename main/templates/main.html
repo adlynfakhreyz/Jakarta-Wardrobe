@@ -16,6 +16,42 @@
         <h1 class="text-2xl font-bold text-gray-800">Hai.</h1>
       </div>
     </div>
+
+
+    <div class-"review-info-container" style="background-color: #c9d1d5; min-height: 100vh; overflow-x: hidden;">
+      <h1 class="text-center pt-5">Reviews</h1>
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+          <div class="card-body p-4">
+          {% for review in reviews %}
+            <div class="card mb-4">
+              <div class="card-body">
+                <p>{{review.text}}</p>
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex flex-row align-items-center">
+                    {%if review.user.profile.picture%}
+                    <img src="{{review.user.profile.picture.url}}" alt="avatar" width="25" height="25" />
+                    {%else%}
+                    <img src="{%static 'img/blank.jpg' %}" alt="avatar" width="25"height="25" />
+                    {%endif%}
+                    <p class="small mb-0 ms-2"><a href="{% url 'profile' review.user.username %}" style="text-decoration:none;">{{review.user.username}}</a> on {{review.date}} </p>
+                  </div>
+                  <div class="d-flex flex-row align-items-center">
+                    <p class="small text-muted mb-0">Rated {{review.rate}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {%endfor%}
+            
+  
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
   </body>  
 </html>
 {% endblock content %}
