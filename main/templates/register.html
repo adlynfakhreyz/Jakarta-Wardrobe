@@ -1,20 +1,21 @@
 {% extends 'main.html' %}
 
 {% block meta %}
-<title>Login</title>
+<title>Register</title>
 {% endblock meta %}
 
 {% block content %}
-<div class="login">
-  <h1>Login</h1>
 
-  <form method="POST" action="">
+<div class="login">
+  <h1>Register</h1>
+
+  <form method="POST">
     {% csrf_token %}
     <table>
       {{ form.as_table }}
       <tr>
         <td></td>
-        <td><input class="btn login_btn" type="submit" value="Login" /></td>
+        <td><input type="submit" name="submit" value="Daftar" /></td>
       </tr>
     </table>
   </form>
@@ -25,8 +26,7 @@
     <li>{{ message }}</li>
     {% endfor %}
   </ul>
-  {% endif %} Don't have an account yet?
-  <a href="{% url 'main:register' %}">Register Now</a>
+  {% endif %}
 </div>
 
 {% endblock content %}
