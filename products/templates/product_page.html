@@ -1,37 +1,98 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Product Page</title>
-  </head>
-  {% include "navbar.html" %}
-  <body class="bg-gray-100 flex flex-col min-h-screen font-sans">
+</head>
+{% include "navbar.html" %}
+<body class="bg-gray-100 flex flex-col min-h-screen font-sans">
     <div class="container mx-auto px-4 py-8">
-      <h1 class="text-3xl font-bold text-center mb-8">Product Page</h1>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {% for product in products %}
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-          <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-48 object-cover">
-          <div class="p-4" style="padding-bottom: 1rem;"> <!-- Adjusted padding -->
-            <h2 class="text-xl font-bold">{{ product.name }}</h2>
-            <p class="text-gray-600">{{ product.category }}</p>
-            <p class="text-gray-800 font-semibold">Rp{{ product.price }}</p>
-            <!-- <p class="text-gray-600">{{ product.desc }}</p>
-            <p class="text-gray-600">Color: {{ product.color }}</p>
-            <p class="text-gray-600">Stock: {{ product.stock }}</p>
-            <p class="text-gray-600">Shop: {{ product.shop_name }}</p>
-            <p class="text-gray-600">Location: {{ product.location }}</p> -->
-            <!-- <div class="card-body text-center">
-              <a href="{% url 'products:review_products' product.uuid %}" class="btn btn-sm btn-warning" style="background-color: #27144b; border: 3px solid #27144b; color: #ffff; border-radius: 15px; font-size: 12px; padding: 3px 10px; min-width: 100px;">Review</a>
-            </div> -->
-          </div>
+        <h1 class="text-3xl font-bold text-center mb-8">Product Page</h1>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for product in products %}
+            <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card"
+                data-id="{{ product.uuid }}">
+                       <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 class="text-xl font-bold">{{ product.name }}</h2>
+                    <p class="text-gray-600">{{ product.category }}</p>
+                    <p class="text-gray-800 font-semibold">Rp{{ product.price }}</p>
+                    <p class="text-gray-600">Rating: {{ product.rating }}</p>
+                    <p class="text-gray-600">Location: {{ product.location }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+    </div>
+
+    <!-- Modal untuk menampilkan detail produk -->
+    <div id="productModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
+      <div class="bg-white rounded-lg flex p-6 w-3/4 max-w-4xl">
+          <!-- Bagian Gambar di Kiri -->
+          <div class="w-1/2">
+              <img id="modalImage" src="" alt="Product Image" class="w-full h-auto rounded-lg object-cover">
+          </div>
+          
+          <!-- Bagian Detail di Kanan -->
+          <div class="w-1/2 pl-6">
+              <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
+              <p id="modalCategory" class="text-gray-600 mb-1"></p>
+              <p id="modalPrice" class="text-gray-800 font-semibold mb-2"></p>
+              <p id="modalDesc" class="text-gray-600 mt-2 mb-2"></p>
+              <p id="modalColor" class="text-gray-600 mb-1"></p>
+              <p id="modalStock" class="text-gray-600 mb-1"></p>
+              <p id="modalShopName" class="text-gray-600 mb-1"></p>
+              <p id="modalLocation" class="text-gray-600 mb-1"></p>
+              
+              <!-- Tombol Tutup -->
+              <button id="closeModal" class="mt-4 bg-red-500 text-white px-4 py-2 rounded">Close</button>
+          </div>
       </div>
     </div>
-  </body>  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $(document).ready(function() {
+          // Event klik pada kartu produk
+          $('.product-card').click(function() {
+              var productId = $(this).data('id');
+
+              // AJAX untuk mengambil detail produk
+              $.ajax({
+                  url: '/products/detail/' + productId + '/',
+                  method: 'GET',
+                  success: function(response) {
+                      // Menampilkan data produk di modal
+                      $('#modalName').text(response.name);
+                      $('#modalCategory').text(response.category);
+                      $('#modalPrice').text('Rp' + response.price);
+                      $('#modalDesc').text(response.description);
+                      $('#modalColor').text('Color: ' + response.color);
+                      $('#modalStock').text('Stock: ' + response.stock);
+                      $('#modalShopName').text('Shop: ' + response.shop_name);
+                      $('#modalLocation').text('Location: ' + response.location);
+                      $('#modalImage').attr('src', response.img_url);  // Tambahkan gambar produk
+
+                      // Tampilkan modal
+                      $('#productModal').removeClass('hidden');
+                  }
+,
+                  error: function(xhr) {
+                      console.log(xhr.responseText);  // Cek respons error di console
+                      alert('Terjadi kesalahan saat mengambil detail produk.');
+                  }
+              });
+          });
+
+          // Event klik untuk menutup modal
+          $('#closeModal').click(function() {
+              $('#productModal').addClass('hidden');
+          });
+      });
+    </script>
+</body>
 </html>
 {% endblock content %}
