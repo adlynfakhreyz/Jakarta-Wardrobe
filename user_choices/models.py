@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from main.models import ItemEntry
+from products.models import Product
 
 # Create your models here.
 class UserChoice(models.Model):
@@ -12,7 +12,7 @@ class UserChoice(models.Model):
         item_id (ItemEntry): id item yang dipilih oleh pengguna.
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item_id = models.ForeignKey(ItemEntry, on_delete=models.CASCADE)
+    item_id = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('user', 'item_id') # Menetapkan constraint unik antara user dan produk
