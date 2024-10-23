@@ -1,0 +1,139 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Review Page</title>
+  </head>
+  {% include "navbar.html" %}
+  <body class="bg-gray-100 flex flex-col min-h-screen font-sans">
+    <div class = "container mx-auto px-4 py-8">
+      <h1 class="text-3xl font-bold text-center mb-8">Review Page</h1>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+          <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-48 object-cover" style="font-weight: bold;">
+          <div class="p-4" style
+    <h1>{{ product.name }}</h1>
+    <p>Average Rating: 
+      <span id="averageRating">
+        {% if avg_rating %}
+            {% for i in "12345" %}
+                {% if forloop.counter <= avg_rating_int %}
+                    ★
+                {% else %}
+                    ☆
+                {% endif %}
+            {% endfor %}
+            ({{ avg_rating|floatformat:"1" }})
+        {% else %}
+            No ratings yet
+        {% endif %}
+      </span>
+    </p>
+
+    <form id="ratingForm">
+        {% csrf_token %}
+        <input type="hidden" name="product_id" value="{{ product.uuid }}">
+        <div class="rating">
+            <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
+            <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
+            <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
+            <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
+            <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+        </div>
+        <button type="submit">Submit Rating</button>
+    </form>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .rating {
+        direction: rtl;
+        unicode-bidi: bidi-override;
+        font-size: 2em;
+    }
+    .rating > label {
+        display: inline-block;
+        position: relative;
+        width: 1.1em;
+        color: #FFD700;
+        cursor: pointer;
+    }
+    .rating > input {
+        display: none;
+    }
+    .rating > label:hover,
+    .rating > label:hover ~ label,
+    .rating > input:checked ~ label {
+        color: #FFD700;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#ratingForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '{% url 'products:submit_rating' %}',
+            method: 'POST',
+            data: $(this).serialize(),
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: function(response) {
+                alert(response.message);
+                // Update the average rating display
+                var avg_rating = response.avg_rating;
+                var avg_rating_int = Math.round(avg_rating);
+                var stars = '';
+                for (var i = 1; i <= 5; i++) {
+                    if (i <= avg_rating_int) {
+                        stars += '★';
+                    } else {
+                        stars += '☆';
+                    }
+                }
+                $('#averageRating').html(stars + ' (' + avg_rating.toFixed(1) + ')');
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + xhr.responseJSON.message);
+            }
+        });
+    });
+
+    $('#commentForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '{% url 'products:submit_comment' %}',
+            method: 'POST',
+            data: $(this).serialize(),
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: function(response) {
+                alert(response.message);
+                // Optionally refresh comments section
+            },
+            error: function(xhr, status, error) {
+                alert('Error: ' + xhr.responseJSON.message);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+
+<!-- <form id="commentForm">
+  {% csrf_token %}
+  <input type="hidden" name="product_id" value="{{ product.uuid }}">
+  <textarea name="comment" placeholder="Add your comment"></textarea>
+  <button type="submit">Add Comment</button>
+</form>
+
+<div id="comments">
+  <h2>Comments</h2>
+  {% for comment in comments %}
+      <p>{{ comment.comment }}</p>
+  {% endfor %}
+</div> -->
