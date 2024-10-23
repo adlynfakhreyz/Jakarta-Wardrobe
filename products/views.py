@@ -8,7 +8,7 @@ from django.utils.html import strip_tags
 from django.db.models import Avg
 
 def show_products_by_price(request):
-    products = Product.objects.order_by('price')
+    products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('price')
     return render(request, 'product_page.html', {'products': products})
 
 def product_detail(request, product_id):
@@ -33,14 +33,18 @@ def product_detail(request, product_id):
 def review_products(request, id):
     product = get_object_or_404(Product, uuid=id)
     avg_rating = Rating.objects.filter(product=product).aggregate(Avg('rating'))['rating__avg']
+    ratings_with_users = Rating.objects.filter(product=product).select_related('user').order_by('-timestamp')
+
     if avg_rating is not None:
         avg_rating_int = int(round(avg_rating))
     else:
         avg_rating_int = 0
+
     return render(request, 'review_products.html', {
         'product': product,
         'avg_rating': avg_rating,
-        'avg_rating_int': avg_rating_int
+        'avg_rating_int': avg_rating_int,
+        'ratings_with_users': ratings_with_users
     })
 
 @login_required
@@ -60,11 +64,21 @@ def add_rating(request):
 
         # Calculate new average rating
         avg_rating = Rating.objects.filter(product=product).aggregate(Avg('rating'))['rating__avg']
+        ratings_with_users = Rating.objects.filter(product=product).select_related('user').order_by('-timestamp')
+
+        ratings_data = [{
+            'user': rating.user.username,
+            'rating': rating.rating,
+            'timestamp': rating.timestamp.strftime("%d %B %Y, %H:%M")
+        } for rating in ratings_with_users]
+
         return JsonResponse({
             'message': 'Rating added successfully',
-            'avg_rating': avg_rating
+            'avg_rating': avg_rating,
+            'ratings_with_users': ratings_data
         }, status=201)
     return JsonResponse({'message': 'Invalid request'}, status=400)
+
 
 @login_required
 @csrf_exempt
