@@ -78,8 +78,15 @@
                     <h2 class="text-xl font-bold">{{ product.name }}</h2>
                     <p class="text-gray-600">{{ product.category }}</p>
                     <p class="text-gray-800 font-semibold">Rp{{ product.price }}</p>
-                    <p class="text-gray-600">Rating: {{ product.rating }}</p>
-                    <p class="text-gray-600">Location: {{ product.location }}</p>
+                    <p class="text-gray-600"><strong style="color:#FFD700">★</strong>
+                      {% if product.avg_rating %}
+                        {{ product.avg_rating|floatformat:1 }}
+                      {% else %}
+                        No ratings yet
+                      {% endif %}
+                    </p>
+                    <p class="text-gray-600">Location: </p>
+                    <p class="text-gray-600">{{ product.location }}</p>
                 </div>
             </div>
             {% endfor %}
@@ -87,69 +94,110 @@
     </div>
 
     <!-- Modal untuk menampilkan detail produk -->
-    <div id="productModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden">
+    <div id="productModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
+      <div class="bg-white rounded-lg flex p-6 w-3/4 max-w-4xl">
         <div class="modal-content">
-            <!-- Tombol Close di Pojok Kanan Atas -->
-            <button id="closeModal" class="text-gray-500 hover:text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-
-            <!-- Bagian Gambar di Kiri -->
-            <div class="modal-image">
-                <img id="modalImage" src="" alt="Product Image" class="w-full h-auto rounded-lg object-cover">
+          <!-- Tombol Close di Pojok Kanan Atas -->
+          <button id="closeModal" class="text-gray-500 hover:text-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+          </button>
+          <!-- Bagian Gambar di Kiri -->
+          <div class="w-1/2">
+              <img id="modalImage" src="" alt="Product Image" class="w-full h-auto rounded-lg object-cover">
+          </div>
+          
+          <!-- Bagian Detail di Kanan -->
+          <div class="w-1/2 pl-6">
+            <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
+            <p id="modalCategory"><strong>Category:</strong> <span class="modal-data"></span></p>
+            <p id="modalPrice"><strong>Price:</strong> <span class="modal-data"></span></p>
+            <div id="modalDesc">
+                <strong>Description:</strong>
+                <div class="modal-data"></div>
             </div>
-            
-            <!-- Bagian Deskripsi di Kanan dengan Scroll -->
-            <div class="modal-description">
-                <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
-                <p id="modalCategory" class="text-gray-600 mb-1"></p>
-                <p id="modalPrice" class="text-gray-800 font-semibold mb-2"></p>
-                <p id="modalDesc" class="text-gray-600 mt-2 mb-2"></p>
-                <p id="modalColor" class="text-gray-600 mb-1"></p>
-                <p id="modalStock" class="text-gray-600 mb-1"></p>
-                <p id="modalShopName" class="text-gray-600 mb-1"></p>
-                <p id="modalLocation" class="text-gray-600 mb-1"></p>
+            <p id="modalColor"><strong>Color: </strong><span class="modal-data"></span></p>
+            <p id="modalStock"><strong>Stock: </strong><span class="modal-data"></span></p>
+            <p id="modalShopName"><strong>Shop Name: </strong><span class="modal-data"></span></p>
+            <div id="modalLocation">
+                <strong>Location:</strong>
+                <div class="modal-data"></div>
+            </div>
+            <div class="modal-button-container" style="text-align: center; padding-top: 20px;">
+                <a id="modalReviewLink" href="#" class="btn-custom" style="background-color: #27144b; border: 3px solid #27144b;">Review</a>
             </div>
         </div>
+      </div>
     </div>
+  
+  <style>
+    .btn-custom {
+    display: inline-block;
+    padding: 3px 10px;  
+    min-width: 100px; 
+    background-color: #27144b;
+    border: 3px solid #27144b;
+    color: #ffff;
+    border-radius: 15px;
+    font-size: 12px;
+    text-decoration: none; 
+    text-align: center;  
+    line-height: 15px; 
+    vertical-align: middle; 
+    cursor: pointer;
+    }
+
+    .modal-label {
+        font-weight: semibold; 
+        color: #333;     
+    }
+    
+    .modal-data {
+        font-weight: normal;
+        color: #666; 
+        margin-top: 4px;      
+    }
+
+    #modalDesc, #modalLocation {
+    margin-bottom: 8px;
+    }
+
+  </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Event klik pada kartu produk
-            $('.product-card').click(function() {
-                var productId = $(this).data('id');
+      $(document).ready(function() {
+        $('.product-card').click(function() {
+            var productId = $(this).data('id');
 
-                // AJAX untuk mengambil detail produk
-                $.ajax({
-                    url: '/products/detail/' + productId + '/',
-                    method: 'GET',
-                    success: function(response) {
-                        // Menampilkan data produk di modal
-                        $('#modalName').text(response.name);
-                        $('#modalCategory').text(response.category);
-                        $('#modalPrice').text('Rp' + response.price);
-                        $('#modalDesc').text(response.description);
-                        $('#modalColor').text('Color: ' + response.color);
-                        $('#modalStock').text('Stock: ' + response.stock);
-                        $('#modalShopName').text('Shop: ' + response.shop_name);
-                        $('#modalLocation').text('Location: ' + response.location);
-                        $('#modalImage').attr('src', response.img_url);
+            // AJAX to fetch product details
+            $.ajax({
+                url: '/products/detail/' + productId + '/',
+                method: 'GET',
+                success: function(response) {
+                    $('#modalName').text(response.name); 
+                    $('#modalCategory .modal-data').text(response.category);
+                    $('#modalPrice .modal-data').text('Rp' + response.price);
+                    $('#modalDesc .modal-data').text(response.description);
+                    $('#modalColor .modal-data').text(response.color);
+                    $('#modalStock .modal-data').text(response.stock);
+                    $('#modalShopName .modal-data').text(response.shop_name);
+                    $('#modalLocation .modal-data').text(response.location);
+                    $('#modalImage').attr('src', response.img_url); 
+                    $('#modalReviewLink').attr('href', '/products/review_products/' + productId + '/');
 
-                        // Tampilkan modal dengan animasi fadeIn
-                        $('#productModal').fadeIn(300); // Animasi muncul
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                        alert('Terjadi kesalahan saat mengambil detail produk.');
-                    }
-                });
+                    $('#productModal').fadeIn(300); 
+                },
+                error: function(xhr) {
+                    console.error('Error fetching product details: ' + xhr.responseText);
+                    alert('Terjadi kesalahan saat mengambil detail produk.');
+                }
             });
+        });
 
-            // Event klik untuk menutup modal
-            $('#closeModal').click(function() {
+        // Event klik untuk menutup modal
+        $('#closeModal').click(function() {
                 $('#productModal').fadeOut(300); // Animasi menghilang
             });
 
