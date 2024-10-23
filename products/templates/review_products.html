@@ -79,7 +79,7 @@ $(document).ready(function() {
     $('#ratingForm').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '{% url 'products:submit_rating' %}',
+            url: '{% url 'products:add_rating' %}',
             method: 'POST',
             data: $(this).serialize(),
             headers: {'X-CSRFToken': '{{ csrf_token }}'},
@@ -107,7 +107,7 @@ $(document).ready(function() {
     $('#commentForm').submit(function(e) {
         e.preventDefault();
         $.ajax({
-            url: '{% url 'products:submit_comment' %}',
+            url: '{% url 'products:add_comment' %}',
             method: 'POST',
             data: $(this).serialize(),
             headers: {'X-CSRFToken': '{{ csrf_token }}'},

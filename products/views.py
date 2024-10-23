@@ -2,6 +2,9 @@ from django.shortcuts import render, get_object_or_404
 from products.models import Product, Rating, Comment
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.utils.html import strip_tags
 from django.db.models import Avg
 
 def show_products_by_price(request):
@@ -22,13 +25,14 @@ def review_products(request, id):
     })
 
 @login_required
-def submit_rating(request):
+@csrf_exempt
+@require_POST
+def add_rating(request):
     if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        rating_value = int(request.POST.get('rating'))
+        product_id = strip_tags(request.POST.get('product_id'))
+        rating_value = strip_tags(int(request.POST.get('rating')))
         product = get_object_or_404(Product, uuid=product_id)
 
-        # Update or create rating
         rating_obj, created = Rating.objects.update_or_create(
             product=product,
             user=request.user,
@@ -38,13 +42,15 @@ def submit_rating(request):
         # Calculate new average rating
         avg_rating = Rating.objects.filter(product=product).aggregate(Avg('rating'))['rating__avg']
         return JsonResponse({
-            'message': 'Rating submitted successfully',
+            'message': 'Rating added successfully',
             'avg_rating': avg_rating
-        })
+        }, status=201)
     return JsonResponse({'message': 'Invalid request'}, status=400)
 
 @login_required
-def submit_comment(request):
+@csrf_exempt
+@require_POST
+def add_comment(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
         comment_text = request.POST.get('comment')

@@ -14,7 +14,6 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-
 import uuid
 
 
