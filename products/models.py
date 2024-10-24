@@ -2,6 +2,8 @@ from django.db import models
 import uuid
 from main.models import ItemEntry  # Impor ItemEntry dari app 'main'
 from django.contrib.auth.models import User  # Impor User
+from django.contrib.auth.models import User
+
 
 
 class Product(models.Model):
@@ -25,5 +27,9 @@ class Review(models.Model):
     item_id = models.ForeignKey(ItemEntry, on_delete=models.CASCADE)
     comment_text = models.TextField(max_length=1500)
     timestamp = models.DateTimeField(auto_now_add=True)  # Menambahkan timestamp
+
+    def __str__(self):
+        return f"Review by {self.user.username} on {self.item_id.name}"
+
 
 
