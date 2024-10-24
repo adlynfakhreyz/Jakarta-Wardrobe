@@ -7,18 +7,68 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Product Page</title>
     <style>
-        /* Menyesuaikan modal agar selalu di tengah */
         #productModal {
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            margin-top: 50px; /* Memberikan jarak dari navbar */
+            margin-top: 50px; 
         }
         #modalImage {
         height: 100%;
         object-fit: cover;
         }
+
+        .fixed-bottom-review {
+            position: sticky;
+            bottom: 0;
+            padding: 10px;
+            width: 100%;            
+            background-color: #f8f8f8;
+            margin-top: auto;        
+            text-align: center;
+        }
+
+        .btn-custom {
+        display: inline-block;
+        width: 100%;           
+        max-width: 300px;      
+        padding: 12px 0px;
+        background-color: #ffffff;  
+        border: 2px solid #d2caca;  
+        color: #7d7c7c;          
+        border-radius: 12px;       
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s, border 0.3s;
+        }
+
+    .btn-custom:hover {
+        background-color: #ffffff; 
+        color: #000000;            
+        border-color: #000000;     
+    }
+
+    .modal-description {
+        display: flex;
+        flex-direction: column;
+        max-height: 70vh;          
+        overflow-y: auto;          
+        padding-bottom: 20px;     
+    }
+
+    .review-section {
+        margin-top: auto;          
+        padding: 10px 0;           
+        text-align: center;
+    }
+
+
+    .rounded-btn {
+        border-radius: 4px;
+    }
 
         .modal-content {
             display: flex;
@@ -30,7 +80,7 @@
             background-color: white;
             border-radius: 10px;
             padding: 16px;
-            position: relative; /* Dibutuhkan untuk posisi tombol X */
+            position: relative; 
         }
         .modal-image {
             display: flex;
@@ -79,14 +129,12 @@
                     <p class="text-gray-600">{{ product.category }}</p>
                     <p class="text-gray-800 font-semibold">Rp{{ product.price }}</p>
                     <p class="text-gray-600"><strong style="color:#FFD700">★</strong>
-                      {% if product.avg_rating %}
-                        {{ product.avg_rating|floatformat:1 }}
-                      {% else %}
-                        No ratings yet
-                      {% endif %}
-                    </p>
-                    <p class="text-gray-600">Location: </p>
-                    <p class="text-gray-600">{{ product.location }}</p>
+                        {% if product.avg_rating %}
+                          {{ product.avg_rating|floatformat:1 }}
+                        {% else %}
+                          No ratings yet
+                        {% endif %}
+                      </p>
                 </div>
             </div>
             {% endfor %}
@@ -94,41 +142,42 @@
     </div>
 
     <!-- Modal untuk menampilkan detail produk -->
-    <div id="productModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-      <div class="bg-white rounded-lg flex p-6 w-3/4 max-w-4xl">
+    <div id="productModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden" style="display: none;">
         <div class="modal-content">
-          <!-- Tombol Close di Pojok Kanan Atas -->
-          <button id="closeModal" class="text-gray-500 hover:text-gray-800">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-          </button>
-          <!-- Bagian Gambar di Kiri -->
-          <div class="w-1/2">
-              <img id="modalImage" src="" alt="Product Image" class="w-full h-auto rounded-lg object-cover">
-          </div>
-          
-          <!-- Bagian Detail di Kanan -->
-          <div class="w-1/2 pl-6">
-            <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
-            <p id="modalCategory"><strong>Category:</strong> <span class="modal-data"></span></p>
-            <p id="modalPrice"><strong>Price:</strong> <span class="modal-data"></span></p>
-            <div id="modalDesc">
-                <strong>Description:</strong>
-                <div class="modal-data"></div>
+            <!-- Tombol Close di Pojok Kanan Atas -->
+            <button id="closeModal" class="text-gray-500 hover:text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <!-- Bagian Gambar di Kiri -->
+            <div class="modal-image">
+                <img id="modalImage" src="" alt="Product Image" class="w-full h-auto rounded-lg object-cover">
             </div>
-            <p id="modalColor"><strong>Color: </strong><span class="modal-data"></span></p>
-            <p id="modalStock"><strong>Stock: </strong><span class="modal-data"></span></p>
-            <p id="modalShopName"><strong>Shop Name: </strong><span class="modal-data"></span></p>
-            <div id="modalLocation">
-                <strong>Location:</strong>
-                <div class="modal-data"></div>
-            </div>
-            <div class="modal-button-container" style="text-align: center; padding-top: 20px;">
-                <a id="modalReviewLink" href="#" class="btn-custom" style="background-color: #27144b; border: 3px solid #27144b;">Review</a>
+            
+            <!-- Bagian Deskripsi di Kanan dengan Scroll -->
+            <div class="modal-description">
+                <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
+                <p id="modalCategory"><strong>Category:</strong> <span class="modal-data"></span></p>
+                <p id="modalPrice"><strong>Price:</strong> <span class="modal-data"></span></p>
+                <div id="modalDesc">
+                    <strong>Description:</strong>
+                    <div class="modal-data"></div>
+                </div>
+                <p id="modalColor"><strong>Color: </strong><span class="modal-data"></span></p>
+                <p id="modalStock"><strong>Stock: </strong><span class="modal-data"></span></p>
+                <p id="modalShopName"><strong>Shop Name: </strong><span class="modal-data"></span></p>
+                <div id="modalLocation">
+                    <strong>Location:</strong>
+                    <div class="modal-data"></div>
+                </div>
+                <!-- Section Tombol Review -->
+                <div id="modalReviewSection" class="fixed-bottom-review" style="background-color: transparent;">
+                    <a id="modalReviewLink" href="#" class="btn-custom rounded-btn">Review</a>
+                </div>
             </div>
         </div>
-      </div>
     </div>
   
   <style>
@@ -163,6 +212,11 @@
     margin-bottom: 8px;
     }
 
+    .product-card:hover {
+    transform: scale(1.05); 
+    transition: transform 0.3s ease-in-out; 
+    }
+    
   </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
