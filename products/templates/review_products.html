@@ -1,0 +1,229 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Review Page</title>
+</head>
+{% include "navbar.html" %}
+<body class="bg-gray-100 flex flex-col min-h-screen font-sans">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center mb-8">Review Page</h1>
+
+    <!-- Flexbox untuk dua kolom -->
+    <div class="flex flex-col lg:flex-row gap-6">
+      
+      <!-- Bagian Kiri: Rating -->
+      <div class="bg-white shadow-md rounded-lg overflow-hidden w-full lg:w-1/3 h-full">
+        <!-- Modifikasi Gambar -->
+        <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-96 object-cover bg-gray-200">
+        <div class="p-4">
+          <h1>{{ product.name }}</h1>
+          <p>Average Rating: 
+            <span id="averageRating">
+              {% if avg_rating %}
+                  {% for i in "12345" %}
+                      {% if forloop.counter <= avg_rating_int %}
+                          ★
+                      {% else %}
+                          ☆
+                      {% endif %}
+                  {% endfor %}
+                  ({{ avg_rating|floatformat:"1" }})
+              {% else %}
+                  No ratings yet
+              {% endif %}
+            </span>
+          </p>
+          <div class="penilaian mt-4 text-center">
+            <form id="ratingForm">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ product.uuid }}">
+                <div class="rating">
+                    <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
+                    <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+                </div>
+                <button type="submit" class="bg-purple-800 text-white py-1 px-4 mt-2 rounded-lg">Submit Rating</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Bagian Overview Rating -->
+        <div class="p-4">
+          <h2 class="text-xl font-bold mb-4 text-center">Rating Overview</h2>
+          <table class="min-w-full table-auto">
+              <thead>
+                  <tr>
+                      <th class="px-4 py-2 text-center">User</th>
+                      <th class="px-4 py-2 text-center">Rating</th>
+                      <th class="px-4 py-2 text-center">Timestamp</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for rating in ratings_with_users %}
+                  <tr>
+                      <td class="border px-4 py-2 text-center">{{ rating.user.username }}</td>
+                      <td class="border px-4 py-2 text-center">{{ rating.rating }}.0</td>
+                      <td class="border px-4 py-2 text-center">{{ rating.timestamp|date:"d F Y, H:i" }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                      <td colspan="3" class="text-center py-4">No ratings yet</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg overflow-hidden w-full lg:w-2/3 p-4">
+        <h2 class="text-xl font-bold mb-4 text-center">Add a Comment</h2>
+        <form id="commentForm" class="text-center mb-4">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.uuid }}">
+            <textarea name="comment" rows="4" placeholder="Add a comment..." class="border w-full p-2 rounded mb-2"></textarea>
+            <button type="submit" class="bg-purple-800 text-white py-1 px-4 mt-2 rounded-lg">Submit Comment</button>
+        </form>
+      
+        <h2 class="text-xl font-bold mb-4 text-center">Comments</h2>
+        <ul id="commentSection" class="space-y-4">
+                {% for comment in comments %}
+                <li class="flex flex-col">
+                    <div>
+                        <strong class="font-bold">{{ comment.user.username }}</strong>
+                        <span>{{ comment.comment }}</span>
+                    </div>
+                    <div class="text-gray-500 text-sm mt-1">{{ comment.timestamp|date:"d F Y, H:i" }}</div>
+                </li>
+            {% empty %}
+                <li class="no-comments text-center py-4">No comments yet</li>
+            {% endfor %}
+            </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+{% endblock %}
+
+<style>
+  .rating {
+      direction: rtl;
+      unicode-bidi: bidi-override;
+      font-size: 2em;
+  }
+  .rating > label {
+      display: inline-block;
+      position: relative;
+      width: 1.1em;
+      color: #ddd; 
+      cursor: pointer;
+  }
+  .rating > input {
+      display: none;
+  }
+  .rating > input:checked ~ label,
+  .rating > input:checked ~ label:hover,
+  .rating > input:checked ~ label:hover ~ label,
+  .rating > label:hover,
+  .rating > label:hover ~ label {
+      color: #FFD700; 
+  }
+</style>
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Rating Submission
+    $('#ratingForm').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/products/add_rating/',
+            method: 'POST',
+            data: $(this).serialize(),
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            success: function(response) {
+                // Update the average rating display
+                var avg_rating = response.avg_rating;
+                var avg_rating_int = Math.round(avg_rating);
+                var stars = '';
+                for (var i = 1; i <= 5; i++) {
+                    if (i <= avg_rating_int) {
+                        stars += '★';
+                    } else {
+                        stars += '☆';
+                    }
+                }
+                $('#averageRating').html(stars + ' (' + avg_rating.toFixed(1) + ')');
+
+                // Update the rating table dynamically
+                var ratings_html = '';
+                response.ratings_with_users.forEach(function(rating) {
+                    ratings_html += '<tr>' +
+                        '<td class="border px-4 py-2 text-center">' + rating.user + '</td>' +
+                        '<td class="border px-4 py-2 text-center">' + rating.rating + '.0</td>' +
+                        '<td class="border px-4 py-2 text-center">' + rating.timestamp + '</td>' +
+                        '</tr>';
+                });
+                if (ratings_html === '') {
+                    ratings_html = '<tr><td colspan="3" class="text-center py-4">No ratings yet.</td></tr>';
+                }
+                $('table tbody').html(ratings_html);
+            },
+            error: function(xhr) {
+                console.error('Error: ' + xhr.responseJSON.message);
+            }
+        });
+    });
+
+    // Comment Submission
+    $('#commentForm').submit(function(e) {
+    e.preventDefault();
+
+    // Ambil nilai dari textarea
+    var comment = $('textarea[name="comment"]').val().trim();
+
+    // Cek apakah textarea kosong
+    if (comment === '') {
+        alert('Comment cannot be empty!');
+        return;
+    }
+
+    $.ajax({
+        url: '/products/add_comment/',
+        method: 'POST',
+        data: $(this).serialize(),
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        success: function(response) {
+            // Tambahkan komentar baru ke bagian komentar dengan format baru
+            var newCommentHtml = `
+                <li class="flex flex-col">
+                    <div>
+                        <strong class="font-bold">${response.user}</strong>
+                        <span>${response.comment}</span>
+                    </div>
+                    <div class="text-gray-500 text-sm mt-1">${response.timestamp}</div>
+                </li>
+            `;
+            $('#commentSection').prepend(newCommentHtml);
+
+            // Hapus elemen "No comments yet" jika ada
+            $('.no-comments').remove();
+
+            // Bersihkan textarea setelah komentar ditambahkan
+            $('textarea[name="comment"]').val('');
+        },
+        error: function(xhr) {
+            alert('Error: ' + xhr.responseJSON.message);
+        }
+    });
+});
+});
+</script>
+{% endblock %}
