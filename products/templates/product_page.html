@@ -24,6 +24,11 @@
             <p class="text-gray-600">Stock: {{ product.stock }}</p>
             <p class="text-gray-600">Shop: {{ product.shop_name }}</p>
             <p class="text-gray-600">Location: {{ product.location }}</p>
+            <!-- Add Button -->
+            <button onclick="addChoice('{{product.pk}}')" type='submit' class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+              Add to Choices
+              {{ product.pk }}
+            </button>
           </div>
         </div>
         {% endfor %}
@@ -31,4 +36,33 @@
     </div>
   </body>
 </html>
+<script>
+  function addChoice(itemId) {
+    alert(itemId)
+    console.log("Item ID:", itemId); // Log the item ID for debugging
+
+    fetch(`/user_choices/add_user_choices/${itemId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'  // Make sure you have the CSRF token set up
+        },
+        body: JSON.stringify({ choice: itemId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Show alert based on the response status
+        if (data.status === 'success') {
+            alert(data.message); // Show success message
+        } else {
+            alert(data.message); // Show error message
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while adding your choice."); // Generic error message
+    });
+}
+
+</script>
 {% endblock content %}
