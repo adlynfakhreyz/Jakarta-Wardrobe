@@ -1,3 +1,4 @@
+{% load static %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,19 +6,73 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/notification.css' %}">
     <title>User Choices Page</title>
     <style>
-      /* Menyesuaikan modal agar selalu di tengah */
       #productModal {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 20px;
-          margin-top: 50px; /* Memberikan jarak dari navbar */
+          margin-top: 50px; 
       }
+
       #modalImage {
       height: 100%;
       object-fit: cover;
+      }
+
+      .fixed-bottom-review {
+          position: sticky;
+          bottom: 0;
+          padding: 10px;
+          width: 100%;            
+          background-color: #f8f8f8;
+          margin-top: auto;        
+          text-align: center;
+      }
+
+      .btn-custom {
+        display: inline-block;
+        width: 100%;           
+        max-width: 300px;      
+        padding: 12px 0px;
+        background-color: #ffffff;  
+        border: 2px solid #d2caca;  
+        color: #7d7c7c;          
+        border-radius: 12px;       
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s, border 0.3s;
+      }
+
+      .btn-custom:hover {
+          background-color: #ffffff; 
+          color: #000000;            
+          border-color: #000000;     
+      }
+
+      .modal-description {
+          display: flex;
+          flex-direction: column;                    
+          flex: 1;
+          overflow-y: auto;
+          padding: 20px 10px;
+          max-height: 80vh;
+          margin-top: 10px;     
+      }
+
+      .review-section {
+          margin-top: auto;          
+          padding: 10px 0;           
+          text-align: center;
+      }
+
+
+      .rounded-btn {
+          border-radius: 4px;
       }
 
       .modal-content {
@@ -30,8 +85,9 @@
           background-color: white;
           border-radius: 10px;
           padding: 16px;
-          position: relative; /* Dibutuhkan untuk posisi tombol X */
+          position: relative; 
       }
+
       .modal-image {
           display: flex;
           align-items: center;
@@ -41,19 +97,14 @@
           overflow: hidden;
           padding-right: 10px;
       }
+
       .modal-image img {
           max-height: 100%;
           max-width: 100%;
           object-fit: contain;
           border-radius: 5px;
       }
-      .modal-description {
-          flex: 1;
-          overflow-y: auto;
-          padding: 20px 10px;
-          max-height: 80vh;
-          margin-top: 10px;
-      }
+
       #closeModal {
           position: absolute;
           top: 10px;
@@ -64,76 +115,21 @@
           cursor: pointer;
       }
 
-    </style>
-  </head>
-  {% include "navbar.html" %}
-  <body class="bg-gray-100 flex flex-col min-h-screen font-sans">
-    <div class="container mx-auto px-4 py-8">
-      <h1 class="text-3xl font-bold text-center mb-8">User Choices Page</h1>
-      <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <!-- Products will be dynamically added here -->
-      </div>
-    </div>
-
-    <!-- Modal untuk menampilkan detail produk -->
-    <div id="productModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-      <div class="bg-white rounded-lg flex p-6 w-3/4 max-w-4xl">
-        <div class="modal-content">
-          <!-- Tombol Close di Pojok Kanan Atas -->
-          <button id="closeModal" class="text-gray-500 hover:text-gray-800">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-          </button>
-          <!-- Bagian Gambar di Kiri -->
-          <div class="w-1/2">
-              <img id="modalImage" src="" alt="Product Image" class="w-full h-auto rounded-lg object-cover">
-          </div>
-          
-          <!-- Bagian Detail di Kanan -->
-          <div class="w-1/2 pl-6">
-            <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
-            <!-- Add Checkbox for Wishlist -->
-            <!-- Default Checkbox for Wishlist -->
-            <div class="flex items-center">
-              <input type="checkbox" id="modalWishlist" onchange="toggleWishlist(currentProductId, !this.checked)"/>
-            </div>
-            <p id="modalCategory"><strong>Category:</strong> <span class="modal-data"></span></p>
-            <p id="modalPrice"><strong>Price:</strong> <span class="modal-data"></span></p>
-            <div id="modalDesc">
-                <strong>Description:</strong>
-                <div class="modal-data"></div>
-            </div>
-            <p id="modalColor"><strong>Color: </strong><span class="modal-data"></span></p>
-            <p id="modalStock"><strong>Stock: </strong><span class="modal-data"></span></p>
-            <p id="modalShopName"><strong>Shop Name: </strong><span class="modal-data"></span></p>
-            <div id="modalLocation">
-                <strong>Location:</strong>
-                <div class="modal-data"></div>
-            </div>
-            <div class="modal-button-container" style="text-align: center; padding-top: 20px;">
-                <a id="modalReviewLink" href="#" class="btn-custom" style="background-color: #27144b; border: 3px solid #27144b;">Review</a>
-            </div>
-        </div>
-      </div>
-    </div>
-
-    <style>
       .btn-custom {
-      display: inline-block;
-      padding: 3px 10px;  
-      min-width: 100px; 
-      background-color: #27144b;
-      border: 3px solid #27144b;
-      color: #ffff;
-      border-radius: 15px;
-      font-size: 12px;
-      text-decoration: none; 
-      text-align: center;  
-      line-height: 15px; 
-      vertical-align: middle; 
-      cursor: pointer;
-      }
+        display: inline-block;
+        padding: 3px 10px;  
+        min-width: 100px; 
+        background-color: #27144b;
+        border: 3px solid #27144b;
+        color: #ffff;
+        border-radius: 15px;
+        font-size: 12px;
+        text-decoration: none; 
+        text-align: center;  
+        line-height: 15px; 
+        vertical-align: middle; 
+        cursor: pointer;
+        }
 
       .modal-label {
           font-weight: semibold; 
@@ -149,25 +145,151 @@
       #modalDesc, #modalLocation {
       margin-bottom: 8px;
       }
-    
-      .love-button {
-        background: none;
-        border: none;
-        cursor: pointer;
-        transition: transform 0.2s; /* Smooth transition */
-      }
-      
-      .love-button:hover {
-          transform: scale(1.1); /* Slightly enlarge on hover */
-      }
-      
-      .love-button.liked {
-          transform: scale(1.1); /* Optional: Scale up when liked */
+
+      .product-card:hover {
+      transform: scale(1.05); 
+      transition: transform 0.3s ease-in-out; 
       }
 
+      .love-button {
+          background: none; /* No background */
+          border: none; /* No border */
+          cursor: pointer; /* Pointer cursor on hover */
+          transition: transform 0.2s, fill 0.2s; /* Transition for smooth effects */
+      }
+      
+      /* Hover effect */
+      .love-button:hover {
+          transform: scale(1.1); /* Scale up the button slightly */
+      }
+      
+      /* Active effect */
+      .love-button:active {
+          transform: scale(0.9); /* Scale down on click */
+      }
     </style>
+  </head>
+  {% include "navbar.html" %}
+  <body class="bg-gray-100 flex flex-col min-h-screen font-sans">
+    <div class="container mx-auto px-4 py-8">
+      <h2 id='page-title' class="text-3xl sm:text-3xl md:text-4xl lg:text-5xl pt-14 pb-10 flex justify-center font-bold text-gray-800"></h2>
+      <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <!-- Products will be dynamically added here -->
+      </div>
+  </div>
+
+    <!-- Modal untuk menampilkan detail produk -->
+    <div id="productModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden" style="display: none;">
+      <div class="modal-content">
+          <!-- Tombol Close di Pojok Kanan Atas -->
+          <button id="closeModal" class="text-gray-500 hover:text-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+          </button>
+
+          <!-- Bagian Gambar di Kiri -->
+          <div class="modal-image">
+              <img id="modalImage" src="" alt="Product Image" class="w-full h-auto rounded-lg object-cover">
+          </div>
+          
+          <!-- Bagian Deskripsi di Kanan dengan Scroll -->
+          <div class="modal-description">
+              <div class="flex justify-between items-start">
+                  <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
+                  <div id="modalLikeButtonContainer"></div>
+              </div>
+          <p id="modalCategory"><strong>Category:</strong> <span class="modal-data"></span></p>
+              <p id="modalPrice"><strong>Price:</strong> <span class="modal-data"></span></p>
+              <div id="modalDesc">
+                  <strong>Description:</strong>
+                  <div class="modal-data"></div>
+              </div>
+              <p id="modalColor"><strong>Color: </strong><span class="modal-data"></span></p>
+              <p id="modalStock"><strong>Stock: </strong><span class="modal-data"></span></p>
+              <p id="modalShopName"><strong>Shop Name: </strong><span class="modal-data"></span></p>
+              <div id="modalLocation">
+                  <strong>Location:</strong>
+                  <div class="modal-data"></div>
+              </div>
+              <!-- Section Tombol Review -->
+              <div id="modalReviewSection" class="fixed-bottom-review" style="background-color: transparent;">
+                  <a id="modalReviewLink" href="#" class="btn-custom rounded-btn">Review</a>
+              </div>
+          </div>
+      </div>
+    </div>
+
+
+    <div id="success-notif" class="notification success-notification">
+        <span class="notification-icon">&#x2714;</span>
+        <span id="success-messages"></span>
+    </div>
+
+    <div class="notification failure-notification">
+        <span class="notification-icon">&#x2716;</span>
+        <span>Operation failed. Please try again.</span>
+    </div>
+
+    <div id="confirm-notif" class="notification failure-notification">
+        <div>
+            <span><strong>Remove this from your user choices?</strong></span>
+        </div>
+        <button class="notif-button confirm-btn">Confirm</button>
+        <button class="notif-button cancel-btn">Cancel</button>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
+      
+      async function getProductData() {
+        return fetch('json').then(response => response.json());
+      }
+      async function refreshPage() {
+        const productData = await getProductData();
+        let productCards = '';
+    
+        if (productData.length === 0) {
+            document.getElementById('page-title').textContent = '';
+            productCards = `
+            <div class="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 flex justify-center items-center h-full p-6">
+              <div class="flex flex-col items-center justify-center p-6 bg-white shadow-md rounded-lg max-w-md mx-auto">
+                  <h2 class="text-xl font-bold text-gray-700 mb-4 text-center ">You haven't added any products to your choices</h2>
+                  <p class="text-black-500 mb-4 text-center">Discover the latest trends in garments available around <strong>Jakarta!</strong> Our information center is dedicated to helping you find the best local boutiques and markets. Explore our listings to find the perfect outfits and accessories to elevate your style.</p>
+                  <a href="/products" class="btn-custom rounded-btn">Browse Products</a>
+              </div>
+            </div>
+            `;
+        } else {
+            document.getElementById('page-title').textContent = 'Your Choices';
+            productData.forEach(product => {
+                productCards += `
+                <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card" data-id="${product.id}">
+                        <img src="${product.img_url}" alt="${product.name}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start" ">
+                                <h2 class="text-xl font-bold">${product.name}</h2>
+                                <button id="likeButton_${product.id}" class="love-button liked}" onclick="toggleWishlist('${product.id}', true)">
+                                    <svg id="heartIcon_${product.id}" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="#E0245E" viewBox="0 0 24 24" stroke="#E0245E">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="text-gray-600">${product.category}</p>
+                            <p class="text-gray-800 font-semibold">Rp${product.price}</p>
+                            <p class="text-gray-600"><strong style="color:#FFD700">★</strong>
+                                ${product.avg_rating ? product.avg_rating.toFixed(1) : 'No ratings yet'}
+                            </p>
+                        </div>
+                    </div>`;
+            });
+        }
+    
+        document.getElementById('product-list').innerHTML = productCards;
+      }
+
+      refreshPage(); // Call the function to fetch and display product data on page load
+
       function toggleWishlist(itemId, isInUserChoices) {
 
         if (isInUserChoices) {
@@ -182,6 +304,7 @@
       
         fetch(`/user_choices/${operation}_user_choices/${itemId}`, {
             method: method,
+
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': '{{ csrf_token }}'  // Ensure the CSRF token is included
@@ -192,9 +315,10 @@
         .then(data => {
             if (data.status === 'success') {
                 if (!isInUserChoices) {
-                    alert("Item added to your wishlist successfully!"); // Show success message
+                    {% comment %} alert("Item added to your wishlist successfully!"); // Show success message {% endcomment %}
+                    toggleLike(productId);
                 } else {
-                    alert("Item removed from your wishlist."); // Show removal message
+                    {% comment %} alert("Item removed from your wishlist."); // Show removal message {% endcomment %}
                 }
                 refreshPage();
             } else {
@@ -206,53 +330,10 @@
             alert("An error occurred while updating your choice.");
         });
       }
-      async function getProductData() {
-        return fetch('json').then(response => response.json());
-      }
-      async function refreshPage() {
-        const productData = await getProductData();
-        let productCards = '';
-    
-        if (productData.length === 0) {
-            productCards = '<p>No products available.</p>'; // Handle no products case
-        } else {
-            productData.forEach(product => {
-                productCards += `
-                <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card" data-id="${product.id}">
-                    <img src="${product.img_url}" alt="${product.name}" class="w-full h-48 object-cover">
-                    <div class="p-4">
-                        <h2 class="text-xl font-bold">${product.name}</h2>
-                        <p class="text-gray-600">${product.category}</p>
-                        <p class="text-gray-800 font-semibold">Rp${product.price}</p>
-                        <p class="text-gray-600"><strong style="color:#FFD700">★</strong>
-                            ${product.avg_rating ? product.avg_rating.toFixed(1) : 'No ratings yet'}
-                        </p>
-                        <p class="text-gray-600">Location:</p>
-                        <p class="text-gray-600">${product.location}</p>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="wishlist-${product.uuid}" onchange="toggleWishlist('${product.id}', true)" checked />
-                        </div>
-                        <button id="likeButton_${product.id}" class="love-button liked" onclick="toggleLike('${product.id}')">
-                            <svg id="heartIcon_${product.id}" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="#E0245E" viewBox="0 0 24 24" stroke="#E0245E">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>`;
-            });
-        }
-    
-        document.getElementById('product-list').innerHTML = productCards;
-      }
-  
-      refreshPage(); // Call the function to fetch and display product data on page load
-
 
       function toggleLike(productId) {
         const button = document.getElementById(`likeButton_${productId}`);
         const heartIcon = document.getElementById(`heartIcon_${productId}`);
-        console.log(button);
-        console.log(heartIcon);
     
         // Toggle the liked class
         button.classList.toggle('liked');
@@ -267,65 +348,68 @@
         }
       }
 
+        function getButton(productId) {
+          const button = document.getElementById(`likeButton_${productId}`).cloneNode(true);
+          return button;
+        }
+
       $(document).ready(function() {
         // Delegate click event for dynamically created product cards
         $('#product-list').on('click', '.product-card', function(event) {
-          // Only open modal if clicked directly on the card, not on the checkbox
-          if (!$(event.target).is('input[type="checkbox"]')) {
-            var productId = $(this).data('id');
-            currentProductId = productId; // Set the current product ID
+            
+            // Only open modal if clicked directly on the card, not on the checkbox
+            if (!$(event.target).closest('button').length) {
+                var productId = $(this).data('id');
 
-            // Check the state of the wishlist checkbox
-            var isInWishlist = $(this).find('input[type="checkbox"]').is(':checked');
-    
-            // AJAX to fetch product details
-            $.ajax({
-              url: '/products/detail/' + productId + '/',
-              method: 'GET',
-              success: function(response) {
-                $('#modalName').text(response.name);
-                $('#modalCategory .modal-data').text(response.category);
-                $('#modalPrice .modal-data').text('Rp' + response.price);
-                $('#modalDesc .modal-data').text(response.description);
-                $('#modalColor .modal-data').text(response.color);
-                $('#modalStock .modal-data').text(response.stock);
-                $('#modalShopName .modal-data').text(response.shop_name);
-                $('#modalLocation .modal-data').text(response.location);
-                $('#modalImage').attr('src', response.img_url);
-                $('#modalReviewLink').attr('href', '/products/review_products/' + productId + '/');
+                // AJAX to fetch product details
+                $.ajax({
+                    url: '/products/detail/' + productId + '/',
+                    method: 'GET',
+                    success: function(response) {
 
-                // Set the checkbox state in the modal
-                $('#modalWishlist').prop('checked', isInWishlist);
-    
-                $('#productModal').fadeIn(300);
-              },
-              error: function(xhr) {
-                console.error('Error fetching product details: ' + xhr.responseText);
-                alert('Terjadi kesalahan saat mengambil detail produk.');
-              }
-            });
-          }
+                        $('#modalName').text(response.name);
+                        $('#modalCategory .modal-data').text(response.category);
+                        $('#modalPrice .modal-data').text('Rp' + response.price);
+                        $('#modalDesc .modal-data').text(response.description);
+                        $('#modalColor .modal-data').text(response.color);
+                        $('#modalStock .modal-data').text(response.stock);
+                        $('#modalShopName .modal-data').text(response.shop_name);
+                        $('#modalLocation .modal-data').text(response.location);
+                        $('#modalImage').attr('src', response.img_url);
+                        $('#modalReviewLink').attr('href', '/products/review_products/' + productId + '/');
+
+                        // Clear any previous like button in the modal
+                        $('#modalLikeButtonContainer').empty();
+                        const likeButton = getButton(productId);
+
+                        $('#modalLikeButtonContainer').html(likeButton);
+                        $('#productModal').fadeIn(300);
+                    },
+                    error: function(xhr) {
+                        console.error('Error fetching product details: ' + xhr.responseText);
+                        alert('Terjadi kesalahan saat mengambil detail produk.');
+                    }
+                });
+            }
         });
-    
+
+        $('#modalLikeButtonContainer').click(function() {
+            $('#productModal').fadeOut(300);
+        })
+
         // Event klik untuk menutup modal
         $('#closeModal').click(function() {
-          $('#productModal').fadeOut(300); // Animasi menghilang
+            $('#productModal').fadeOut(300); // Animasi menghilang
         });
 
-        // Event klik untuk menutup modal
-        $('#modalWishlist').click(function() {
-          $('#productModal').fadeOut(300); // Animasi menghilang
-        });
-    
         // Menutup modal jika klik di luar konten modal
         $('#productModal').click(function(event) {
-          // Cek apakah klik terjadi di luar konten modal
-          if (!$(event.target).closest('.modal-content').length) {
+            // Cek apakah klik terjadi di luar konten modal
+            if (!$(event.target).closest('.modal-content').length) {
             $('#productModal').fadeOut(300); // Animasi menghilang
-          }
+            }
         });
-      });
-    
+    });
     </script>
   </body>
 </html>

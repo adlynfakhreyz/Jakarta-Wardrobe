@@ -1,0 +1,57 @@
+.notification {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the notification */
+    width: 300px;
+    padding: 16px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    text-align: center;
+    z-index: 9999; /* Ensure it appears on top of other elements */
+}
+
+/* Success Notification */
+.success-notification {
+    color: #2f855a; /* Dark green text color */
+    border-left: 6px solid #38a169; /* Green border */
+}
+.success-notification .notification-icon {
+    color: #38a169; /* Green icon color */
+}
+
+/* Failure Notification */
+.failure-notification {
+    color: #c53030; /* Dark red text color */
+    border-left: 6px solid #e53e3e; /* Red border */
+}
+.failure-notification .notification-icon {
+    color: #e53e3e; /* Red icon color */
+}
+
+.notif-button {
+    margin-top: 12px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 10px 5px;
+}
+
+.confirm-btn {
+    background-color: #38a169; /* Green background for confirm */
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #e53e3e; /* Red background for cancel */
+    color: white;
+}
+
+.notif-button:hover {
+    opacity: 0.9;
+}
