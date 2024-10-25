@@ -135,30 +135,31 @@ def show_five_products(request):
 from django.db.models import Q, Avg
 
 def find_product(request):
-    query = request.GET.get('q', '')
-    filter_type = request.GET.get('filter', '')
-    category = request.GET.get('category', '')
+    query = request.GET.get('q', '')  # Search query
+    category = request.GET.get('category', '')  # Selected category
+    shop_name = request.GET.get('shop_name', '')  # Selected shop name
+    filter_type = request.GET.get('filter', '')  # Existing filter (e.g., price/rating)
 
-    # Start with all products
     products = Product.objects.all()
 
-    # Filter by query if provided
+    # Apply search filter if query is provided
     if query:
         products = products.filter(Q(name__icontains=query) | Q(desc__icontains=query))
 
-    # Filter by category if selected
+    # Apply category filter if a category is selected
     if category:
         products = products.filter(category__iexact=category)
 
-    # Handle the filters based on radio button selection
+    # Apply shop_name filter if a shop_name is selected
+    if shop_name:
+        products = products.filter(shop_name__iexact=shop_name)
+
+    # Handle other sorting filters like price and rating
     if filter_type == 'price_asc':
-        # Sort by price (lowest to highest)
         products = products.order_by('price')
     elif filter_type == 'price_desc':
-        # Sort by price (highest to lowest)
         products = products.order_by('-price')
     elif filter_type == 'rating':
-        # Sort by average rating (highest to lowest)
         products = products.annotate(avg_rating=Avg('rating__rating')).order_by('-avg_rating')
 
     return render(request, 'product_page.html', {'products': products})

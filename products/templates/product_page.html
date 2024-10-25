@@ -207,6 +207,15 @@
                     <option value="women - bottoms" {% if request.GET.category == "women - bottoms" %}selected{% endif %}>Women - Bottoms</option>
                     <option value="footwear" {% if request.GET.category == "footwear" %}selected{% endif %}>Footwear</option>
                 </select>
+                <label for="category" class="mr-2">Store:</label>
+                <select name="shop_name" id="shop_name" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800">
+                    <option value="">All</option>
+                    <option value="THIS IS APRIL" {% if request.GET.shop_name == "THIS IS APRIL" %}selected{% endif %}>THIS IS APRIL</option>
+                    <option value="Nayara Batik" {% if request.GET.shop_name == "Tokopedia" %}selected{% endif %}>Nayara Batik</option>
+                    <option value="Buttonscarves" {% if request.GET.shop_name == "Buttonscarves" %}selected{% endif %}>Buttonscarves</option>
+                    <option value="THENBLANK" {% if request.GET.shop_name == "Tokopedia" %}selected{% endif %}>THENBLANK</option>
+                    <option value="Parang Kencana" {% if request.GET.shop_name == "Parang Kencana" %}selected{% endif %}>Parang Kencana</option>
+                </select>
             </div>
         </form>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
