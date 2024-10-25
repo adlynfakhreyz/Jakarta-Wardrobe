@@ -11,67 +11,66 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
-      .hero-bg {
-        background-image: url("{% static 'images/HERO 1 FIX.png' %}");
+      .hero-slide {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        width: 100vw;
+        scrollbar-width: none;
+      }
+    
+      .hero-bg, .hero-bg-2, .hero-bg-3 {
+        flex: 0 0 100%;
         background-size: cover;
         background-position: center;
         height: 100vh;
         position: relative;
-        overflow: hidden; /* Ensure the container doesn't show anything outside the border */
+        scroll-snap-align: start;
+        overflow: hidden;
+        z-index: 0;
       }
-      .hero-bg::before {
+    
+      .hero-bg::before, .hero-bg-2::before, .hero-bg-3::before {
         content: "";
         display: block;
         position: absolute;
         width: 100%;
         height: 100%;
-        opacity: 0.5;
-        border-radius: 1rem; /* Ensure the overlay respects the border radius */
+        border-radius: 1rem;
       }
+    
       .hero-btn {
         position: absolute;
         color: white;
         z-index: 1;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Shadow to make text more readable */
-      }        
-      .urbanist-<uniquifier> {
-          font-family: "Urbanist", sans-serif;
-          font-optical-sizing: auto;
-          font-weight: <weight>;
-          font-style: normal;
-      }
-      .source-code-pro-<uniquifier> {
-        font-family: "Source Code Pro", serif;
-        font-optical-sizing: auto;
-        font-weight: <weight>;
-        font-style: normal;
-      }
-      .bebas-neue-regular {
-        font-family: "Bebas Neue", serif;
-        font-weight: 400;
-        font-style: normal;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
       }
     </style>
   </head> 
   {% include "navbar.html" %}
-  <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;">  
+  <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;scrollbar-x-width: none;">  
     <div class="">
-    <div class="hero flex-col mt-15 h-screen">
-      <div class="hero-bg flex flex-col justify-center items-end scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
-        <div class="hero-btn flex flex-col justify-center">
-        <button class="bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 mt-56 mr-80 rounded-lg">Explore Now</button>
+      <div class="hero-slide" id="hero-slide">
+        <div class="hero-bg justify-center items-end" style="background-image: url('{% static 'images/HERO 1 FIX.png' %}');">
+            <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Shop Now</button>
         </div>
+        <div class="hero-bg-2" style="background-image: url('{% static 'images/HERO 2 FIX.png' %}');">
+            <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Explore Now</button>
+        </div>
+        <div class="hero-bg-3" style="background-image: url('{% static 'images/HERO 3 FIX.png' %}');">
+          <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Explore Now</button>
       </div>
     </div>
     <div class="flex-grow">
       <!-- Hero Section with Slider -->
-      <div class="relative flex justify-center items-center h-screen mt-0">
+      <div class="relative flex justify-center items-center h-screen md:h-screen">
         <div class="overflow-hidden relative flex justify-center items-center">
-          <p class="absolute text-4xl font-bold text-white">Welcome to our store</p>
-          <div class="flex transition-transform duration-500 ease-in-out" id="slider" style="width: calc(100% * 3);"> <!-- Multiplied by the number of slides -->
-            <img src="{% static 'images/HERO 2 FIX.png' %}" alt="slide1" class="h-96 w-80 object-cover rounded-xl " style="min-width: 100%;">
-            <img src="{% static 'images/HERO 3 FIX.png' %}" alt="slide2" class="h-96 w-80 object-cover rounded-xl " style="min-width: 100%;">
-            <img src="{% static 'images/jkt2.jpg' %}" alt="slide3" class="h-96 w-80 object-cover rounded-xl " style="min-width: 100%;">
+          <div class="flex transition-transform duration-500 ease-in-out" id="slider" style="width: calc(100% * 3);">
+            <img src="{% static 'images/HERO 2 FIX.png' %}" alt="slide1" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
+            <img src="{% static 'images/HERO 3 FIX.png' %}" alt="slide2" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
+            <img src="{% static 'images/jkt2.jpg' %}" alt="slide3" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
           </div>
         </div>
         <!-- Navigation Buttons -->
@@ -86,44 +85,74 @@
           </svg>
         </button>
       </div>
-      <!-- Categories and Best Sellers Sections remain unchanged -->
-      <h2 class="text-3xl flex justify-center font-bold text-gray-800">Categories</h2>
-      <div id="categories" class="flex justify-center items-center my-10 mt-5">
-        <div class="grid grid-cols-4 gap-4 mt-4 mx-10">
-          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/userchoice.jpg' %}" alt="food" class="h-40 w-full object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">User Choices</h3>
+      <div class="brands-container relative flex flex-col">
+        <h2 class="text-3xl flex justify-start font-bold text-gray-800 ml-10 md:ml-40">Brands</h2>
+        <div class="relative flex justify-start items-center my-8 ml-10 md:ml-44">
+          <div class="bg-transparent rounded-full transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/brand1.png' %}" alt="brand1" class="h-24 w-24 md:h-32 md:w-32 rounded-full">
           </div>
-          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/woman.jpg' %}" alt="clothes" class="h-40 w-full object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">Womens Clothing</h3>
+          <div class="bg-transparent ml-4 md:ml-8 rounded-full transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/brand2.png' %}" alt="brand2" class="h-24 w-24 md:h-32 md:w-32 object-cover rounded-full">
           </div>
-          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/men.jpg' %}" alt="electronics" class="h-40 w-full object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">Mens Clothing</h3>
+          <div class="bg-transparent ml-4 md:ml-8 rounded-full transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/brand3.png' %}" alt="brand3" class="h-24 w-24 md:h-32 md:w-32 object-cover rounded-full">
           </div>
-          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/footwear.jpg' %}" alt="furniture" class="h-40 w-full object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">Footwear</h3>
+          <div class="bg-transparent ml-4 md:ml-8 rounded-full transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/brand4.png' %}" alt="brand4" class="h-24 w-24 md:h-32 md:w-32 object-cover rounded-full">
+          </div>
+          <div class="bg-transparent ml-4 md:ml-8 rounded-full transition-transform duration-300 transform hover:scale-105">
+            <img src="{% static 'images/brand5.png' %}" alt="brand5" class="h-24 w-24 md:h-32 md:w-32 object-cover rounded-full">
           </div>
         </div>
       </div>
-      <h2 class="text-3xl flex justify-center font-bold text-gray-800">Best Seller</h2>
-      <div id="bestseller" class="flex justify-center items-center my-10 mt-5">
-        <div class="grid grid-cols-3 gap-4 mt-4 mx-10">
-          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105 animate-shine">
-            <img src="{% static 'images/food.jpg' %}" alt="food" class="h-40 w-40 object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">Food</h3>
+      <!-- Categories and Best Sellers Sections remain unchanged -->
+      <div class="categories-container mt-8">
+        <h2 class="text-3xl font-bold text-gray-800 ml-10 md:ml-40">Categories</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mx-10 md:mx-40 my-8">
+          <div class="relative group" style="background-color: #F8F0E7;">
+            <img src="{% static 'images/userchoices.png' %}" alt="User Choice" class="w-full h-44 object-contain rounded-lg">
+            <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
+              <span class="text-white text-lg font-bold">User Choice</span>
+            </button>
           </div>
-          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/clothes.jpg' %}" alt="clothes" class="h-40 w-40 object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">Clothes</h3>
+          <div class="relative group " style="background-color: #E0CFBA;">
+            <img src="{% static 'images/menz.png' %}" alt="Men's Clothing" class="w-full h-44 object-contain rounded-lg">
+            <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
+              <span class="text-white text-lg font-bold">Men's Clothing</span>
+            </button>
           </div>
-          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/electronics.jpg' %}" alt="electronics" class="h-40 w-40 object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">Electronics</h3>
+          <div class="relative group" style="background-color: #333333;">
+            <img src="{% static 'images/womanz.png' %}" alt="Women's Clothing" class="w-full h-44 object-contain rounded-lg">
+            <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
+              <span class="text-white text-lg font-bold">Women's Clothing</span>
+            </button>
+          </div>
+          <div class="relative group" style="background-color: #D7D6D6;">
+            <img src="{% static 'images/foot.png' %}" alt="Footwear" class="w-full h-44 object-contain rounded-lg">
+            <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
+              <span class="text-white text-lg font-bold">Footwear</span>
+            </button>
           </div>
         </div>
+      </div>
+        
+      </div>
+      <div class="flex flex-col mt-5">
+      <h2 class="text-3xl flex justify-start font-bold text-gray-800 ml-10 md:ml-40">Best Seller</h2>
+      <div id="bestseller" class="flex justify-start my-10 ml-10 md:ml-40 mt-5">
+      <!-- Show best rated products -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 my-8">
+        {% for product in products %}
+        <div class="relative group" style="background-color: #F8F0E7;">
+          <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-44 object-contain rounded-lg">
+          <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
+            <span class="text-white text-lg font-bold">{{ product.name }}</span>
+          </button>
+        </div>
+        {% empty %}
+        <p>No products found.</p>  <!-- Fallback in case no products are returned -->
+        {% endfor %}
+      </div>      
       </div>
     </div>
     </div>
@@ -132,7 +161,7 @@
     </a>
     {% include "footer.html" %}
   </body>  
-</html>
+</html> 
 
 <script>
   const slider = document.getElementById('slider');
@@ -162,11 +191,4 @@
   });
 
 </script>
- {% comment %} <div class="relative flex flex-col m-10 ml-5 w:1/2">
-          <p class="text-lg">Hi, Welcome to <span class="text-lg font-bold">Jakarta Wardrobe</span></p>
-          <p class="text-2xl font-bold text-gray-400 mr-10">Explore Jakarta's vibrant fashion scene, from local streetwear to luxury brands, all in one dynamic online hub.</p>
-        </div>
-        <div class="flex flex-col mt-10">
-          <img src="{% static 'images/jakarta.jpg' %}" alt="Jakarta" class="h-96 w-96 object-cover rounded-xl">
-</div> {% endcomment %}
 {% endblock content %}

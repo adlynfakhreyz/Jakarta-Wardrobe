@@ -4,12 +4,12 @@
       
       <!-- Logo -->
       <a class="font-bold text-gray-800 transition-transform duration-300 transform hover:scale-105">
-        <img src="{% static 'images/logo.png' %}" alt="logo" class="h-10">
+        <img src="{% static 'images/logo2.png' %}" alt="logo" class="h-10">
       </a>
       
       <!-- Navigation Links -->
       <div class="hidden md:flex space-x-8">
-        <a href = "{%url 'main:show_main'%} "class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Home</a>
+        <a href = {% url 'main:show_main' %} class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Home</a>
         
         <!-- Categories Dropdown -->
         <div class="relative inline-block text-left">
