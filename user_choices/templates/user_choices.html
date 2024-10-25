@@ -220,25 +220,6 @@
       </div>
     </div>
 
-
-    <div id="success-notif" class="notification success-notification">
-        <span class="notification-icon">&#x2714;</span>
-        <span id="success-messages"></span>
-    </div>
-
-    <div class="notification failure-notification">
-        <span class="notification-icon">&#x2716;</span>
-        <span>Operation failed. Please try again.</span>
-    </div>
-
-    <div id="confirm-notif" class="notification failure-notification">
-        <div>
-            <span><strong>Remove this from your user choices?</strong></span>
-        </div>
-        <button class="notif-button confirm-btn">Confirm</button>
-        <button class="notif-button cancel-btn">Cancel</button>
-    </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
       
@@ -290,7 +271,7 @@
 
       refreshPage(); // Call the function to fetch and display product data on page load
 
-      function toggleWishlist(itemId, isInUserChoices) {
+      function toggleWishlist(productId, isInUserChoices) {
 
         if (isInUserChoices) {
             // Confirmation dialog for removing from wishlist
@@ -302,14 +283,14 @@
         const method = isInUserChoices ? 'DELETE' : 'POST';
         const operation = isInUserChoices ? 'delete' : 'add';
       
-        fetch(`/user_choices/${operation}_user_choices/${itemId}`, {
+        fetch(`/user_choices/${operation}_user_choices/${productId}`, {
             method: method,
 
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': '{{ csrf_token }}'  // Ensure the CSRF token is included
             },
-            body: JSON.stringify({ choice: itemId })
+            body: JSON.stringify({ choice: productId })
         })
         .then(response => response.json())
         .then(data => {
@@ -383,6 +364,7 @@
                         const likeButton = getButton(productId);
 
                         $('#modalLikeButtonContainer').html(likeButton);
+
                         $('#productModal').fadeIn(300);
                     },
                     error: function(xhr) {
@@ -406,7 +388,7 @@
         $('#productModal').click(function(event) {
             // Cek apakah klik terjadi di luar konten modal
             if (!$(event.target).closest('.modal-content').length) {
-            $('#productModal').fadeOut(300); // Animasi menghilang
+                $('#productModal').fadeOut(300); // Animasi menghilang
             }
         });
     });
