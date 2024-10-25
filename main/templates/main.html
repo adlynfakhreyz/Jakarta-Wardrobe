@@ -100,10 +100,15 @@
           <div class="bg-transparent ml-4 md:ml-8 rounded-full transition-transform duration-300 transform hover:scale-105">
             <img src="{% static 'images/brand4.png' %}" alt="brand4" class="h-24 w-24 md:h-32 md:w-32 object-cover rounded-full">
           </div>
+          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
+            <a href="{% url 'products:show_products_by_category' 'Footwear' %}">
+              <img src="{% static 'images/footwear.jpg' %}" alt="footwear" class="h-40 w-full object-cover rounded-lg">
+              <h3 class="text-lg font-bold mt-2">Footwear</h3>
+            </a>
           <div class="bg-transparent ml-4 md:ml-8 rounded-full transition-transform duration-300 transform hover:scale-105">
             <img src="{% static 'images/brand5.png' %}" alt="brand5" class="h-24 w-24 md:h-32 md:w-32 object-cover rounded-full">
           </div>
-        </div>
+        </div>        
       </div>
       <!-- Categories and Best Sellers Sections remain unchanged -->
       <div class="categories-container mt-8">
