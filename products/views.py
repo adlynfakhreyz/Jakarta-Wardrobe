@@ -17,31 +17,6 @@ def show_products_by_category(request, category_keyword):
     products = Product.objects.filter(category__iregex=r'\b{}\b'.format(re.escape(category_keyword))).annotate(avg_rating=Avg('rating__rating')).order_by('name')
     return render(request, 'product_page.html', {'products': products})
 
-def get_products_by_category(request, category):
-    products = Product.objects.filter(category=category).values('id', 'name', 'price', 'img_url', 'description')
-    return JsonResponse(list(products), safe=False)
-
-def show_products_by_category(request, category):
-    products = Product.objects.filter(category=category)
-    products_data = list(products.values())
-    return JsonResponse(products_data, safe=False)
-
-def show_men_products(request):
-    products = Product.objects.filter(category='Men')
-    return JsonResponse(list(products.values()), safe=False)
-
-def show_women_products(request):
-    products = Product.objects.filter(category='Women')
-    return render(request, 'product_page.html', {'products': products})
-
-def show_footwear_products(request):
-    products = Product.objects.filter(category='Footwear')
-    return render(request, 'product_page.html', {'products': products})
-
-def show_three_products(request):
-    products = Product.objects.all()[:3]
-    return render(request, 'main.html', {'products': products})
-
 def product_detail(request, product_id):
     try:
         product = Product.objects.get(uuid=product_id)
@@ -146,3 +121,42 @@ def get_ratings_comments(request, product_id):
     comment_list = list(comments.values('comment', 'timestamp', 'user__username'))
 
     return JsonResponse({'ratings': rating_list, 'comments': comment_list}, safe=False)
+
+def show_five_products(request):
+    products = Product.objects.all()[:7]
+    return render(request, 'main.html', {'products': products})
+
+from django.db.models import Q, Avg
+
+def find_product(request):
+    query = request.GET.get('q', '')
+    filter_type = request.GET.get('filter', '')
+    category = request.GET.get('category', '')
+
+    # Start with all products
+    products = Product.objects.all()
+
+    # Filter by query if provided
+    if query:
+        products = products.filter(Q(name__icontains=query) | Q(desc__icontains=query))
+
+    # Filter by category if selected
+    if category:
+        products = products.filter(category__iexact=category)
+
+    # Handle the filters based on radio button selection
+    if filter_type == 'price_asc':
+        # Sort by price (lowest to highest)
+        products = products.order_by('price')
+    elif filter_type == 'price_desc':
+        # Sort by price (highest to lowest)
+        products = products.order_by('-price')
+    elif filter_type == 'rating':
+        # Sort by average rating (highest to lowest)
+        products = products.annotate(avg_rating=Avg('rating__rating')).order_by('-avg_rating')
+
+    return render(request, 'product_page.html', {'products': products})
+
+def show_best_10_products(request):
+    products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('-avg_rating')[:10]
+    return render(request, 'main.html', {'products': products})

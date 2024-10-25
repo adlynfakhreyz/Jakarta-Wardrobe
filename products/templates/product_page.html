@@ -1,3 +1,4 @@
+{% load static %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -138,12 +139,59 @@
         transform: scale(1.05); 
         transition: transform 0.3s ease-in-out; 
         }
+
+        footer {
+            margin-top: auto; /* Ensures footer sticks to the bottom */
+        }
         </style>
 </head>
 {% include "navbar.html" %}
 <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-8 flex-grow">
         <h1 class="text-3xl font-bold text-center mb-8">Product Page</h1>
+        <form class="mb-4" method="GET" action="{% url 'products:find_product' %}">
+            <div class="flex items-center">
+                <!-- Search Input -->
+                <input 
+                    type="text" 
+                    name="q" 
+                    value="{{ request.GET.q }}" 
+                    class="mt-2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800" 
+                    placeholder="Search by name...">
+                <button type="submit">
+                    <img src="{% static 'images/search.png' %}" alt="search" class="h-6 w-6 ml-4 transform hover:scale-110">
+                </button>
+            </div>
+        
+            <!-- Filter Section -->
+            <div class="mt-4 flex items-center space-x-4">
+                <p class="mr-4 font-semibold">Filter by:</p>
+        
+                <!-- Price Sorting Radio Buttons -->
+                <label class="flex items-center">
+                    <input type="radio" name="filter" value="price_asc" class="mr-2" {% if request.GET.filter == "price_asc" %}checked{% endif %}> Price (Lowest to Highest)
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="filter" value="price_desc" class="mr-2" {% if request.GET.filter == "price_desc" %}checked{% endif %}> Price (Highest to Lowest)
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="filter" value="rating" class="mr-2" {% if request.GET.filter == "rating" %}checked{% endif %}> Rating
+                </label>
+        
+                <!-- Category Dropdown -->
+                <label for="category" class="mr-2">Category:</label>
+                <select name="category" id="category" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800">
+                    <option value="">All</option>
+                    <option value="dress" {% if request.GET.category == "dress" %}selected{% endif %}>Dress</option>
+                    <option value="scarf" {% if request.GET.category == "scarf" %}selected{% endif %}>Scarf</option>
+                    <option value="men - tops" {% if request.GET.category == "men - tops" %}selected{% endif %}>Men - Tops</option>
+                    <option value="women - tops" {% if request.GET.category == "women - tops" %}selected{% endif %}>Women - Tops</option>
+                    <option value="men - bottoms" {% if request.GET.category == "men - bottoms" %}selected{% endif %}>Men - Bottoms</option>
+                    <option value="women - bottoms" {% if request.GET.category == "women - bottoms" %}selected{% endif %}>Women - Bottoms</option>
+                    <option value="footwear" {% if request.GET.category == "footwear" %}selected{% endif %}>Footwear</option>
+                </select>
+            </div>
+        </form>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for product in products %}
             <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card"
@@ -159,9 +207,11 @@
                         {% else %}
                           No ratings yet
                         {% endif %}
-                      </p>
+                    </p>
                 </div>
             </div>
+            {% empty %}
+            <p class="col-span-4 text-center text-gray-500">No products found</p>
             {% endfor %}
         </div>
     </div>

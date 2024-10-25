@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import show_products_by_price, show_products_by_category,show_three_products, review_products, add_rating, add_comment, get_ratings_comments, show_products_by_category, product_detail
+from .views import show_products_by_price, show_products_by_category, review_products, add_rating, add_comment, get_ratings_comments, show_products_by_category, product_detail
+from . import views
 app_name = 'products'
 
 urlpatterns = [
@@ -10,6 +11,6 @@ urlpatterns = [
     path('get_ratings_comments/<uuid:product_id>/', get_ratings_comments, name='get_ratings_comments'),
     path('detail/<uuid:product_id>/', product_detail, name='product_detail'),
     path('product/<uuid:product_id>/', views.product_detail, name='product_detail'),
-    path('api/products/category/<str:category>/', views.get_products_by_category, name='get_products_by_category'),
     path('category/<str:category_keyword>/', show_products_by_category, name='show_products_by_category'),
+    path('products/find/', views.find_product, name='find_product'),
 ]

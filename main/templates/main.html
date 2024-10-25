@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900&display=swap" rel="stylesheet">
     <style>
       .hero-slide {
         display: flex;
@@ -20,7 +20,6 @@
         width: 100vw;
         scrollbar-width: none;
       }
-    
       .hero-bg, .hero-bg-2, .hero-bg-3 {
         flex: 0 0 100%;
         background-size: cover;
@@ -31,7 +30,6 @@
         overflow: hidden;
         z-index: 0;
       }
-    
       .hero-bg::before, .hero-bg-2::before, .hero-bg-3::before {
         content: "";
         display: block;
@@ -40,7 +38,6 @@
         height: 100%;
         border-radius: 1rem;
       }
-    
       .hero-btn {
         position: absolute;
         color: white;
@@ -51,6 +48,7 @@
   </head> 
   {% include "navbar.html" %}
   <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;scrollbar-x-width: none;">  
+
     <div class="">
       <div class="hero-slide" id="hero-slide">
         <div class="hero-bg justify-center items-end" style="background-image: url('{% static 'images/HERO 1 FIX.png' %}');">
@@ -63,6 +61,93 @@
           <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Explore Now</button>
       </div>
     </div>
+
+    <!-- New "Our Advantages" Section Below Hero Slide -->
+    <div class="py-12 h-screen">
+      <h2 class="text-4xl font-bold text-gray-800 text-center mb-8">Why Choose Us</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-10 md:mx-40">
+        <!-- Trendy Products -->
+        <div class="flex flex-col items-center text-center transform hover:scale-105">
+          <img src="{% static 'images/star.png' %}" alt="Trendy Products" class="h-16 w-16 mb-4">
+          <h3 class="text-2xl font-semibold text-gray-800">Trendy Products</h3>
+          <p class="text-gray-600 mt-2">We offer the latest products that are trending in the market, ensuring you stay ahead of the curve.</p>
+        </div>
+        
+        <!-- Top Quality -->
+        <div class="flex flex-col items-center text-center transform hover:scale-105">
+          <img src="{% static 'images/topquality.png' %}" alt="Top Quality" class="h-16 w-16 mb-4">
+          <h3 class="text-2xl font-semibold text-gray-800">Top Quality</h3>
+          <p class="text-gray-600 mt-2">We offer only the best products that meet our quality standards, ensuring satisfaction for every customer.</p>
+        </div>
+    
+        <!-- Jakarta's Best -->
+        <div class="flex flex-col items-center text-center transform hover:scale-105">
+          <img src="{% static 'images/town.png' %}" alt="Jakarta's Best" class="h-16 w-16 mb-4">
+          <h3 class="text-2xl font-semibold text-gray-800">Jakarta's Best</h3>
+          <p class="text-gray-600 mt-2">Our products are sourced from the best suppliers in Jakarta, ensuring you get the best quality products.</p>
+        </div>
+        
+        <!-- Affordable Prices -->
+        <div class="flex flex-col items-center text-center transform hover:scale-105">
+          <img src="{% static 'images/affordable.png' %}" alt="Affordable Prices" class="h-16 w-16 mb-4">
+          <h3 class="text-2xl font-semibold text-gray-800">Affordable Prices</h3>
+          <p class="text-gray-600 mt-2">We offer competitive prices that make it easy for you to enjoy premium quality without breaking the bank.</p>
+        </div>
+    
+        <!-- Exclusive Offers -->
+        <div class="flex flex-col items-center text-center transform hover:scale-105">
+          <img src="{% static 'images/exclusive.png' %}" alt="Exclusive Offers" class="h-16 w-16 mb-4">
+          <h3 class="text-2xl font-semibold text-gray-800">Exclusive Offers</h3>
+          <p class="text-gray-600 mt-2">Unlock special deals and discounts exclusively available to our customers, bringing you the best value for your money.</p>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="bg-gray-100 py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+        <div class="text-center mb-20">
+          <h2 class="text-4xl font-extrabold text-gray-800">Our Key Features</h2>
+          <p class="mt-4 text-gray-600">Discover the tools that make your shopping experience unique.</p>
+        </div>
+    
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- User Choice Card -->
+          <div class="relative bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform">
+            <div class="absolute -top-12 left-1/2 transform -translate-x-1/2">
+              <img src="{% static 'images/choice.png' %}" alt="User Choice" class="h-20 w-20">
+            </div>
+            <div class="mt-10 text-center">
+              <h3 class="text-2xl font-semibold text-gray-800 mb-4">User Choice</h3>
+              <p class="text-gray-600">Easily add items to your personalized "User Choice" list, allowing you to save and revisit products tailored to your preferences.</p>
+            </div>
+          </div>
+    
+          <!-- Global Chat Card -->
+          <div class="relative bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform">
+            <div class="absolute -top-12 left-1/2 transform -translate-x-1/2">
+              <img src="{% static 'images/globalchat.png' %}" alt="Global Chat" class="h-20 w-20">
+            </div>
+            <div class="mt-10 text-center">
+              <h3 class="text-2xl font-semibold text-gray-800 mb-4">Global Chat</h3>
+              <p class="text-gray-600">Join the discussion with other buyers from around the world. Ask questions, share experiences, and get recommendations in real time.</p>
+            </div>
+          </div>
+    
+          <!-- Rating and Review Card -->
+          <div class="relative bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform">
+            <div class="absolute -top-12 left-1/2 transform -translate-x-1/2">
+              <img src="{% static 'images/review.png' %}" alt="Rating and Review" class="h-20 w-20">
+            </div>
+            <div class="mt-10 text-center">
+              <h3 class="text-2xl font-semibold text-gray-800 mb-4">Rating and Review</h3>
+              <p class="text-gray-600">Share your experience with others by leaving a rating and review on purchased products. Help others make informed decisions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="flex-grow">
       <!-- Hero Section with Slider -->
       <div class="relative flex justify-center items-center h-screen md:h-screen">
@@ -85,6 +170,8 @@
           </svg>
         </button>
       </div>
+      <!-- Brands Section -->
+       <div class="h-screen">
       <div class="brands-container relative flex flex-col">
         <h2 class="text-3xl flex justify-start font-bold text-gray-800 ml-10 md:ml-40">Brands</h2>
         <div class="relative flex justify-start items-center my-8 ml-10 md:ml-44">
@@ -100,13 +187,8 @@
           <div class="bg-transparent ml-4 md:ml-8 rounded-full transition-transform duration-300 transform hover:scale-105">
             <img src="{% static 'images/brand4.png' %}" alt="brand4" class="h-24 w-24 md:h-32 md:w-32 object-cover rounded-full">
           </div>
-          <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <a href="{% url 'products:show_products_by_category' 'Footwear' %}">
-              <img src="{% static 'images/footwear.jpg' %}" alt="footwear" class="h-40 w-full object-cover rounded-lg">
-              <h3 class="text-lg font-bold mt-2">Footwear</h3>
-            </a>
           <div class="bg-transparent ml-4 md:ml-8 rounded-full transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/brand5.png' %}" alt="brand5" class="h-24 w-24 md:h-32 md:w-32 object-cover rounded-full">
+            <img src="{% static 'images/brand5.png' %}" alt="brand4" class="h-24 w-24 md:h-32 md:w-32 object-cover rounded-full">
           </div>
         </div>        
       </div>
@@ -121,45 +203,79 @@
             </button>
           </div>
           <div class="relative group " style="background-color: #E0CFBA;">
+            <a href="{% url 'products:show_products_by_category' 'Men' %}">
             <img src="{% static 'images/menz.png' %}" alt="Men's Clothing" class="w-full h-44 object-contain rounded-lg">
             <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
               <span class="text-white text-lg font-bold">Men's Clothing</span>
             </button>
+            </a>
           </div>
           <div class="relative group" style="background-color: #333333;">
+            <a href="{% url 'products:show_products_by_category' 'Women' %}">
             <img src="{% static 'images/womanz.png' %}" alt="Women's Clothing" class="w-full h-44 object-contain rounded-lg">
             <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
               <span class="text-white text-lg font-bold">Women's Clothing</span>
             </button>
+            </a>
           </div>
           <div class="relative group" style="background-color: #D7D6D6;">
+            <a href="{% url 'products:show_products_by_category' 'Footwear' %}">
             <img src="{% static 'images/foot.png' %}" alt="Footwear" class="w-full h-44 object-contain rounded-lg">
             <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
               <span class="text-white text-lg font-bold">Footwear</span>
             </button>
+            </a>
           </div>
         </div>
       </div>
+      </div>
         
       </div>
-      <div class="flex flex-col mt-5">
-      <h2 class="text-3xl flex justify-start font-bold text-gray-800 ml-10 md:ml-40">Best Seller</h2>
-      <div id="bestseller" class="flex justify-start my-10 ml-10 md:ml-40 mt-5">
-      <!-- Show best rated products -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4 my-8">
-        {% for product in products %}
-        <div class="relative group" style="background-color: #F8F0E7;">
-          <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-44 object-contain rounded-lg">
-          <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
-            <span class="text-white text-lg font-bold">{{ product.name }}</span>
-          </button>
+      <!-- Updated Products Overview Section -->
+      <!-- Updated Products Overview Section -->
+      <div class="bg-gray-100 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 class="text-3xl font-bold text-gray-800 mb-8">Featured products</h2>
+
+          <div class="flex space-x-4 overflow-x-scroll px-10 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none; margin-right:15px; overflow-y:hidden;">
+            
+            <!-- Product Card Loop -->
+            {% for product in products %}
+            <div class="w-60 h-75% object-contain transition-transform duration-50 ease-in-out transform hover:scale-110 hover:shadow-lg {% cycle 'bg-yellow-50' 'bg-yellow-100' 'bg-yellow-200' 'bg-yellow-50' 'bg-yellow-100' %}" style="padding:15px"> 
+              
+              <!-- Product Image -->
+              <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-300">
+
+              <!-- Product Details -->
+              <div class="p-4">
+                <h3 class="text-lg font-semibold text-gray-800">{{ product.name }}</h3>
+
+                <!-- Price Section -->
+                <div class="mt-2">
+                  <span class="text-xl font-bold text-gray-900">Rp{{ product.price }}</span>
+                </div>
+
+                <!-- Rating Section -->
+                <div class="flex items-center mt-2">
+                  <span class="text-yellow-400">★</span>
+                  <span class="ml-1 text-gray-600">
+                    {% if product.avg_rating %}
+                        {{ product.avg_rating|floatformat:1 }}
+                    {% else %}
+                        No ratings yet
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <p class="col-span-3 text-center text-gray-500">No products found</p>
+            {% endfor %}
+          </div>
         </div>
-        {% empty %}
-        <p>No products found.</p>  <!-- Fallback in case no products are returned -->
-        {% endfor %}
-      </div>      
       </div>
-    </div>
+
+
     </div>
     <a href="{% url 'main:logout' %}">
       <button>Logout</button>
