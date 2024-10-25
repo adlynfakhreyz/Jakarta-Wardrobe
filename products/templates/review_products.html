@@ -5,10 +5,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <title>Review Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<title>Review Page</title>
 </head>
 {% include "navbar.html" %}
-<body class="bg-gray-100 flex flex-col min-h-screen font-sans">
+<body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;">
   <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold text-center mb-8">Review Page</h1>
 
@@ -48,7 +51,7 @@
                     <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
                     <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
                 </div>
-                <button type="submit" class="button-submit text-white py-1 px-4 mt-2">Submit Rating</button>
+                <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold text-white py-1 px-4 mt-2 rounded-lg">Submit Rating</button>
             </form>
           </div>
         </div>
@@ -87,7 +90,7 @@
             {% csrf_token %}
             <input type="hidden" name="product_id" value="{{ product.uuid }}">
             <textarea name="comment" rows="4" placeholder="Add a comment..." class="border w-full p-2 rounded mb-2"></textarea>
-            <button type="submit" class="button-submit py-1 px-4 mt-2">Submit Comment</button>
+            <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg">Submit Comment</button>
         </form>
       
         <h2 class="text-xl font-bold mb-4 text-center">Comments</h2>
@@ -107,11 +110,12 @@
       </div>
     </div>
     <div class="mt-10 text-center">
-      <a href="{% url 'products:show_products_by_price' %}" class="button-back py-1 px-4 mt-2">
+      <a href="{% url 'products:show_products_by_price' %}" class="button-back font-bold py-1 px-4 mt-2 rounded-lg">
             Back
       </a>
     </div>
   </div>
+{% include "footer.html" %}
 </body>
 </html>
 {% endblock %}
@@ -140,38 +144,15 @@
       color: #FFD700; 
   }
 
-  .button-submit{
-    background-color: #27144b; 
-    color: #ffffff;
-    border: 2px solid #27144b;
-    border-radius: 12px;
-    transition: background-color 0.3s, color 0.3s, border 0.3s;
-    font-weight: bold;
-  }
-
-  .button-submit:hover{
-    background-color: #ffffff;
-    color: #27144b;
-    border: 2px solid #27144b;
-    border-radius: 12px;
-    font-weight: bold;
-  }
-
   .button-back{
     background-color: #8b1a1a; 
     color: #ffffff;
-    border: 2px solid #8b1a1a;
-    border-radius: 12px;
     transition: background-color 0.3s, color 0.3s, border 0.3s;
-    font-weight: bold;
   }
 
   .button-back:hover{
-    background-color: #ffffff;
-    color: #8b1a1a;
-    border: 2px solid #8b1a1a;
-    border-radius: 12px;
-    font-weight: bold;
+    background-color: #7a1616;
+    color: #ffffff;
   }
 
 </style>

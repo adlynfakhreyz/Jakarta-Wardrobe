@@ -17,7 +17,7 @@
         background-position: center;
         height: 100vh;
         position: relative;
-        overflow: hidden; /* Ensure the container doesn't show anything outside the border */
+        overflow: hidden; 
       }
       .hero-bg::before {
         content: "";
@@ -26,31 +26,14 @@
         width: 100%;
         height: 100%;
         opacity: 0.5;
-        border-radius: 1rem; /* Ensure the overlay respects the border radius */
+        border-radius: 1rem; 
       }
       .hero-btn {
         position: absolute;
         color: white;
         z-index: 1;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Shadow to make text more readable */
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8); 
       }        
-      .urbanist-<uniquifier> {
-          font-family: "Urbanist", sans-serif;
-          font-optical-sizing: auto;
-          font-weight: <weight>;
-          font-style: normal;
-      }
-      .source-code-pro-<uniquifier> {
-        font-family: "Source Code Pro", serif;
-        font-optical-sizing: auto;
-        font-weight: <weight>;
-        font-style: normal;
-      }
-      .bebas-neue-regular {
-        font-family: "Bebas Neue", serif;
-        font-weight: 400;
-        font-style: normal;
-      }
     </style>
   </head> 
   {% include "navbar.html" %}
@@ -91,22 +74,30 @@
       <div id="categories" class="flex justify-center items-center my-10 mt-5">
         <div class="grid grid-cols-4 gap-4 mt-4 mx-10">
           <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/userchoice.jpg' %}" alt="food" class="h-40 w-full object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">User Choices</h3>
+            <!-- Kasih link ke User Choice disini dlyn -->
+              <img src="{% static 'images/userchoice.jpg' %}" alt="user choices" class="h-40 w-full object-cover rounded-lg">
+              <h3 class="text-lg font-bold mt-2">User Choices</h3>
+            </a>
           </div>
           <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/woman.jpg' %}" alt="clothes" class="h-40 w-full object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">Womens Clothing</h3>
+            <a href="{% url 'products:show_products_by_category' 'Women' %}">
+              <img src="{% static 'images/woman.jpg' %}" alt="womens clothing" class="h-40 w-full object-cover rounded-lg">
+              <h3 class="text-lg font-bold mt-2">Womens Clothing</h3>
+            </a>
           </div>
           <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/men.jpg' %}" alt="electronics" class="h-40 w-full object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">Mens Clothing</h3>
+            <a href="{% url 'products:show_products_by_category' 'Men' %}">
+              <img src="{% static 'images/men.jpg' %}" alt="mens clothing" class="h-40 w-full object-cover rounded-lg">
+              <h3 class="text-lg font-bold mt-2">Mens Clothing</h3>
+            </a>
           </div>
           <div class="bg-white shadow-md rounded-lg p-4 transition-transform duration-300 transform hover:scale-105">
-            <img src="{% static 'images/footwear.jpg' %}" alt="furniture" class="h-40 w-full object-cover rounded-lg">
-            <h3 class="text-lg font-bold mt-2">Footwear</h3>
+            <a href="{% url 'products:show_products_by_category' 'Footwear' %}">
+              <img src="{% static 'images/footwear.jpg' %}" alt="footwear" class="h-40 w-full object-cover rounded-lg">
+              <h3 class="text-lg font-bold mt-2">Footwear</h3>
+            </a>
           </div>
-        </div>
+        </div>        
       </div>
       <h2 class="text-3xl flex justify-center font-bold text-gray-800">Best Seller</h2>
       <div id="bestseller" class="flex justify-center items-center my-10 mt-5">
