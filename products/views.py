@@ -8,10 +8,16 @@ from django.utils.html import strip_tags
 from django.db.models import Avg
 from django.utils import timezone
 import re
+from user_choices.models import UserChoice
 
 def show_products_by_price(request):
     products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('price')
-    return render(request, 'product_page.html', {'products': products})
+    user_choices = UserChoice.objects.filter(user=request.user).values_list('selected_item',flat=True)
+    context = {
+        'products': products,
+        'user_choices': user_choices,
+    }
+    return render(request, 'product_page.html', context)
 
 def show_products_by_category(request, category_keyword):
     products = Product.objects.filter(category__iregex=r'\b{}\b'.format(re.escape(category_keyword))).annotate(avg_rating=Avg('rating__rating')).order_by('name')
