@@ -55,7 +55,7 @@ def show_user_choices_json(request):
     data = []
     for choice in user_choices:
         data.append({
-            "id": choice.pk,
+            "id": choice.selected_item.pk,
             "category": choice.selected_item.category,
             "name": choice.selected_item.name,
             "price": choice.selected_item.price,
