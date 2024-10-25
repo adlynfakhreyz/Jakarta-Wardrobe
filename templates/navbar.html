@@ -25,9 +25,9 @@
           <!-- Dropdown Menu -->
           <div class="hidden origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="categories-button" tabindex="-1" id="categories-menu">
             <div class="py-1" role="none">
-              <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Footwear</a>
-              <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Men's Clothing</a>
-              <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Women's Clothing</a>
+              <a href="{% url 'products:show_products_by_category' 'Footwear' %}" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Footwear</a>
+              <a href="{% url 'products:show_products_by_category' 'Men' %}" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Men's Clothing</a>
+              <a href="{% url 'products:show_products_by_category' 'Women' %}" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem" tabindex="-1">Women's Clothing</a>
             </div>
           </div>
         </div>
