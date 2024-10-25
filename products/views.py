@@ -7,9 +7,14 @@ from django.views.decorators.http import require_POST
 from django.utils.html import strip_tags
 from django.db.models import Avg
 from django.utils import timezone
+import re
 
 def show_products_by_price(request):
     products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('price')
+    return render(request, 'product_page.html', {'products': products})
+
+def show_products_by_category(request, category_keyword):
+    products = Product.objects.filter(category__iregex=r'\b{}\b'.format(re.escape(category_keyword))).annotate(avg_rating=Avg('rating__rating')).order_by('name')
     return render(request, 'product_page.html', {'products': products})
 
 def product_detail(request, product_id):
@@ -24,7 +29,7 @@ def product_detail(request, product_id):
             'stock': product.stock,
             'shop_name': product.shop_name,
             'location': product.location,
-            'img_url': product.img_url,  # Tambahkan gambar produk
+            'img_url': product.img_url, 
         }
         return JsonResponse(response_data)
     except Product.DoesNotExist:
@@ -61,14 +66,12 @@ def add_rating(request):
         rating_value = int(request.POST.get('rating'))
         product = get_object_or_404(Product, uuid=product_id)
 
-        # Buat atau perbarui rating
         rating_obj, created = Rating.objects.update_or_create(
             product=product,
             user=request.user,
             defaults={'rating': rating_value}
         )
 
-        # Jika rating diperbarui, perbarui juga timestamp-nya
         if not created:
             rating_obj.timestamp = timezone.now()
             rating_obj.save() 
