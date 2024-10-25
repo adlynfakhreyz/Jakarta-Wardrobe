@@ -21,5 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('products/', include('products.urls', namespace='products')),
+<<<<<<< HEAD
     path('globalChat/', include('globalChat.urls', namespace='globalChat')),
+=======
+
+>>>>>>> 8ca68cc47a93a17f5b482a41f242ed36f14e032e
 ]

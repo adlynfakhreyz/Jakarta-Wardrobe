@@ -8,9 +8,15 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from main.models import ItemEntry
+from django.http import HttpResponse
+from django.template import loader
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.utils.text import slugify
 from django.contrib.auth.models import User
-
 import uuid
+
+
 # Create your views here.
 @login_required(login_url='/login')
 def show_main(request):
@@ -45,3 +51,12 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('main:login')
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
+
+def terms_of_service(request):
+    return render(request, 'terms_of_service.html')  
+
+def contact_us(request):
+    return render(request, 'contact_us.html')  
