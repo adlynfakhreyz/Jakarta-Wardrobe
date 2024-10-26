@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'products',
     'user_choices',
     'globalChat',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -133,6 +134,9 @@ if DEBUG:
     ]
 else:
     STATIC_ROOT = BASE_DIR / 'static' # merujuk ke /static root project pada mode production
+    
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
