@@ -31,6 +31,8 @@ def register(request):
             form.save()
             messages.success(request, 'Your account has been successfully created!')
             return redirect('main:login')
+        else:
+            messages.error(request, 'Registration failed. Please try again!')
     context = {'form':form}
     return render(request, 'register.html', context)
 

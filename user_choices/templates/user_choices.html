@@ -6,6 +6,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/notification.css' %}">
     <title>User Choices Page</title>
     <style>
@@ -170,7 +173,7 @@
     </style>
   </head>
   {% include "navbar.html" %}
-  <body class="bg-gray-100 flex flex-col min-h-screen font-sans">
+  <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;">
     <div class="container mx-auto px-4 py-8">
       <h2 id='page-title' class="text-3xl sm:text-3xl md:text-4xl lg:text-5xl pt-14 pb-10 flex justify-center font-bold text-gray-800"></h2>
       <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

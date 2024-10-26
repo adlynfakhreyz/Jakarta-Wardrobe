@@ -155,7 +155,7 @@
           <div class="flex transition-transform duration-500 ease-in-out" id="slider" style="width: calc(100% * 3);">
             <img src="{% static 'images/HERO 2 FIX.png' %}" alt="slide1" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
             <img src="{% static 'images/HERO 3 FIX.png' %}" alt="slide2" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
-            <img src="{% static 'images/jkt2.jpg' %}" alt="slide3" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
+            <img src="{% static 'images/jakaratah.webp' %}" alt="slide3" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
           </div>
         </div>
         <!-- Navigation Buttons -->
@@ -197,10 +197,12 @@
         <h2 class="text-3xl font-bold text-gray-800 ml-10 md:ml-40">Categories</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mx-10 md:mx-40 my-8">
           <div class="relative group" style="background-color: #F8F0E7;">
+            <a href="{% url 'user_choices:show_user_choices' %}">
             <img src="{% static 'images/userchoices.png' %}" alt="User Choice" class="w-full h-44 object-contain rounded-lg">
             <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
               <span class="text-white text-lg font-bold">User Choice</span>
             </button>
+            </a>
           </div>
           <div class="relative group " style="background-color: #E0CFBA;">
             <a href="{% url 'products:show_products_by_category' 'Men' %}">
