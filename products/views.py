@@ -156,7 +156,7 @@ def find_product(request):
 
     # Apply search filter if query is provided
     if query:
-        products = products.filter(Q(name__icontains=query) | Q(desc__icontains=query))
+        products = products.filter(Q(name__icontains=query) )
 
     # Apply category filter if a category is selected
     if category:
