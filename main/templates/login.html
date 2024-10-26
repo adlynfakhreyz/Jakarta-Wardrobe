@@ -12,8 +12,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Jakarta Wardrobe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <!-- Inline CSS -->
     <style>
         * {
             margin: 0;
@@ -123,7 +125,7 @@
         }
     </style>
 </head>
-<body>
+<body style="font-family: 'Urbanist', sans-serif;">
     <div class="container">
         <!-- Left section (Image and text) -->
         <div class="left-section">
@@ -137,7 +139,7 @@
 
             <form method="POST" action="{% url 'main:login' %}">
                 {% csrf_token %}
-                <input type="usernmae" name="username" placeholder="user.name" required>
+                <input type="usernmae" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit" class="btn-login">Sign In</button>
             </form>

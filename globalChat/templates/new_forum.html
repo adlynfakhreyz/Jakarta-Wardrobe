@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900&display=swap" rel="stylesheet">
+    <title>Add New Post - Global Chat</title>
+</head>
+{% include "navbar.html" %}
+
+{% block content %}
+<body style="font-family: 'Urbanist', sans-serif;">
+  <div class="min-h-screen flex flex-col items-center justify-center w-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <!-- Background Container -->
+    <div class="relative max-w-2xl w-full bg-white bg-opacity-80 py-12 px-8 rounded-2xl shadow-xl flex justify-center mt-16">
+      
+      <!-- Back Button -->
+      <a href="{% url 'globalChat:global_chat' %}" class="absolute top-4 left-4 text-gray-700 hover:text-gray-900">
+          <div class="flex items-center justify-center h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          </div>
+      </a>
+      
+      <!-- Form Content -->
+      <div class="max-w-md w-full space-y-8">
+        <div>
+          <h2 class="mt-2 text-center text-gray-800 text-3xl font-extrabold">
+            Add New Post
+          </h2>
+          <p class="mt-2 text-center text-gray-600 text-sm">Share your thoughts or questions with the JaWa community.</p>
+        </div>
+
+      <!-- Form -->
+      <form class="mt-8 space-y-6" method="POST">
+          {% csrf_token %}
+
+          <!-- Title Field -->
+          <div class="rounded-md shadow-sm -space-y-px">
+          <div>
+              <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+              <input id="title" name="title" type="text" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Got something to say? Start here! (max 75 characters)">
+              
+              <!-- Error Message for Title Field -->
+              {% if form.title.errors %}
+                  <p class="text-red-600 text-sm mt-1">{{ form.title.errors.0 }}</p>
+              {% endif %}
+          </div>
+          </div>
+
+          <!-- Description Field -->
+          <div class="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+              <textarea id="description" name="description" rows="9" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Write your post here..."></textarea>
+            </div>
+          </div>
+
+          <!-- Purpose Dropdown -->
+          <div class="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label for="purpose" class="block text-sm font-medium text-gray-700">Purpose</label>
+              <select id="purpose" name="purpose" class="appearance-none rounded-b-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <option value="Asking" selected>Asking</option>
+                <option value="Sharing">Sharing</option>
+                <option value="Open Discussion">Open Discussion</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="flex justify-center mt-6">
+            <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              Submit Post
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+{% include "footer.html" %}
+
+{% endblock content %}
