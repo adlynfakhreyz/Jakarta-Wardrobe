@@ -7,10 +7,8 @@ from user_choices.models import UserChoice
 class UserChoicesViewsTest(TestCase):
 
     def setUp(self):
-        # Create a test user
         self.user = User.objects.create_user(username='testuser', password='password123')
         
-        # Create a test product
         self.product = Product.objects.create(
             name='Test Product',
             category='Test Category',
@@ -23,7 +21,6 @@ class UserChoicesViewsTest(TestCase):
             img_url='http://example.com/test.jpg'
         )
         
-        # Log in the test user
         self.client.login(username='testuser', password='password123')
 
     def test_show_user_choices(self):
@@ -37,14 +34,12 @@ class UserChoicesViewsTest(TestCase):
         self.assertEqual(UserChoice.objects.count(), 1)
 
     def test_add_existing_user_choice(self):
-        # Add the user choice first
         self.client.post(reverse('user_choices:add_user_choices', args=[self.product.pk]))
         response = self.client.post(reverse('user_choices:add_user_choices', args=[self.product.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Choice already exists.')
 
     def test_delete_user_choices(self):
-        # Add user choice first
         self.client.post(reverse('user_choices:add_user_choices', args=[self.product.pk]))
         response = self.client.delete(reverse('user_choices:delete_user_choices', args=[self.product.pk]))
         self.assertEqual(response.status_code, 200)
