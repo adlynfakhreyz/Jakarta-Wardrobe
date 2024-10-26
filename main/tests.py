@@ -66,3 +66,21 @@ class StaticPagesTest(TestCase):
         response = self.client.get(reverse('main:contact_us'))  
         self.assertEqual(response.status_code, 200)  
 
+
+class MainTest(TestCase):
+    def test_main_url_exist(self):
+        response = self.client.get('')
+        self.assertEqual(response.status_code, 200)
+
+    def test_main_template(self):
+        response = self.client.get('')
+        self.assertTemplateUsed(response, 'main.html')
+    
+    def test_main_url(self):
+        response = self.client.get(reverse('main:show_main'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_main_gaada(self):
+        response = self.client.get('/skibidi/')
+        self.assertEqual(response.status_code, 404)
+    

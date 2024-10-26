@@ -7,7 +7,6 @@ from user_choices.models import UserChoice
 class ProductViewsTest(TestCase):
 
     def setUp(self):
-        # Create a test user
         self.user = User.objects.create_user(username='testuser', password='password123')
         self.product = Product.objects.create(
             name='Test Product',
@@ -49,6 +48,10 @@ class ProductViewsTest(TestCase):
         })
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Rating.objects.count(), 1)
+
+    def test_page_gaada(self):
+        response = self.client.get('/products/skibidi/')
+        self.assertEqual(response.status_code, 404)
 
     def test_add_comment(self):
         response = self.client.post(reverse('products:add_comment'), {
