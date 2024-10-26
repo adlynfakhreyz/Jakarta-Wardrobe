@@ -1,3 +1,4 @@
+{% load static %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -138,19 +139,99 @@
         transform: scale(1.05); 
         transition: transform 0.3s ease-in-out; 
         }
+
+        .love-button {
+            background: none; /* No background */
+            border: none; /* No border */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: transform 0.2s, fill 0.2s; /* Transition for smooth effects */
+        }
+        
+        /* Hover effect */
+        .love-button:hover {
+            transform: scale(1.1); /* Scale up the button slightly */
+        }
+        
+        /* Active effect */
+        .love-button:active {
+            transform: scale(0.9); /* Scale down on click */
+        }
+
+        footer {
+            margin-top: auto; /* Ensures footer sticks to the bottom */
+        }
         </style>
 </head>
 {% include "navbar.html" %}
 <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;">
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-8 flex-grow">
         <h1 class="text-3xl font-bold text-center mb-8">Product Page</h1>
+        <form class="mb-4" method="GET" action="{% url 'products:find_product' %}">
+            <div class="flex items-center">
+                <!-- Search Input -->
+                <input 
+                    type="text" 
+                    name="q" 
+                    value="{{ request.GET.q }}" 
+                    class="mt-2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800" 
+                    placeholder="Search by name...">
+                <button type="submit">
+                    <img src="{% static 'images/search.png' %}" alt="search" class="h-6 w-6 ml-4 transform hover:scale-110">
+                </button>
+            </div>
+        
+            <!-- Filter Section -->
+            <div class="mt-4 flex items-center space-x-4">
+                <p class="mr-4 font-semibold">Filter by:</p>
+        
+                <!-- Price Sorting Radio Buttons -->
+                <label class="flex items-center">
+                    <input type="radio" name="filter" value="price_asc" class="mr-2" {% if request.GET.filter == "price_asc" %}checked{% endif %}> Price (Lowest to Highest)
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="filter" value="price_desc" class="mr-2" {% if request.GET.filter == "price_desc" %}checked{% endif %}> Price (Highest to Lowest)
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="filter" value="rating" class="mr-2" {% if request.GET.filter == "rating" %}checked{% endif %}> Rating
+                </label>
+        
+                <!-- Category Dropdown -->
+                <label for="category" class="mr-2">Category:</label>
+                <select name="category" id="category" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800">
+                    <option value="">All</option>
+                    <option value="dress" {% if request.GET.category == "dress" %}selected{% endif %}>Dress</option>
+                    <option value="scarf" {% if request.GET.category == "scarf" %}selected{% endif %}>Scarf</option>
+                    <option value="men - tops" {% if request.GET.category == "men - tops" %}selected{% endif %}>Men - Tops</option>
+                    <option value="women - tops" {% if request.GET.category == "women - tops" %}selected{% endif %}>Women - Tops</option>
+                    <option value="men - bottoms" {% if request.GET.category == "men - bottoms" %}selected{% endif %}>Men - Bottoms</option>
+                    <option value="women - bottoms" {% if request.GET.category == "women - bottoms" %}selected{% endif %}>Women - Bottoms</option>
+                    <option value="footwear" {% if request.GET.category == "footwear" %}selected{% endif %}>Footwear</option>
+                </select>
+                <label for="category" class="mr-2">Store:</label>
+                <select name="shop_name" id="shop_name" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800">
+                    <option value="">All</option>
+                    <option value="THIS IS APRIL" {% if request.GET.shop_name == "THIS IS APRIL" %}selected{% endif %}>THIS IS APRIL</option>
+                    <option value="Nayara Batik" {% if request.GET.shop_name == "Tokopedia" %}selected{% endif %}>Nayara Batik</option>
+                    <option value="Buttonscarves" {% if request.GET.shop_name == "Buttonscarves" %}selected{% endif %}>Buttonscarves</option>
+                    <option value="THENBLANK" {% if request.GET.shop_name == "Tokopedia" %}selected{% endif %}>THENBLANK</option>
+                    <option value="Parang Kencana" {% if request.GET.shop_name == "Parang Kencana" %}selected{% endif %}>Parang Kencana</option>
+                </select>
+            </div>
+        </form>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for product in products %}
             <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card"
                 data-id="{{ product.uuid }}">
                 <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-48 object-cover">
                 <div class="p-4">
-                    <h2 class="text-xl font-bold">{{ product.name }}</h2>
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-xl font-bold">{{ product.name }}</h2>
+                        <button id="likeButton_{{product.uuid}}" class="love-button {% if product.uuid in user_choices %}liked{% endif %}" onclick="toggleWishlist('{{product.uuid}}', {% if product.uuid in user_choices %}true{% else %}false{% endif %})">
+                            <svg id="heartIcon_{{product.uuid}}" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="{% if product.uuid in user_choices %}#E0245E{% else %}none{% endif %}" viewBox="0 0 24 24" stroke="#E0245E">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                        </button>
+                    </div>
                     <p class="text-gray-600">{{ product.category }}</p>
                     <p class="text-gray-800 font-semibold">Rp{{ product.price }}</p>
                     <p class="text-gray-600"><strong style="color:#FFD700">★</strong>
@@ -159,9 +240,11 @@
                         {% else %}
                           No ratings yet
                         {% endif %}
-                      </p>
+                    </p>
                 </div>
             </div>
+            {% empty %}
+            <p class="col-span-4 text-center text-gray-500">No products found</p>
             {% endfor %}
         </div>
     </div>
@@ -183,7 +266,10 @@
             
             <!-- Bagian Deskripsi di Kanan dengan Scroll -->
             <div class="modal-description">
-                <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
+                <div class="flex justify-between items-start">
+                    <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
+                    <div id="modalLikeButtonContainer"></div>
+                </div>
                 <p id="modalCategory"><strong>Category:</strong> <span class="modal-data"></span></p>
                 <p id="modalPrice"><strong>Price:</strong> <span class="modal-data"></span></p>
                 <div id="modalDesc">
@@ -207,6 +293,75 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
+
+        function toggleWishlist(productId, isInUserChoices) {
+            console.log(productId, isInUserChoices);
+            if (isInUserChoices) {
+                // Confirmation dialog for removing from wishlist
+                if (!confirm("Are you sure you want to remove this item from your wishlist?")) {
+                    return; // If user cancels, exit the function
+                }
+            }
+    
+            const method = isInUserChoices ? 'DELETE' : 'POST';
+            const operation = isInUserChoices ? 'delete' : 'add';
+          
+            fetch(`/user_choices/${operation}_user_choices/${productId}`, {
+                method: method,
+    
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'  // Ensure the CSRF token is included
+                },
+                body: JSON.stringify({ choice: productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    if (!isInUserChoices) {
+                        
+                    } else {
+                        
+                    }
+                    toggleLike(productId, isInUserChoices);
+                } else {
+                    alert(data.message); // Show error message
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("An error occurred while updating your choice.");
+            });
+          }
+    
+          function toggleLike(productId, isInUserChoices) {
+            const button = document.getElementById(`likeButton_${productId}`);
+            const heartIcon = document.getElementById(`heartIcon_${productId}`);
+        
+            // Toggle the liked class
+            button.classList.toggle('liked');
+        
+            // Change the heart color based on the state
+            if (button.classList.contains('liked')) {
+                heartIcon.setAttribute('stroke', '#E0245E'); // Red color when liked
+                heartIcon.setAttribute('fill', '#E0245E');   // Fill heart when liked
+            } else {
+                heartIcon.setAttribute('stroke', '#27144b'); // Original color
+                heartIcon.setAttribute('fill', 'none');       // No fill when unliked
+            }
+            // Set the onclick function properly
+            button.onclick = function() {
+                const isLiked = button.classList.contains('liked'); // Check if button is currently liked
+                toggleWishlist(productId, isLiked);
+            };
+          }
+
+    
+          function getButton(productId) {
+            const button = document.getElementById(`likeButton_${productId}`).cloneNode(true);
+            return button;
+          }
+
       $(document).ready(function() {
         $('.product-card').click(function() {
             var productId = $(this).data('id');
@@ -226,6 +381,12 @@
                     $('#modalLocation .modal-data').text(response.location);
                     $('#modalImage').attr('src', response.img_url); 
                     $('#modalReviewLink').attr('href', '/products/review_products/' + productId + '/');
+                    
+                    // Clear any previous like button in the modal
+                    $('#modalLikeButtonContainer').empty();
+                    const likeButton = getButton(productId);
+
+                    $('#modalLikeButtonContainer').html(likeButton);
 
                     $('#productModal').fadeIn(300); 
                 },
@@ -235,6 +396,10 @@
                 }
             });
         });
+
+        $('#modalLikeButtonContainer').click(function() {
+            $('#productModal').fadeOut(300);
+        })
 
         // Event klik untuk menutup modal
         $('#closeModal').click(function() {

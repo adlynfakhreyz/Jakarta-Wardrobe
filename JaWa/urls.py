@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('products/', include('products.urls', namespace='products')),
+    path('user_choices/', include('user_choices.urls', namespace='user_choices')),
     path('globalChat/', include('globalChat.urls', namespace='globalChat')),
 ]

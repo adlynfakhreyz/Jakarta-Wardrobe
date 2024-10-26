@@ -8,10 +8,16 @@ from django.utils.html import strip_tags
 from django.db.models import Avg
 from django.utils import timezone
 import re
+from user_choices.models import UserChoice
 
 def show_products_by_price(request):
     products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('price')
-    return render(request, 'product_page.html', {'products': products})
+    user_choices = UserChoice.objects.filter(user=request.user).values_list('selected_item',flat=True)
+    context = {
+        'products': products,
+        'user_choices': user_choices,
+    }
+    return render(request, 'product_page.html', context)
 
 def show_products_by_category(request, category_keyword):
     products = Product.objects.filter(category__iregex=r'\b{}\b'.format(re.escape(category_keyword))).annotate(avg_rating=Avg('rating__rating')).order_by('name')
@@ -121,3 +127,43 @@ def get_ratings_comments(request, product_id):
     comment_list = list(comments.values('comment', 'timestamp', 'user__username'))
 
     return JsonResponse({'ratings': rating_list, 'comments': comment_list}, safe=False)
+
+def show_five_products(request):
+    products = Product.objects.all()[:7]
+    return render(request, 'main.html', {'products': products})
+
+from django.db.models import Q, Avg
+
+def find_product(request):
+    query = request.GET.get('q', '')  # Search query
+    category = request.GET.get('category', '')  # Selected category
+    shop_name = request.GET.get('shop_name', '')  # Selected shop name
+    filter_type = request.GET.get('filter', '')  # Existing filter (e.g., price/rating)
+
+    products = Product.objects.all()
+
+    # Apply search filter if query is provided
+    if query:
+        products = products.filter(Q(name__icontains=query) | Q(desc__icontains=query))
+
+    # Apply category filter if a category is selected
+    if category:
+        products = products.filter(category__iexact=category)
+
+    # Apply shop_name filter if a shop_name is selected
+    if shop_name:
+        products = products.filter(shop_name__iexact=shop_name)
+
+    # Handle other sorting filters like price and rating
+    if filter_type == 'price_asc':
+        products = products.order_by('price')
+    elif filter_type == 'price_desc':
+        products = products.order_by('-price')
+    elif filter_type == 'rating':
+        products = products.annotate(avg_rating=Avg('rating__rating')).order_by('-avg_rating')
+
+    return render(request, 'product_page.html', {'products': products})
+
+def show_best_10_products(request):
+    products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('-avg_rating')[:10]
+    return render(request, 'main.html', {'products': products})

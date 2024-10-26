@@ -1,0 +1,29 @@
+<!-- globalChat/templates/globalChat/forum_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto mt-10">
+        <h1 class="text-4xl font-bold mb-6">Forum List</h1>
+        <!-- Loop through forums and display them -->
+        {% if forums %}
+            <div class="space-y-4">
+                {% for forum in forums %}
+                    <div class="p-4 bg-white rounded shadow-md">
+                        <h2 class="text-2xl font-semibold">{{ forum.title }}</h2>
+                        <p class="text-gray-700">{{ forum.description }}</p>
+                        <p class="text-sm text-gray-500">By {{ forum.user.username }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-600">No forums found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

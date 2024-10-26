@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Edit Post - Global Chat</title>
+</head>
+{% include "navbar.html" %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col items-center justify-center w-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <!-- Background Container -->
+  <div class="relative max-w-2xl w-full bg-white bg-opacity-80 py-12 px-8 rounded-2xl shadow-xl flex justify-center mt-16">
+    
+    <!-- Back Button -->
+    <a href="{% url 'globalChat:global_chat' %}" class="absolute top-4 left-4 text-gray-700 hover:text-gray-900">
+        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-gray-100 hover:bg-gray-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        </div>
+    </a>
+    
+    <!-- Form Content -->
+    <div class="max-w-md w-full space-y-8">
+      <div>
+        <h2 class="mt-2 text-center text-gray-800 text-3xl font-extrabold">
+          Edit Your Post
+        </h2>
+        <p class="mt-2 text-center text-gray-600 text-sm">Update your thoughts or questions for the JaWa community.</p>
+      </div>
+
+      <!-- Form -->
+      <form class="mt-8 space-y-6" method="POST">
+        {% csrf_token %}
+
+        <!-- Title Field -->
+        <div class="rounded-md shadow-sm -space-y-px">
+          <div>
+            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+            <input id="title" name="title" type="text" value="{{ form.title.value }}" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Update your title here (max 50 characters)">
+          </div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="rounded-md shadow-sm -space-y-px">
+          <div>
+            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="description" name="description" rows="9" class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Update your post here...">{{ form.description.value }}</textarea>
+          </div>
+        </div>
+
+        <!-- Purpose Dropdown -->
+        <div class="rounded-md shadow-sm -space-y-px">
+          <div>
+            <label for="purpose" class="block text-sm font-medium text-gray-700">Purpose</label>
+            <select id="purpose" name="purpose" class="appearance-none rounded-b-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+              <option value="Asking" {% if form.purpose.value == "Asking" %}selected{% endif %}>Asking</option>
+              <option value="Sharing" {% if form.purpose.value == "Sharing" %}selected{% endif %}>Sharing</option>
+              <option value="Open Discussion" {% if form.purpose.value == "Open Discussion" %}selected{% endif %}>Open Discussion</option>
+              <option value="Other" {% if form.purpose.value == "Other" %}selected{% endif %}>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-center mt-6">
+          <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% include "footer.html" %}
+
+{% endblock content %}
