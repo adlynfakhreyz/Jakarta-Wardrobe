@@ -80,3 +80,12 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('main:login')
+
+def privacy_policy(request):
+    return render(request, 'privacy_policy.html')
+
+def terms_of_service(request):
+    return render(request, 'terms_of_service.html')  
+
+def contact_us(request):
+    return render(request, 'contact_us.html')  
