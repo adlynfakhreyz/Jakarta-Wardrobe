@@ -49,7 +49,7 @@ def delete_user_choices(request, id):
             return JsonResponse({'status': 'error', 'message': 'Choice does not exist.'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
 
-# @login_required
+@login_required
 def show_user_choices_json(request):
     # Get all UserChoice entries for the logged-in user
     user_choices = UserChoice.objects.filter(user=request.user)

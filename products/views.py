@@ -25,7 +25,15 @@ def show_products_by_price(request):
 
 def show_products_by_category(request, category_keyword):
     products = Product.objects.filter(category__iregex=r'\b{}\b'.format(re.escape(category_keyword))).annotate(avg_rating=Avg('rating__rating')).order_by('name')
-    return render(request, 'product_page.html', {'products': products})
+    if request.user.is_authenticated:
+        user_choices = UserChoice.objects.filter(user=request.user).values_list('selected_item',flat=True)
+    else:
+        user_choices = []
+    context = {
+        'products': products,
+        'user_choices': user_choices,
+    }
+    return render(request, 'product_page.html', context)
 
 def product_detail(request, product_id):
     try:
