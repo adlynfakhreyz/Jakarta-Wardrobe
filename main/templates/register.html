@@ -5,28 +5,176 @@
 {% endblock meta %}
 
 {% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Jakarta Wardrobe</title>
 
-<div class="login">
-  <h1>Register</h1>
+    <style>
+      * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <form method="POST">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-      <tr>
-        <td></td>
-        <td><input type="submit" name="submit" value="Daftar" /></td>
-      </tr>
-    </table>
-  </form>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9f9f9;
+        }
 
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+        .container {
+          width: 1081px;
+          height: 516px;
+          border-radius: 15px;
+          background: var(--Off-White, #FCFCFC);
+          box-shadow: 0px 4px 10px 0px rgba(136, 136, 136, 0.60);
+          flex-shrink: 0;
+          display: flex;
+        }
+
+        .left-section {
+          width: 531px;
+          height: 516px;
+          flex-shrink: 1;
+          border-radius: 15px;
+          background: rgba(51, 51, 51, 0.60);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+          border-top-left-radius: 10px;
+          border-bottom-left-radius: 10px;
+        }
+
+        .left-section img {
+          width: 531px;
+          height: 516px;
+          flex-shrink: 0;
+          border-radius: 15px 0px 0px 15px;
+        }
+
+        .right-section {
+          flex: 1;
+          padding: 60px;
+          display: flex;
+          flex-direction: column;
+          flex-shrink: 0;
+          border-radius: 15px;
+          justify-content: center;
+          background-color: #fff;
+        }
+
+        h2 {
+          font-size: 24px;
+          margin-bottom: 20px;
+          color: #333;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        .form-group label {
+          font-size: 14px;
+          margin-bottom: 5px;
+          color: #333;
+        }
+
+        .form-group input {
+          width: 100%;
+          padding: 10px;
+          font-size: 14px;
+          border: 1px solid #ccc;
+          border-radius: 7px;
+        }
+
+        button {
+          width: 100%;
+          padding: 12px;
+          font-size: 16px;
+          background-color: #555;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+
+        button:hover {
+          background-color: #444;
+        }
+
+        p {
+          margin-top: 20px;
+          font-size: 14px;
+          color: #333;
+        }
+
+        p a {
+          color: #555;
+          text-decoration: none;
+        }
+
+        p a:hover {
+          text-decoration: underline;
+        }
+    </style>
+</head>
+<body> 
+  <div class="container">
+    <div class="left-section">
+      <img src="{% static 'images/register.png' %}" alt="JaWa Logo">
+    </div>
+      
+  <div class="right-section">
+    <h2>Create Your JaWa Account</h2>
+    <form class="mt-8 space-y-6" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="remember" value="true">
+      <div class="form-group">
+        {% for field in form %}
+          <div class="{% if not forloop.first %}mt-4{% endif %}">
+            <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-black">
+              {{ field.label }}
+            </label>
+            <div class="relative">
+              {{ field }}
+              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                {% if field.errors %}
+                  <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                  </svg>
+                {% endif %}
+              </div>
+            </div>
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <p class="mt-1 text-sm text-red-600">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div>
+        <button type="submit">
+          Register
+        </button>
+      </div>
+    </form>
+
+    <p>Already have an account? <a href="{% url 'main:login' %}">Sign in here</a></p>
+  </div>
 </div>
+  </div>
+</body>
+
 
 {% endblock content %}
