@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+{% load static %}
+{% load custom_filters %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Global Chat - JaWa</title>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen font-sans">
+
+    <!-- Navbar -->
+    {% include "navbar.html" %}
+
+    
+    <!-- Kontainer utama dengan tinggi minimum 100vh untuk memastikan footer tetap di bawah -->
+    <div class="flex-grow container mx-auto px-4 py-8 mt-20">
+        <!-- Header dengan judul dan logo di sebelah kanan judul -->
+        <div class="relative flex items-center mb-4">
+            <h1 class="text-4xl font-bold">JaWa - Global Chat</h1>
+            
+            <!-- Bungkus logo dalam div untuk absolute positioning -->
+            <div class="absolute right-4 mt-20">
+                <img src="{% static 'images/logo-global-chatfix.png' %}" alt="JaWa Logo" class="h-40 w-auto">
+            </div>
+        </div>
+        
+
+        <!-- Deskripsi dan garis bawah judul -->
+        <p class="text-gray-600 mb-8">
+            Connect with fellow fashion enthusiasts, ask questions, share your thoughts, and dive into engaging discussions about the latest trends.
+        </p>
+        <div class="border-t border-gray-300 my-4 mb-8" style="width: 1015px;"></div>
+
+        <!-- Filter and Add New Post Button -->
+        <div class="flex justify-between items-center mb-6">
+            <!-- Dropdown Filter -->
+            <div class="relative">
+                <button class="bg-white text-black px-4 py-2 w-56 rounded-lg focus:outline-none border border-gray-300 shadow-sm flex justify-between items-center" id="dropdownFilterBtn">
+                    Newest Post
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                <div id="dropdownMenu" class="hidden absolute bg-white shadow-lg rounded-lg mt-2 py-2 w-64 z-10">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Posted by You</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Saved</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Most Likes</a>
+                </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="flex items-center space-x-4 ml-auto mr-10">
+                {% if forums.has_previous %}
+                    <a href="?page={{ forums.previous_page_number }}" class="bg-gray-200 p-2 rounded-full hover:bg-gray-300 active:scale-95 transition transform">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+
+                {% if forums.has_next %}
+                    <a href="?page={{ forums.next_page_number }}" class="bg-gray-200 p-2 rounded-full hover:bg-gray-300 active:scale-95 transition transform">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- Add New Post Button -->
+            <a href="{% url 'globalChat:new_post' %}" class="bg-gray-700 text-white px-8 py-2 rounded-lg hover:bg-gray-600 flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12 4a1 1 0 011 1v6h6a1 1 0 110 2h-6v6a1 1 0 11-2 0v-6H5a1 1 0 110-2h6V5a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+                <span>Add New Post</span>
+            </a>
+        </div>
+
+        <!-- Forum List with Scrollable Container -->
+        <div class="space-y-6 max-w-5xl h-[500px] overflow-y-scroll px-4 py-4 bg-white shadow-md rounded-lg">
+            {% if forums %}
+                {% for forum in forums %}
+                <!-- Wrap the whole card with a link to detail_chat -->
+                <a href="{% url 'globalChat:detail_chat' forum.id %}" class="block bg-white shadow-sm rounded-lg p-6 relative border border-gray-400 hover:bg-gray-100 transition duration-300 ease-in-out">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <!-- Username and Time since posted -->
+                            <p class="text-sm text-gray-500 mb-1">
+                                By <strong>{{ forum.user.username }}</strong> - {{ forum.posted_time|simple_timesince }} ago
+                            </p>
+                            <!-- Forum Title -->
+                            <h2 class="text-xl font-semibold">{{ forum.title|truncatechars:50 }}</h2>
+                            <!-- Forum Description -->
+                            <p class="text-gray-700 mt-2">{{ forum.description|truncatewords:70 }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Footer with Purpose Button, Likes, Comments, and Bookmark -->
+                    <div class="flex justify-between items-center mt-4 border-t pt-2">
+                        <!-- Purpose Button with dynamic colors -->
+                        <div>
+                            {% if forum.purpose == 'Asking' %}
+                                <span class="inline-block bg-red-500 text-white px-4 py-2 rounded-lg text-sm">Asking</span>
+                            {% elif forum.purpose == 'Sharing' %}
+                                <span class="inline-block bg-blue-500 text-white px-4 py-2 rounded-lg text-sm">Sharing</span>
+                            {% elif forum.purpose == 'Open Discussion' %}
+                                <span class="inline-block bg-green-500 text-white px-4 py-2 rounded-lg text-sm">Open Discussion</span>
+                            {% else %}
+                                <span class="inline-block bg-yellow-500 text-white px-4 py-2 rounded-lg text-sm">Other</span>
+                            {% endif %}
+                        </div>
+                        
+
+                        <div class="flex space-x-4">
+                            <!-- Likes -->
+                            <div class="flex items-center text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20l7.682-7.318a4.5 4.5 0 10-6.364-6.364L12 7.293l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                  </svg>
+                                {{ forum.total_likes }}
+                            </div>
+
+                            <!-- Comments -->
+                            <div class="flex items-center text-gray-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-5 5V5a2 2 0 012-2h16a2 2 0 012 2z"></path></svg>
+                                {{ forum.comments.count }}
+                            </div>
+
+
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+                
+            {% else %}
+            
+            <p class="text-gray-600 text-center">No discussions available. Be the first to start a discussion!</p>
+            {% endif %}
+            
+        </div>
+    
+    <!-- Footer -->
+
+    <!-- JavaScript for Dropdown -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        const dropdownFilterBtn = document.getElementById('dropdownFilterBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        dropdownFilterBtn.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+        });
+    </script>
+
+</body>
+</html>
+

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'main',
     'products',
     'user_choices',
+    'globalChat',
 ]
 
 MIDDLEWARE = [
