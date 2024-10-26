@@ -3,9 +3,6 @@ import uuid
 from main.models import ItemEntry  
 from django.contrib.auth.models import User  
 
-
-
-
 class Product(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     category = models.CharField(max_length=100)

@@ -12,12 +12,16 @@ from user_choices.models import UserChoice
 
 def show_products_by_price(request):
     products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('price')
-    user_choices = UserChoice.objects.filter(user=request.user).values_list('selected_item',flat=True)
+    if request.user.is_authenticated:
+        user_choices = UserChoice.objects.filter(user=request.user).values_list('selected_item',flat=True)
+    else:
+        user_choices = []
     context = {
         'products': products,
         'user_choices': user_choices,
     }
     return render(request, 'product_page.html', context)
+
 
 def show_products_by_category(request, category_keyword):
     products = Product.objects.filter(category__iregex=r'\b{}\b'.format(re.escape(category_keyword))).annotate(avg_rating=Avg('rating__rating')).order_by('name')
