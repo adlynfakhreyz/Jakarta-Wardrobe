@@ -49,6 +49,12 @@
       <div class="hidden md:flex space-x-4 items-center">
         <a href="{% url 'user_choices:show_user_choices' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105"><img src="{% static 'images/grey.png' %}" alt="cart" class="h-6 w-6"></a>
         <img src="{% static 'images/user.png' %}" alt="user" class="h-6 w-6">
+
+        {% if user.is_authenticated %}
+          <a href="{% url 'main:logout' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Logout</a>
+        {% else %}
+          <a href="{% url 'main:login' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Login</a>
+        {% endif %}
       </div>
   
       <!-- Mobile Menu Button -->
