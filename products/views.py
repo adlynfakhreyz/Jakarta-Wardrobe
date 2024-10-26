@@ -152,7 +152,7 @@ def find_product(request):
     shop_name = request.GET.get('shop_name', '')  # Selected shop name
     filter_type = request.GET.get('filter', '')  # Existing filter
 
-    products = Product.objects.all()
+    products = Product.objects.annotate(avg_rating=Avg('rating__rating'))
 
     # Apply search filter if query is provided
     if query:
