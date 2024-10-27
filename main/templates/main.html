@@ -45,6 +45,19 @@
         z-index: 1;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
       }
+      .hero-bg, .hero-bg-2, .hero-bg-3 {
+        flex: 0 0 100%;
+        background-size: cover;
+        background-position: center;
+        min-height: 70vh; /* Reduce height for mobile */
+    }
+
+    .hero-btn {
+        position: absolute;
+        color: white;
+        z-index: 1;
+        bottom: 20px; /* Move button to bottom on mobile */
+    }
     </style>
   </head> 
   {% include "navbar.html" %}
@@ -57,11 +70,12 @@
         <div class="hero-bg-3" style="background-image: url('{% static 'images/HERO 3 FIX.png' %}');"></div>
       </div>
 
-    <!-- New "Our Advantages" Section Below Hero Slide -->
-    <div class="py-12 h-screen" data-aos="fade-up" data-aos-duration="1000">
-      <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-8 mt-2">Why Choose Us</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-10 md:mx-40">
-        <!-- Trendy Products -->
+      <!-- New "Our Advantages" Section Below Hero Slide -->
+      <div class="py-12 h-auto md:h-screen" data-aos="fade-up" data-aos-duration="1000">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800 text-center mb-8 mt-2">Why Choose Us</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-10 md:mx-40">
+       
+          <!-- Trendy Products -->
         <div class="flex flex-col items-center text-center transform hover:scale-105">
           <img src="{% static 'images/star.png' %}" alt="Trendy Products" class="h-16 w-16 mb-4">
           <h3 class="text-2xl font-semibold text-gray-800">Trendy Products</h3>
@@ -99,14 +113,14 @@
     </div>
 
     <!-- Key Features -->
-    <div class="bg-gray-100" style="padding: 0; margin-top: -140px;" data-aos="fade-up" data-aos-duration="1000">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-2">
+    <div class="py-12 px-4 md:px-8 mt-10 lg:mt-0" style="background-color: #FFFFFF; scroll-margin-top: 80px;" data-aos="fade-up" data-aos-duration="1000">
+      <div class="max-w-7xl mx-auto">
         <div class="text-center mb-20">
-          <h2 class="text-4xl font-extrabold text-gray-800">Our Key Features</h2>
-          <p class="mt-4 text-gray-600">Discover the tools that make your shopping experience unique.</p>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800">Our Key Features</h2>
+          <p class="mt-2 text-gray-600">Discover the tools that make your shopping experience unique.</p>
         </div>
     
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
           <!-- User Choice Card -->
           <div class="relative bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform">
             <div class="absolute -top-12 left-1/2 transform -translate-x-1/2">
@@ -120,7 +134,7 @@
     
           <!-- Global Chat Card -->
           <div class="relative bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform">
-            <div class="absolute -top-12 left-1/2 transform -translate-x-1/2">
+            <div class="absolute -top-7 left-1/2 transform -translate-x-1/2 sm:top-[-3rem]">
               <img src="{% static 'images/globalchat.png' %}" alt="Global Chat" class="h-20 w-20">
             </div>
             <div class="mt-10 text-center">
@@ -131,8 +145,8 @@
     
           <!-- Rating and Review Card -->
           <div class="relative bg-white rounded-lg shadow-lg p-6 transform hover:scale-105 transition-transform">
-            <div class="absolute -top-12 left-1/2 transform -translate-x-1/2">
-              <img src="{% static 'images/review.png' %}" alt="Rating and Review" class="h-20 w-20">
+            <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 sm:top-[-2rem]">
+             <img src="{% static 'images/review.png' %}" alt="Rating and Review" class="h-20 w-20">
             </div>
             <div class="mt-10 text-center">
               <h3 class="text-2xl font-semibold text-gray-800 mb-4">Rating and Review</h3>
@@ -168,9 +182,9 @@
       
       <!-- Brands Section -->
       <div class="h-screen" style="margin-top: -80px;" data-aos="fade-up" data-aos-duration="1000">
-      <div class="brands-container relative flex flex-col">
-        <h2 class="text-3xl flex justify-start font-bold text-gray-800 ml-10 md:ml-40">Brands</h2>
-        <div class="relative flex justify-start items-center my-8 ml-10 md:ml-44">
+      <div class="brands-container relative flex flex-col h-auto py-8">
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 ml-4 md:ml-40">Brands</h2>
+        <div class="flex overflow-x-scroll no-scrollbar space-x-4 py-4 px-4 md:px-40">
           <div class="bg-transparent rounded-full transition-transform duration-300 transform hover:scale-105">
             <img src="{% static 'images/brand1.png' %}" alt="brand1" class="h-24 w-24 md:h-32 md:w-32 rounded-full">
           </div>
@@ -229,7 +243,7 @@
         
       </div>
       <!-- Updated Products Overview Section -->
-      <div class="flex-grow" style="margin-top: -180px;" data-aos="fade-up" data-aos-duration="1000">
+      <div class="flex-grow mt-8 md:mt-[-180px]" data-aos="fade-up" data-aos-duration="1000"> 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 class="text-3xl font-bold text-gray-800 mb-8 ml-8 md:ml-12">Featured Products</h2>
 
@@ -252,7 +266,7 @@
 
                 <!-- Rating Section -->
                 <div class="flex items-center mt-2">
-                  <span class="text-yellow-500">★</span> <!-- Changed star color to a softer yellow -->
+                  <span class="text-yellow-500">★</span>
                   <span class="ml-1 text-gray-600">
                     {% if product.avg_rating %}
                         {{ product.avg_rating|floatformat:1 }}
@@ -273,43 +287,43 @@
       <!-- FAQ Section -->
       <div class="py-16" id="faq-section" style="margin-top: -56px;" data-aos="fade-up" data-aos-duration="1000">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-center gap-4" style="margin-bottom: -36px;"> <!-- Reduced margin further with inline style -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8 md:mb-12">
             <!-- Left Image -->
-            <img src="{% static 'images/QnA.png' %}" alt="QandA" class="object-contain" style="width: 300px; height: 300px;">
+            <img src="{% static 'images/QnA.png' %}" alt="QandA" class="object-contain w-48 h-48 md:w-72 md:h-72">
 
             <!-- Center Text -->
-            <div class="text-center">
-              <h2 class="text-4xl font-extrabold text-gray-800">Need more help?</h2>
+            <div class="text-center md:mx-8">
+              <h2 class="text-3xl md:text-4xl font-extrabold text-gray-800">Need more help?</h2>
               <p class="mt-4 text-gray-800">Temukan berbagai pertanyaan serta jawaban seputar JaWa di sini!</p>
             </div>
 
             <!-- Right Image -->
-            <img src="{% static 'images/ondelondel.png' %}" alt="Ondel Ondel" class="object-contain" style="width: 310px; height: 310px;">
+            <img src="{% static 'images/ondelondel.png' %}" alt="Ondel Ondel" class="object-contain w-48 h-48 md:w-72 md:h-72">
           </div>
           
           <div class="space-y-8 flex flex-col items-center">
             <!-- FAQ Item 1 -->
-            <div class="bg-white rounded-lg shadow-lg p-6" style="width: 1050px;">
-              <h3 class="text-xl font-bold text-gray-800">What is JaWa?</h3>
-              <p class="mt-2 text-gray-800">JaWa, short for Jakarta Wardrobe, is an online platform dedicated to fashion enthusiasts in Jakarta. It provides a space for users to explore, discuss, and stay updated on the latest fashion trends in the city.</p>
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full md:w-2/3 lg:w-3/4">
+              <h3 class="text-lg md:text-xl font-bold text-gray-800">Apa itu JaWa?</h3>
+              <p class="mt-2 text-gray-800">JaWa, singkatan dari Jakarta Wardrobe, adalah platform online yang didedikasikan untuk para penggemar fashion di Jakarta. Di sini, pengguna dapat menjelajahi, berdiskusi, dan tetap mendapatkan info terbaru tentang tren fashion di kota ini.</p>
             </div>
             
             <!-- FAQ Item 2 -->
-            <div class="bg-white rounded-lg shadow-lg p-6" style="width: 1050px;">
-              <h3 class="text-xl font-bold text-gray-800">What are the main features of JaWa?</h3>
-              <p class="mt-2 text-gray-800">JaWa offers several features including Global Chat, a Product section to explore fashion items, and a "User Choice" feature.</p>
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full md:w-2/3 lg:w-3/4">
+              <h3 class="text-lg md:text-xl font-bold text-gray-800">Apa fitur utama di JaWa?</h3>
+              <p class="mt-2 text-gray-800">JaWa menawarkan beberapa fitur seperti Global Chat, Produk untuk menjelajahi item fashion, dan fitur "Pilihan Pengguna" untuk personalisasi.</p>
             </div>
             
             <!-- FAQ Item 3 -->
-            <div class="bg-white rounded-lg shadow-lg p-6" style="width: 1050px;">
-              <h3 class="text-xl font-bold text-gray-800">How do I participate in discussions on JaWa?</h3>
-              <p class="mt-2 text-gray-800">Log in to your JaWa account, browse through discussions, and add your own comments or questions. You can also create a new post!</p>
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full md:w-2/3 lg:w-3/4">
+              <h3 class="text-lg md:text-xl font-bold text-gray-800">Bagaimana cara berpartisipasi dalam diskusi di JaWa?</h3>
+              <p class="mt-2 text-gray-800">Masuk ke akun JaWa Anda, telusuri diskusi, dan tambahkan komentar atau pertanyaan Anda sendiri. Anda juga bisa membuat posting baru!</p>
             </div>
             
             <!-- FAQ Item 4 -->
-            <div class="bg-white rounded-lg shadow-lg p-6" style="width: 1050px;">
-              <h3 class="text-xl font-bold text-gray-800">Is JaWa only for fashion-related content?</h3>
-              <p class="mt-2 text-gray-800">Yes, JaWa is primarily focused on fashion and style topics. It’s a platform meant to foster discussions, share tips, and provide recommendations centered around fashion, trends, and style, especially within Jakarta.</p>
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full md:w-2/3 lg:w-3/4">
+              <h3 class="text-lg md:text-xl font-bold text-gray-800">Apakah JaWa hanya untuk konten terkait fashion?</h3>
+              <p class="mt-2 text-gray-800">Ya, JaWa terutama fokus pada topik fashion dan gaya. Ini adalah platform untuk berdiskusi, berbagi tips, dan memberikan rekomendasi terkait fashion dan tren gaya di Jakarta.</p>
             </div>
           </div>
         </div>
