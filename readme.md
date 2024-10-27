@@ -1,5 +1,5 @@
 <details>
-<summary> Tahap 1 </summary>
+<summary> TK Proyek Tengah Semester </summary>
 
 ## Anggota Kelompok B04
 
@@ -30,6 +30,7 @@ Dengan fitur-fitur ini, Jakarta Wardrobe menjadi solusi efektif bagi pengguna ya
 ## Daftar Modul
 
 1. #### *Rating (Review Page)* 
+**Dikerjakan oleh Rama Aditya Rifki Harmono**
 
 Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk. Rating diberikan dalam bentuk angka dengan range 1 sampai 5 yang disimpan sebagai atribut rating_value dalam tabel. Pada impleemntasinya, modul ini akan mengumpulkan dan menghitung rata-rata rating dari semua pengguna untuk setiap produk.
 
@@ -41,6 +42,7 @@ Modul ini bertanggung jawab untuk menyimpan dan menampilkan rating setiap produk
 - timestamp: Timestamp untuk merekam waktu pemberian rating 
 
 2. #### *Comment (Review Page)* 
+**Dikerjakan oleh Salomo Immanuel Putra **
 
 Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh pengguna pada setiap produk. Setiap komentar dihubungkan dengan produk dan pengguna melalui __product_id__ dan __user_id__. Modul ini memungkinkan penyimpanan komentar dalam bentuk teks (comment_text), dengan waktu pembuatan disimpan dalam timestamp. Implementasi comment dan rating akan dijadikan satu dalam review page.
 
@@ -52,6 +54,7 @@ Modul ini bertanggung jawab dalam menyimpan komentar yang diberikan oleh penggun
 - timestamp: Timestamp untuk waktu pemberian komentar 
 
 3. #### *Profile Page* 
+**Dikerjakan oleh Dara Zakya Apriani**
 
 Modul __*Profile Page*__ memberikan pengguna kendali penuh atas data profil mereka, sekaligus menyajikan ringkasan aktivitas yang dilakukan dalam aplikasi __Jakarta Wardrobe__. Di dalam halaman profil, pengguna dapat melihat rekapan dari aktivitas-aktivitas mereka, termasuk ulasan yang diberikan, artikel atau blog yang mungkin mereka tulis serta interaksi dalam fitur __*Global Chat*__. Dengan fitur ini, pengguna memiliki akses langsung untuk mengelola aktivitas mereka, baik itu mengedit, menghapus, maupun memperbarui konten sesuai keinginan.
 
@@ -70,6 +73,7 @@ Modul __*Profile Page*__ memberikan pengguna kendali penuh atas data profil mere
 
 
 4. #### *User Choice* 
+**Dikerjakan oleh Andi Muhammad Adlyn Fakhreyza Khairi Putra**
 
 Modul ini bertanggung jawab untuk mengelola fitur User Choice. Pengguna akan memiliki halaman personal yang menampilkan barang-barang yang mereka masukkan ke dalam daftar favorit, disebut sebagai __*User Choice*__. Modul ini menyimpan pilihan produk berdasarkan preferensi pengguna, yang akan ditampilkan secara khusus pada halaman tersebut. Setiap produk favorit dihubungkan dengan pengguna melalui __user_id__ dan disimpan dalam bentuk daftar produk yang telah ditambahkan ke dalam pilihan mereka.
 
@@ -79,7 +83,8 @@ Modul ini bertanggung jawab untuk mengelola fitur User Choice. Pengguna akan mem
 - favorite_products: Array atau relasi *Many-to-Many* ke tabel Produk yang menyimpan daftar produk favorit pengguna 
 
 
-5. #### *Filter Categories & Location*
+5. #### *Produk (Filter Categories & Location)*
+**Dikerjakan oleh Sayyid Thariq Gilang Muttaqien**
 
 Modul ini bertanggung jawab untuk mengelompokkan dan menyaring produk berdasarkan kategori dan lokasi toko yang menjual setiap produk. Pengguna dapat memilih kategori produk yang mereka inginkan serta lokasi toko yang tersedia, sehingga hanya produk yang sesuai dengan preferensi tersebut yang akan ditampilkan. Setiap produk dihubungkan dengan kategori melalui __category_id__ dan dengan lokasi melalui __location_id__, yang memungkinkan pengelompokan dan penelusuran yang lebih terfokus.
 
@@ -96,6 +101,7 @@ Modul ini bertanggung jawab untuk mengelompokkan dan menyaring produk berdasarka
 
 
 6. #### *Global Chat* 
+**Dikerjakan oleh Rizky Amani Hasanah**
 
 Modul ini menyediakan ruang komunitas bagi pengguna Jakarta Wardrobe (JaWa) untuk saling berinteraksi dan berdiskusi. Setiap pengguna dapat mengirim dan membaca pesan di ruang obrolan umum, di mana semua pengguna dapat berpartisipasi. Modul ini menyimpan pesan dalam bentuk teks, beserta informasi pengguna yang mengirim pesan dan waktu pengiriman, untuk membangun pengalaman komunitas yang aktif dan terbuka.
 
