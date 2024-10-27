@@ -8,9 +8,12 @@ from django.contrib.auth.decorators import login_required
 from .forms import UpdateUserForm, UpdateProfileForm
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 
 @login_required
+@csrf_exempt
+# @require_POST
 def profile(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
@@ -19,13 +22,24 @@ def profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({'message': 'Your profile is updated successfully'}, status=200)
             messages.success(request, 'Your profile is updated successfully')
             return redirect('users:profile')
+        else:
+             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                errors = {
+                    'user_form_errors': user_form.errors,
+                    'profile_form_errors': profile_form.errors
+                }
+                return JsonResponse(errors, status=400)
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
+        return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
-    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    # return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
 
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
