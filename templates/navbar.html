@@ -9,7 +9,7 @@
       
       <!-- Navigation Links -->
       <div class="hidden md:flex space-x-8">
-        <a href = {% url 'main:show_main' %} class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Home</a>
+        <a href = "{% url 'main:show_main' %}" class="text-gray-600 hover:text-gray-600 transform hover:scale-105">Home</a>
         
         <!-- Categories Dropdown -->
         <div class="relative inline-block text-left">
@@ -32,29 +32,29 @@
           </div>
         </div>
 
-        <a href="{% url 'products:show_products_by_price' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Products</a>
-        <a href="{% url 'user_choices:show_user_choices' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105">User Choice</a>
-        <a href="{% url 'globalChat:global_chat' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Global Chat</a>          
-        <a href="/#faq-section" class="text-gray-600 hover:text-blue-600 transform hover:scale-105">FAQ</a>
+        <a href="{% url 'products:show_products_by_price' %}" class="text-gray-600 hover:text-gray-600 transform hover:scale-105">Products</a>
+        <a href="{% url 'user_choices:show_user_choices' %}" class="text-gray-600 hover:text-gray-600 transform hover:scale-105">User Choice</a>
+        <a href="{% url 'globalChat:global_chat' %}" class="text-gray-600 hover:text-gray-600 transform hover:scale-105">Global Chat</a>          
+        <a href="/#faq-section" class="text-gray-600 hover:text-gray-600 transform hover:scale-105">FAQ</a>
       </div>
       
       <!-- Search Bar -->
       {% comment %} <div class="hidden md:block">
         <form method="GET">
-          <input type="text" name="q" class="mt-2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-800" placeholder="Search...">
+          <input type="text" name="q" class="mt-2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800" placeholder="Search...">
         </form>
       </div> {% endcomment %}
   
       <!-- User Options -->
       <div class="hidden md:flex space-x-4 items-center">
-        <a href="{% url 'user_choices:show_user_choices' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105"><img src="{% static 'images/grey.png' %}" alt="cart" class="h-6 w-6"></a>
-        <img src="{% static 'images/user.png' %}" alt="user" class="h-6 w-6">
+        <a href="{% url 'user_choices:show_user_choices' %}" class="text-gray-600 hover:text-gray-600 transform hover:scale-105"><img src="{% static 'images/grey.png' %}" alt="cart" class="h-6 w-6"></a>
 
         <!-- Logout Button (Visible only when user is logged in) -->
         {% if user.is_authenticated %}
-          <a href="{% url 'main:logout' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Logout</a>
+          <a href="{% url 'users:profile' %}"><img src="{% static 'images/user.png' %}" alt="user" class="h-6 w-6"></a>
+          <a href="{% url 'main:logout' %}" class="text-gray-600 hover:text-gray-600 transform hover:scale-105">Logout</a>
         {% else %}
-          <a href="{% url 'main:login' %}" class="text-gray-600 hover:text-blue-600 transform hover:scale-105">Login</a>
+          <a href="{% url 'main:login' %}" class="text-gray-600 hover:text-gray-600 transform hover:scale-105">Login</a>
         {% endif %}
       </div>
   
@@ -71,35 +71,58 @@
   
     <!-- Mobile Menu -->
     <div id="menu" class="hidden md:hidden px-4 py-3 space-y-2 bg-white shadow-md">
-      <a class="block text-gray-600 hover:text-blue-600">Home</a>
-      <a class="block text-gray-600 hover:text-blue-600">Categories</a>
-      <a class="block text-gray-600 hover:text-blue-600">Filter</a>
-      <a class="block text-gray-600 hover:text-blue-600">User Choice</a>
-      <a class="block text-gray-600 hover:text-blue-600">About</a>
-      <a class="block text-gray-600 hover:text-blue-600">Contact</a>
-  
+      <a class="block text-gray-600 hover:text-gray-600" href="{% url 'main:show_main' %}">Home</a>
+
+      <!-- Mobile Categories Dropdown -->
+      <div class="relative inline-block text-left w-full">
+        <button class="w-full text-left block text-gray-600 hover:text-gray-600 py-2" id="mobile-categories-button">
+          Categories
+          <svg class="-mr-1 h-5 w-5 text-gray-400 float-right" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+        <!-- Mobile Categories Menu -->
+        <div class="hidden origin-top-right w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" id="mobile-categories-menu">
+          <div class="py-1" role="none">
+            <a href="{% url 'products:show_products_by_category' 'Footwear' %}" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Footwear</a>
+            <a href="{% url 'products:show_products_by_category' 'Men' %}" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Men's Clothing</a>
+            <a href="{% url 'products:show_products_by_category' 'Women' %}" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" role="menuitem">Women's Clothing</a>
+          </div>
+        </div>
+      </div>
+
+      <a class="block text-gray-600 hover:text-gray-600" href="{% url 'products:show_products_by_price' %}">Products</a>
+      <a class="block text-gray-600 hover:text-gray-600" href="{% url 'user_choices:show_user_choices' %}">User Choice</a>
+      <a class="block text-gray-600 hover:text-gray-600" href="{% url 'globalChat:global_chat' %}">Global Chat</a>
+      <a class="block text-gray-600 hover:text-gray-600" href="/#faq-section">FAQ</a>
+      
       <!-- Mobile User Options -->
-      {% comment %} {% if user.is_authenticated %} {% endcomment %}
-        <a class="block text-gray-600 hover:text-blue-600">Profile</a>
-        <a class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Logout</a>
-      {% comment %} {% else %} {% endcomment %}
-        <a class="block text-gray-600 hover:text-blue-600">Login</a>
-        <a class="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500">Sign Up</a>
-      {% comment %} {% endif %} {% endcomment %}
+      {% if user.is_authenticated %}
+        <a href="{% url 'users:profile' %}"><img src="{% static 'images/user.png' %}" alt="user" class="h-6 w-6"></a>
+        <a href="{% url 'main:logout' %}" class="bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg transition ease-in-out duration-300">Logout</a>
+      {% else %}
+        <a href="{% url 'main:login' %}" class="block bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg transition ease-in-out duration-300">Login</a>
+      {% endif %}
     </div>
   </div>
   
-<script>
+  <script>
     const menuBtn = document.getElementById('menu-btn');
     const menu = document.getElementById('menu');
     const categoriesButton = document.getElementById('categories-button');
     const categoriesMenu = document.getElementById('categories-menu');
-  
+    const mobileCategoriesButton = document.getElementById('mobile-categories-button');
+    const mobileCategoriesMenu = document.getElementById('mobile-categories-menu');
+
     menuBtn.addEventListener('click', () => {
       menu.classList.toggle('hidden');
     });
 
     categoriesButton.addEventListener('click', () => {
       categoriesMenu.classList.toggle('hidden');
+    });
+
+    mobileCategoriesButton.addEventListener('click', () => {
+      mobileCategoriesMenu.classList.toggle('hidden'); // Toggle mobile categories menu
     });
 </script>

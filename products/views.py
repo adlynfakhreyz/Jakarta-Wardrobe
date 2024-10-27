@@ -109,8 +109,8 @@ def add_rating(request):
             'avg_rating': avg_rating,
             'ratings_with_users': ratings_data
         }, status=201)
-
     return JsonResponse({'message': 'Invalid request'}, status=400)
+
 @login_required
 @csrf_exempt
 @require_POST
@@ -121,7 +121,6 @@ def add_comment(request):
         product = get_object_or_404(Product, uuid=product_id)
         new_comment = Comment.objects.create(product=product, user=request.user, comment=comment_text)
         
-        # Mengembalikan respons dengan data komentar yang baru
         return JsonResponse({
             'message': 'Comment added successfully',
             'user': new_comment.user.username,

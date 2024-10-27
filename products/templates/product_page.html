@@ -181,42 +181,45 @@
             </div>
         
             <!-- Filter Section -->
-            <div class="mt-4 flex items-center space-x-4">
-                <p class="mr-4 font-semibold">Filter by:</p>
-        
-                <!-- Price Sorting Radio Buttons -->
-                <label class="flex items-center">
-                    <input type="radio" name="filter" value="price_asc" class="mr-2" {% if request.GET.filter == "price_asc" %}checked{% endif %}> Price (Lowest to Highest)
-                </label>
-                <label class="flex items-center">
-                    <input type="radio" name="filter" value="price_desc" class="mr-2" {% if request.GET.filter == "price_desc" %}checked{% endif %}> Price (Highest to Lowest)
-                </label>
-                <label class="flex items-center">
-                    <input type="radio" name="filter" value="rating" class="mr-2" {% if request.GET.filter == "rating" %}checked{% endif %}> Rating
-                </label>
-        
-                <!-- Category Dropdown -->
-                <label for="category" class="mr-2">Category:</label>
-                <select name="category" id="category" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800">
-                    <option value="">All</option>
-                    <option value="dress" {% if request.GET.category == "dress" %}selected{% endif %}>Dress</option>
-                    <option value="scarf" {% if request.GET.category == "scarf" %}selected{% endif %}>Scarf</option>
-                    <option value="men - tops" {% if request.GET.category == "men - tops" %}selected{% endif %}>Men - Tops</option>
-                    <option value="women - tops" {% if request.GET.category == "women - tops" %}selected{% endif %}>Women - Tops</option>
-                    <option value="men - bottoms" {% if request.GET.category == "men - bottoms" %}selected{% endif %}>Men - Bottoms</option>
-                    <option value="women - bottoms" {% if request.GET.category == "women - bottoms" %}selected{% endif %}>Women - Bottoms</option>
-                    <option value="footwear" {% if request.GET.category == "footwear" %}selected{% endif %}>Footwear</option>
-                </select>
-                <label for="category" class="mr-2">Store:</label>
-                <select name="shop_name" id="shop_name" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800">
-                    <option value="">All</option>
-                    <option value="THIS IS APRIL" {% if request.GET.shop_name == "THIS IS APRIL" %}selected{% endif %}>THIS IS APRIL</option>
-                    <option value="Nayara Batik" {% if request.GET.shop_name == "Tokopedia" %}selected{% endif %}>Nayara Batik</option>
-                    <option value="Buttonscarves" {% if request.GET.shop_name == "Buttonscarves" %}selected{% endif %}>Buttonscarves</option>
-                    <option value="THENBLANK" {% if request.GET.shop_name == "Tokopedia" %}selected{% endif %}>THENBLANK</option>
-                    <option value="Parang Kencana" {% if request.GET.shop_name == "Parang Kencana" %}selected{% endif %}>Parang Kencana</option>
-                </select>
-            </div>
+            <div class="mt-4 flex flex-wrap items-center justify-between md:justify-start">
+                <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                    <p class="font-semibold text-sm md:text-base">Filter by:</p>
+                    
+                    <!-- Price Sorting Radio Buttons -->
+                    <label class="flex items-center text-sm md:text-base">
+                        <input type="radio" name="filter" value="price_asc" class="mr-2" {% if request.GET.filter == "price_asc" %}checked{% endif %}> Price (Lowest to Highest)
+                    </label>
+                    <label class="flex items-center text-sm md:text-base">
+                        <input type="radio" name="filter" value="price_desc" class="mr-2" {% if request.GET.filter == "price_desc" %}checked{% endif %}> Price (Highest to Lowest)
+                    </label>
+                    <label class="flex items-center text-sm md:text-base">
+                        <input type="radio" name="filter" value="rating" class="mr-2" {% if request.GET.filter == "rating" %}checked{% endif %}> Rating
+                    </label>
+                </div>
+            
+                <!-- Category and Shop Dropdowns -->
+                <div class="flex items-center space-x-4">
+                    <!-- Category Dropdown -->
+                    <div class="flex items-center">
+                        <label for="category" class="mr-2 text-sm md:text-base">Category:</label>
+                        <select name="category" id="category" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 text-sm md:text-base">
+                            <option value="">All</option>
+                            <option value="dress" {% if request.GET.category == "dress" %}selected{% endif %}>Dress</option>
+                            <option value="scarf" {% if request.GET.category == "scarf" %}selected{% endif %}>Scarf</option>
+                            <!-- Add other categories here -->
+                        </select>
+                    </div>
+            
+                    <!-- Shop Dropdown -->
+                    <div class="flex items-center">
+                        <label for="shop_name" class="mr-2 text-sm md:text-base">Store:</label>
+                        <select name="shop_name" id="shop_name" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 text-sm md:text-base">
+                            <option value="">All</option>
+                            <!-- Add shop options here -->
+                        </select>
+                    </div>
+                </div>
+            </div>                    
         </form>
         <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for product in products %}
