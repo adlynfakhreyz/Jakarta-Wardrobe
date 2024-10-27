@@ -165,55 +165,57 @@
 
     </style>
   </head>
-  {% include "navbar.html" %}
   <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;">
-    <div class="container mx-auto px-4 py-8">
-      <h2 id='page-title' class="text-3xl sm:text-3xl md:text-4xl lg:text-5xl pt-14 pb-10 flex justify-center font-bold text-gray-800"></h2>
-      <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <!-- Products will be dynamically added here -->
-      </div>
-  </div>
+      {% include "navbar.html" %}
+    <div class="flex-grow">
+        <div class="container mx-auto px-4 py-8">
+            <h2 id='page-title' class="text-3xl sm:text-3xl md:text-4xl lg:text-5xl pt-14 pb-10 flex justify-center font-bold text-gray-800"></h2>
+            <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Products will be dynamically added here -->
+            </div>
+        </div>
 
-    <!-- Modal untuk menampilkan detail produk -->
-    <div id="productModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden" style="display: none;">
-      <div class="modal-content">
-          <!-- Tombol Close di Pojok Kanan Atas -->
-          <button id="closeModal" class="text-gray-500 hover:text-gray-800">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-          </button>
+        <!-- Modal untuk menampilkan detail produk -->
+        <div id="productModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden" style="display: none;">
+            <div class="modal-content">
+                <!-- Tombol Close di Pojok Kanan Atas -->
+                <button id="closeModal" class="text-gray-500 hover:text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
 
-          <!-- Bagian Gambar di Kiri -->
-          <div class="modal-image">
-              <img id="modalImage" src="" alt="Product Image" class="w-full h-auto rounded-lg object-cover">
-          </div>
-          
-          <!-- Bagian Deskripsi di Kanan dengan Scroll -->
-          <div class="modal-description">
-              <div class="flex justify-between items-start">
-                  <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
-                  <div id="modalLikeButtonContainer"></div>
-              </div>
-          <p id="modalCategory"><strong>Category:</strong> <span class="modal-data"></span></p>
-              <p id="modalPrice"><strong>Price:</strong> <span class="modal-data"></span></p>
-              <div id="modalDesc">
-                  <strong>Description:</strong>
-                  <div class="modal-data"></div>
-              </div>
-              <p id="modalColor"><strong>Color: </strong><span class="modal-data"></span></p>
-              <p id="modalStock"><strong>Stock: </strong><span class="modal-data"></span></p>
-              <p id="modalShopName"><strong>Shop Name: </strong><span class="modal-data"></span></p>
-              <div id="modalLocation">
-                  <strong>Location:</strong>
-                  <div class="modal-data"></div>
-              </div>
-              <!-- Section Tombol Review -->
-              <div id="modalReviewSection" class="fixed-bottom-review" style="background-color: transparent;">
-                  <a id="modalReviewLink" href="#" class="button-review bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg transition ease-in-out duration-300">Review</a>
-              </div>
-          </div>
-      </div>
+                <!-- Bagian Gambar di Kiri -->
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="Product Image" class="w-full h-auto rounded-lg object-cover">
+                </div>
+            
+                <!-- Bagian Deskripsi di Kanan dengan Scroll -->
+                <div class="modal-description">
+                    <div class="flex justify-between items-start">
+                        <h2 id="modalName" class="text-2xl font-bold mb-2"></h2>
+                        <div id="modalLikeButtonContainer"></div>
+                    </div>
+                <p id="modalCategory"><strong>Category:</strong> <span class="modal-data"></span></p>
+                    <p id="modalPrice"><strong>Price:</strong> <span class="modal-data"></span></p>
+                    <div id="modalDesc">
+                        <strong>Description:</strong>
+                        <div class="modal-data"></div>
+                    </div>
+                    <p id="modalColor"><strong>Color: </strong><span class="modal-data"></span></p>
+                    <p id="modalStock"><strong>Stock: </strong><span class="modal-data"></span></p>
+                    <p id="modalShopName"><strong>Shop Name: </strong><span class="modal-data"></span></p>
+                    <div id="modalLocation">
+                        <strong>Location:</strong>
+                        <div class="modal-data"></div>
+                    </div>
+                    <!-- Section Tombol Review -->
+                    <div id="modalReviewSection" class="fixed-bottom-review" style="background-color: transparent;">
+                        <a id="modalReviewLink" href="#" class="button-review bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg transition ease-in-out duration-300">Review</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
