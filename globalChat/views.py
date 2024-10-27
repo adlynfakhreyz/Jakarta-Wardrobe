@@ -11,7 +11,13 @@ from django.db.models import Count
 # Global Chat: List all forums with pagination
 def global_chat(request):
     filter_option = request.GET.get('filter', 'newest')
-    
+
+    # Check if user is authenticated before filtering by user-specific attributes
+    if not request.user.is_authenticated:
+        # Redirect to login if trying to access user-specific filters while not logged in
+        if filter_option in ['your_posts', 'saved']:
+            return redirect('main:login')
+
     if filter_option == 'your_posts':
         # Filter forums by the current user
         forums_list = Forum.objects.filter(user=request.user).order_by('-posted_time')
@@ -24,7 +30,7 @@ def global_chat(request):
     else:
         # Default to newest posts (all posts)
         forums_list = Forum.objects.all().order_by('-posted_time')
-    
+
     paginator = Paginator(forums_list, 5)  # Show 5 forums per page
     page_number = request.GET.get('page')
     forums = paginator.get_page(page_number)
