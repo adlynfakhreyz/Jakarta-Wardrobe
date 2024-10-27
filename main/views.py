@@ -16,6 +16,8 @@ from django.utils.text import slugify
 from django.contrib.auth.models import User
 import uuid
 
+from users.models import Profile
+
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -42,8 +44,12 @@ def login_user(request):
 
       if form.is_valid():
             user = form.get_user()
+            # tambah ini 
+            Profile.objects.get_or_create(user=user) 
+
             login(request, user)
             return redirect('main:show_main')
+        
 
    else:
       form = AuthenticationForm(request)
