@@ -3,9 +3,11 @@ from user_choices.models import UserChoice
 from products.models import Product, Rating
 from django.http import JsonResponse, HttpResponse
 from django.core import serializers
-from django.db.models import Avg
-from django.shortcuts import get_object_or_404
+from django.db.models import Avg, F
+from django.shortcuts import get_object_or_404,  render, redirect
 from django.contrib.auth.decorators import login_required
+from .forms import NotesForm
+from django.contrib import messages
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -58,7 +60,8 @@ def delete_user_choices(request, id):
 def show_user_choices_json(request):
     # Filter products selected by the logged-in user and annotate with average rating
     user_products = Product.objects.filter(userchoice__user=request.user).annotate(
-        avg_rating=Avg('rating__rating')
+        avg_rating=Avg('rating__rating'),
+        notes=F('userchoice__notes')  # Adjust field name if different
     ).values(
         'uuid',
         'category',
@@ -70,8 +73,36 @@ def show_user_choices_json(request):
         'shop_name',
         'location',
         'img_url',
-        'avg_rating'
+        'avg_rating',
+        'notes'
     )
 
     # Return the JSON response with the constructed data
     return JsonResponse(list(user_products), safe=False)
+
+@login_required
+def edit_notes(request, id):
+    """
+    View for editing notes for a specific product.
+    Creates a new UserChoice if it doesn't exist.
+    """
+    selected_item = Product.objects.get(pk=id)
+    user_choice, created = UserChoice.objects.get_or_create(
+        user=request.user,
+        selected_item=selected_item,
+        defaults={'notes': ''}
+    )
+
+    if request.method == 'POST':
+        form = NotesForm(request.POST, instance=user_choice)
+        if form.is_valid():
+            form.save()
+            return redirect('/user_choices')  # Adjust this to your product detail URL name
+    else:
+        form = NotesForm(instance=user_choice)
+        
+    context = {
+        'form': form,
+        'product': selected_item
+    }
+    return render(request, 'edit_notes.html', context)
