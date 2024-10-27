@@ -13,6 +13,7 @@ class UserChoice(models.Model):
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     selected_item = models.ForeignKey(Product, on_delete=models.CASCADE)
+    notes = models.TextField(blank=True, default='')  # Komentar pengguna mengenai pilihan produk
 
     class Meta:
         unique_together = ('user', 'selected_item') # Menetapkan constraint unik antara user dan produk
