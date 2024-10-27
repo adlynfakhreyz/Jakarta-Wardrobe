@@ -41,7 +41,7 @@
             </span>
           </p>
           <div class="penilaian mt-4 text-center">
-            <form id="ratingForm">
+            <form id="ratingForm" data-authenticated="{% if request.user.is_authenticated %}true{% else %}false{% endif %}">
                 {% csrf_token %}
                 <input type="hidden" name="product_id" value="{{ product.uuid }}">
                 <div class="rating">
@@ -86,7 +86,7 @@
 
       <div class="bg-white shadow-md rounded-lg overflow-hidden w-full lg:w-2/3 p-4">
         <h2 class="text-xl font-bold mb-4 text-center">Add a Comment</h2>
-        <form id="commentForm" class="text-center mb-4">
+        <form id="commentForm" class="text-center mb-4" data-authenticated="{% if request.user.is_authenticated %}true{% else %}false{% endif %}">
             {% csrf_token %}
             <input type="hidden" name="product_id" value="{{ product.uuid }}">
             <textarea name="comment" rows="4" placeholder="Add a comment..." class="border w-full p-2 rounded mb-2"></textarea>
@@ -163,8 +163,13 @@
 $(document).ready(function() {
     // Rating Submission
     $('#ratingForm').submit(function(e) {
-        e.preventDefault();
-        $.ajax({
+        var isAuthenticated = $(this).attr('data-authenticated') === 'true';
+        if (!isAuthenticated) {
+            e.preventDefault(); // Hentikan pengiriman form
+            alert('You must be logged in to rate this product!');
+        } else {
+          e.preventDefault();
+          $.ajax({
             url: '/products/add_rating/',
             method: 'POST',
             data: $(this).serialize(),
@@ -201,50 +206,55 @@ $(document).ready(function() {
                 console.error('Error: ' + xhr.responseJSON.message);
             }
         });
+      }
     });
 
     // Comment Submission
     $('#commentForm').submit(function(e) {
-    e.preventDefault();
+        var isAuthenticated = $(this).attr('data-authenticated') === 'true';
+        if (!isAuthenticated) {
+            e.preventDefault(); // Hentikan pengiriman form
+            alert('You must be logged in to give comments!');
+        } else {
+          e.preventDefault();
+          var comment = $('textarea[name="comment"]').val().trim();
 
-    // Ambil nilai dari textarea
-    var comment = $('textarea[name="comment"]').val().trim();
+          // Cek apakah textarea kosong
+          if (comment === '') {
+              alert('Comment cannot be empty!');
+              return;
+          }
 
-    // Cek apakah textarea kosong
-    if (comment === '') {
-        alert('Comment cannot be empty!');
-        return;
-    }
+          $.ajax({
+              url: '/products/add_comment/',
+              method: 'POST',
+              data: $(this).serialize(),
+              headers: {'X-CSRFToken': '{{ csrf_token }}'},
+              success: function(response) {
+                  // Tambahkan komentar baru ke bagian komentar dengan format baru
+                  var newCommentHtml = `
+                      <li class="flex flex-col">
+                          <div>
+                              <strong class="font-bold">${response.user}</strong>
+                              <span>${response.comment}</span>
+                          </div>
+                          <div class="text-gray-500 text-sm mt-1">${response.timestamp}</div>
+                      </li>
+                  `;
+                  $('#commentSection').prepend(newCommentHtml);
 
-    $.ajax({
-        url: '/products/add_comment/',
-        method: 'POST',
-        data: $(this).serialize(),
-        headers: {'X-CSRFToken': '{{ csrf_token }}'},
-        success: function(response) {
-            // Tambahkan komentar baru ke bagian komentar dengan format baru
-            var newCommentHtml = `
-                <li class="flex flex-col">
-                    <div>
-                        <strong class="font-bold">${response.user}</strong>
-                        <span>${response.comment}</span>
-                    </div>
-                    <div class="text-gray-500 text-sm mt-1">${response.timestamp}</div>
-                </li>
-            `;
-            $('#commentSection').prepend(newCommentHtml);
+                  // Hapus elemen "No comments yet" jika ada
+                  $('.no-comments').remove();
 
-            // Hapus elemen "No comments yet" jika ada
-            $('.no-comments').remove();
-
-            // Bersihkan textarea setelah komentar ditambahkan
-            $('textarea[name="comment"]').val('');
-        },
-        error: function(xhr) {
-            alert('Error: ' + xhr.responseJSON.message);
+                  // Bersihkan textarea setelah komentar ditambahkan
+                  $('textarea[name="comment"]').val('');
+              },
+              error: function(xhr) {
+                  alert('Error: ' + xhr.responseJSON.message);
+              }
+          });
         }
+      });
     });
-});
-});
 </script>
 {% endblock %}

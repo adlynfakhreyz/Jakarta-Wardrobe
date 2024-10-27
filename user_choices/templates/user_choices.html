@@ -6,6 +6,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/notification.css' %}">
     <title>User Choices Page</title>
     <style>
@@ -170,7 +173,7 @@
     </style>
   </head>
   {% include "navbar.html" %}
-  <body class="bg-gray-100 flex flex-col min-h-screen font-sans">
+  <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;">
     <div class="container mx-auto px-4 py-8">
       <h2 id='page-title' class="text-3xl sm:text-3xl md:text-4xl lg:text-5xl pt-14 pb-10 flex justify-center font-bold text-gray-800"></h2>
       <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -234,7 +237,7 @@
             document.getElementById('page-title').textContent = '';
             productCards = `
             <div class="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 flex justify-center items-center h-full p-6">
-              <div class="flex flex-col items-center justify-center p-6 bg-white shadow-md rounded-lg max-w-md mx-auto">
+              <div class="flex flex-col items-center justify-cefnter p-6 bg-white shadow-md rounded-lg max-w-md mx-auto">
                   <h2 class="text-xl font-bold text-gray-700 mb-4 text-center ">You haven't added any products to your choices</h2>
                   <p class="text-black-500 mb-4 text-center">Discover the latest trends in garments available around <strong>Jakarta!</strong> Our information center is dedicated to helping you find the best local boutiques and markets. Explore our listings to find the perfect outfits and accessories to elevate your style.</p>
                   <a href="/products" class="btn-custom rounded-btn">Browse Products</a>
@@ -245,13 +248,13 @@
             document.getElementById('page-title').textContent = 'Your Choices';
             productData.forEach(product => {
                 productCards += `
-                <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card" data-id="${product.id}">
+                <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card" data-id="${product.uuid}">
                         <img src="${product.img_url}" alt="${product.name}" class="w-full h-48 object-cover">
                         <div class="p-4">
                             <div class="flex justify-between items-start" ">
                                 <h2 class="text-xl font-bold">${product.name}</h2>
-                                <button id="likeButton_${product.id}" class="love-button liked}" onclick="toggleWishlist('${product.id}', true)">
-                                    <svg id="heartIcon_${product.id}" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="#E0245E" viewBox="0 0 24 24" stroke="#E0245E">
+                                <button id="likeButton_${product.uuid}" class="love-button liked}" onclick="toggleWishlist('${product.uuid}', true)">
+                                    <svg id="heartIcon_${product.uuid}" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="#E0245E" viewBox="0 0 24 24" stroke="#E0245E">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                     </svg>
                                 </button>

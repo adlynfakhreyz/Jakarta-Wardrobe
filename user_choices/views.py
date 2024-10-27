@@ -1,15 +1,22 @@
 from django.shortcuts import render
 from user_choices.models import UserChoice
-from products.models import Product
+from products.models import Product, Rating
 from django.http import JsonResponse, HttpResponse
 from django.core import serializers
+from django.db.models import Avg
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='/login')
 def show_user_choices(request):
     return render(request, 'user_choices.html')
-    
+
 def add_user_choices(request, id):
+    if not request.user.is_authenticated:
+        # Return a JSON response if the user is not authenticated
+        return JsonResponse({'status': 'error', 'message': 'User is not authenticated.'}, status=401)
+
     if request.method == 'POST':
         # Get the current logged-in user and the selected item
         current_user = request.user
@@ -30,6 +37,7 @@ def add_user_choices(request, id):
             return JsonResponse({'status': 'error', 'message': 'Choice already exists.'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
 
+@login_required(login_url='/login')
 def delete_user_choices(request, id):
     if request.method == 'DELETE':
         # Get the current logged-in user and the selected item
@@ -46,26 +54,24 @@ def delete_user_choices(request, id):
             return JsonResponse({'status': 'error', 'message': 'Choice does not exist.'})
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
 
-# @login_required
+@login_required(login_url='/login')
 def show_user_choices_json(request):
-    # Get all UserChoice entries for the logged-in user
-    user_choices = UserChoice.objects.filter(user=request.user)
-    
-    # Manually build the JSON data with product details
-    data = []
-    for choice in user_choices:
-        data.append({
-            "id": choice.selected_item.pk,
-            "category": choice.selected_item.category,
-            "name": choice.selected_item.name,
-            "price": choice.selected_item.price,
-            "desc": choice.selected_item.desc,
-            "color": choice.selected_item.color,
-            "stock": choice.selected_item.stock,
-            "shop_name": choice.selected_item.shop_name,
-            "location": choice.selected_item.location,
-            "img_url": choice.selected_item.img_url,
-        })
-    
+    # Filter products selected by the logged-in user and annotate with average rating
+    user_products = Product.objects.filter(userchoice__user=request.user).annotate(
+        avg_rating=Avg('rating__rating')
+    ).values(
+        'uuid',
+        'category',
+        'name',
+        'price',
+        'desc',
+        'color',
+        'stock',
+        'shop_name',
+        'location',
+        'img_url',
+        'avg_rating'
+    )
+
     # Return the JSON response with the constructed data
-    return JsonResponse(data, safe=False)
+    return JsonResponse(list(user_products), safe=False)

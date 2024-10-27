@@ -12,16 +12,28 @@ from user_choices.models import UserChoice
 
 def show_products_by_price(request):
     products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('price')
-    user_choices = UserChoice.objects.filter(user=request.user).values_list('selected_item',flat=True)
+    if request.user.is_authenticated:
+        user_choices = UserChoice.objects.filter(user=request.user).values_list('selected_item',flat=True)
+    else:
+        user_choices = []
     context = {
         'products': products,
         'user_choices': user_choices,
     }
     return render(request, 'product_page.html', context)
 
+
 def show_products_by_category(request, category_keyword):
     products = Product.objects.filter(category__iregex=r'\b{}\b'.format(re.escape(category_keyword))).annotate(avg_rating=Avg('rating__rating')).order_by('name')
-    return render(request, 'product_page.html', {'products': products})
+    if request.user.is_authenticated:
+        user_choices = UserChoice.objects.filter(user=request.user).values_list('selected_item',flat=True)
+    else:
+        user_choices = []
+    context = {
+        'products': products,
+        'user_choices': user_choices,
+    }
+    return render(request, 'product_page.html', context)
 
 def product_detail(request, product_id):
     try:
@@ -138,13 +150,13 @@ def find_product(request):
     query = request.GET.get('q', '')  # Search query
     category = request.GET.get('category', '')  # Selected category
     shop_name = request.GET.get('shop_name', '')  # Selected shop name
-    filter_type = request.GET.get('filter', '')  # Existing filter (e.g., price/rating)
+    filter_type = request.GET.get('filter', '')  # Existing filter
 
-    products = Product.objects.all()
+    products = Product.objects.annotate(avg_rating=Avg('rating__rating'))
 
     # Apply search filter if query is provided
     if query:
-        products = products.filter(Q(name__icontains=query) | Q(desc__icontains=query))
+        products = products.filter(Q(name__icontains=query) )
 
     # Apply category filter if a category is selected
     if category:

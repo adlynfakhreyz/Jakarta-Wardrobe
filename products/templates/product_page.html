@@ -218,7 +218,7 @@
                 </select>
             </div>
         </form>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for product in products %}
             <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card"
                 data-id="{{ product.uuid }}">
@@ -295,14 +295,12 @@
     <script>
 
         function toggleWishlist(productId, isInUserChoices) {
-            console.log(productId, isInUserChoices);
             if (isInUserChoices) {
                 // Confirmation dialog for removing from wishlist
                 if (!confirm("Are you sure you want to remove this item from your wishlist?")) {
                     return; // If user cancels, exit the function
                 }
             }
-    
             const method = isInUserChoices ? 'DELETE' : 'POST';
             const operation = isInUserChoices ? 'delete' : 'add';
           
@@ -315,17 +313,19 @@
                 },
                 body: JSON.stringify({ choice: productId })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 401) {
+                    // If the status is 401, redirect to login page
+                    window.location.href = '/login';
+                    return;
+                }
+                return response.json();
+            })
             .then(data => {
-                if (data.status === 'success') {
-                    if (!isInUserChoices) {
-                        
-                    } else {
-                        
-                    }
+                if  (data && data.status === 'success') {
                     toggleLike(productId, isInUserChoices);
-                } else {
-                    alert(data.message); // Show error message
+                } else if (data) {
+                    alert(data.message); // Show other error messages
                 }
             })
             .catch(error => {
@@ -337,7 +337,7 @@
           function toggleLike(productId, isInUserChoices) {
             const button = document.getElementById(`likeButton_${productId}`);
             const heartIcon = document.getElementById(`heartIcon_${productId}`);
-        
+
             // Toggle the liked class
             button.classList.toggle('liked');
         
@@ -349,11 +349,8 @@
                 heartIcon.setAttribute('stroke', '#27144b'); // Original color
                 heartIcon.setAttribute('fill', 'none');       // No fill when unliked
             }
-            // Set the onclick function properly
-            button.onclick = function() {
-                const isLiked = button.classList.contains('liked'); // Check if button is currently liked
-                toggleWishlist(productId, isLiked);
-            };
+            
+            button.setAttribute("onclick", `toggleWishlist('${productId}', ${!isInUserChoices})`);
           }
 
     
@@ -363,38 +360,40 @@
           }
 
       $(document).ready(function() {
-        $('.product-card').click(function() {
+        $('#product-list').on('click', '.product-card', function(event) {
             var productId = $(this).data('id');
+            // Clear any previous like button in the modal
 
-            // AJAX to fetch product details
-            $.ajax({
-                url: '/products/detail/' + productId + '/',
-                method: 'GET',
-                success: function(response) {
-                    $('#modalName').text(response.name); 
-                    $('#modalCategory .modal-data').text(response.category);
-                    $('#modalPrice .modal-data').text('Rp' + response.price);
-                    $('#modalDesc .modal-data').text(response.description);
-                    $('#modalColor .modal-data').text(response.color);
-                    $('#modalStock .modal-data').text(response.stock);
-                    $('#modalShopName .modal-data').text(response.shop_name);
-                    $('#modalLocation .modal-data').text(response.location);
-                    $('#modalImage').attr('src', response.img_url); 
-                    $('#modalReviewLink').attr('href', '/products/review_products/' + productId + '/');
-                    
-                    // Clear any previous like button in the modal
-                    $('#modalLikeButtonContainer').empty();
-                    const likeButton = getButton(productId);
+            if (!$(event.target).closest('button').length) {
+                // AJAX to fetch product details
+                $.ajax({
+                    url: '/products/detail/' + productId + '/',
+                    method: 'GET',
+                    success: function(response) {
+                        $('#modalName').text(response.name); 
+                        $('#modalCategory .modal-data').text(response.category);
+                        $('#modalPrice .modal-data').text('Rp' + response.price);
+                        $('#modalDesc .modal-data').text(response.description);
+                        $('#modalColor .modal-data').text(response.color);
+                        $('#modalStock .modal-data').text(response.stock);
+                        $('#modalShopName .modal-data').text(response.shop_name);
+                        $('#modalLocation .modal-data').text(response.location);
+                        $('#modalImage').attr('src', response.img_url); 
+                        $('#modalReviewLink').attr('href', '/products/review_products/' + productId + '/');
 
-                    $('#modalLikeButtonContainer').html(likeButton);
+                        $('#modalLikeButtonContainer').empty();
+                        const likeButton = getButton(productId);
+                        console.log(likeButton)
+                        $('#modalLikeButtonContainer').html(likeButton);
 
-                    $('#productModal').fadeIn(300); 
-                },
-                error: function(xhr) {
-                    console.error('Error fetching product details: ' + xhr.responseText);
-                    alert('Terjadi kesalahan saat mengambil detail produk.');
-                }
-            });
+                        $('#productModal').fadeIn(300); 
+                    },
+                    error: function(xhr) {
+                        console.error('Error fetching product details: ' + xhr.responseText);
+                        alert('Terjadi kesalahan saat mengambil detail produk.');
+                    }
+                });
+            }
         });
 
         $('#modalLikeButtonContainer').click(function() {
