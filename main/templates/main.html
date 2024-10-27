@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     <style>
       .hero-slide {
         display: flex;
@@ -47,23 +48,17 @@
     </style>
   </head> 
   {% include "navbar.html" %}
-  <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;scrollbar-x-width: none;">  
+  <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif; scrollbar-x-width: none;">
 
-    <div class="mt-16">
+    <div class="mt-16" data-aos="fade-up" data-aos-duration="1000">
       <div class="hero-slide" id="hero-slide">
-        <div class="hero-bg justify-center items-end" style="background-image: url('{% static 'images/HERO 1 FIX.png' %}');">
-            <!-- <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Shop Now</button> -->
-        </div>
-        <div class="hero-bg-2" style="background-image: url('{% static 'images/HERO 2 FIX.png' %}');">
-            <!-- <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Explore Now</button> -->
-        </div>
-        <div class="hero-bg-3" style="background-image: url('{% static 'images/HERO 3 FIX.png' %}');">
-          <!-- <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Explore Now</button> -->
+        <div class="hero-bg justify-center items-end" style="background-image: url('{% static 'images/HERO 1 FIX.png' %}');"></div>
+        <div class="hero-bg-2" style="background-image: url('{% static 'images/HERO 2 FIX.png' %}');"></div>
+        <div class="hero-bg-3" style="background-image: url('{% static 'images/HERO 3 FIX.png' %}');"></div>
       </div>
-    </div>
 
     <!-- New "Our Advantages" Section Below Hero Slide -->
-    <div class="py-12 h-screen">
+    <div class="py-12 h-screen" data-aos="fade-up" data-aos-duration="1000">
       <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-8 mt-2">Why Choose Us</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-10 md:mx-40">
         <!-- Trendy Products -->
@@ -104,7 +99,7 @@
     </div>
 
     <!-- Key Features -->
-    <div class="bg-gray-100" style="padding: 0; margin-top: -140px;">
+    <div class="bg-gray-100" style="padding: 0; margin-top: -140px;" data-aos="fade-up" data-aos-duration="1000">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-2">
         <div class="text-center mb-20">
           <h2 class="text-4xl font-extrabold text-gray-800">Our Key Features</h2>
@@ -148,7 +143,7 @@
       </div>
     </div>
 
-    <div class="flex-grow" style="margin-top: -48px;">
+    <div class="flex-grow" style="margin-top: -48px;" data-aos="fade-up" data-aos-duration="1000">
       <!-- Hero Section with Slider -->
       <div class="relative flex justify-center items-center h-screen md:h-screen">
         <div class="overflow-hidden relative flex justify-center items-center">
@@ -172,7 +167,7 @@
       </div>
       
       <!-- Brands Section -->
-      <div class="h-screen" style="margin-top: -80px;">
+      <div class="h-screen" style="margin-top: -80px;" data-aos="fade-up" data-aos-duration="1000">
       <div class="brands-container relative flex flex-col">
         <h2 class="text-3xl flex justify-start font-bold text-gray-800 ml-10 md:ml-40">Brands</h2>
         <div class="relative flex justify-start items-center my-8 ml-10 md:ml-44">
@@ -195,7 +190,7 @@
       </div>
       
       <!-- Categories and Best Sellers Sections remain unchanged -->
-      <div class="categories-container mt-14">
+      <div class="categories-container mt-14" data-aos="fade-up" data-aos-duration="1000">
         <h2 class="text-3xl font-bold text-gray-800 ml-10 md:ml-40">Categories</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mx-10 md:mx-40 my-8">
           <div class="relative group bg-[#F8F0E7] rounded-lg" style="background-color: #F8F0E7;">
@@ -234,7 +229,7 @@
         
       </div>
       <!-- Updated Products Overview Section -->
-      <div class="flex-grow" style="margin-top: -180px;">
+      <div class="flex-grow" style="margin-top: -180px;" data-aos="fade-up" data-aos-duration="1000">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 class="text-3xl font-bold text-gray-800 mb-8 ml-8 md:ml-12">Featured Products</h2>
 
@@ -276,7 +271,7 @@
       </div>
 
       <!-- FAQ Section -->
-      <div class="py-16" id="faq-section" style="margin-top: -56px;">
+      <div class="py-16" id="faq-section" style="margin-top: -56px;" data-aos="fade-up" data-aos-duration="1000">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-center gap-4" style="margin-bottom: -36px;"> <!-- Reduced margin further with inline style -->
             <!-- Left Image -->
@@ -321,10 +316,18 @@
       </div>
 
     </div>
-    
-    {% include "footer.html" %}
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    });
+  </script>
+  {% include "footer.html" %}
   </body>  
-</html> 
+</html>
 
 <script>
   const slider = document.getElementById('slider');
