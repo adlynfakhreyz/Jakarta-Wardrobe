@@ -17,6 +17,7 @@ def global_chat(request):
     return render(request, 'global_chat.html', {'forums': forums})
 
 # Forum Detail View
+@login_required(login_url="main:login")
 def detail_chat(request, forum_id):
     forum = get_object_or_404(Forum, id=forum_id)
     comments = Comment.objects.filter(forum=forum).order_by('-posted_time')
@@ -40,7 +41,7 @@ def detail_chat(request, forum_id):
     return render(request, 'detail_chat.html', context)
 
 # Create a new forum post
-@login_required
+@login_required(login_url="main:login")
 def new_forum(request):
     if request.method == 'POST':
         form = ForumForm(request.POST)
@@ -58,7 +59,7 @@ def new_forum(request):
 
 
 # Like a forum
-@login_required
+@login_required(login_url="main:login")
 def toggle_like_forum(request, forum_id):
     forum = get_object_or_404(Forum, id=forum_id)
     if request.user in forum.likes.all():
@@ -67,7 +68,7 @@ def toggle_like_forum(request, forum_id):
         forum.likes.add(request.user)
     return redirect(request.META.get('HTTP_REFERER'))
 
-@login_required
+@login_required(login_url="main:login")
 def edit_forum(request, id):
     forum = get_object_or_404(Forum, id=id)
     if request.user != forum.user:
@@ -83,14 +84,14 @@ def edit_forum(request, id):
     
     return render(request, 'edit_forum.html', {'form': form, 'forum': forum})
 
-@login_required
+@login_required(login_url="main:login")
 def delete_forum(request, id):
     forum = get_object_or_404(Forum, id=id)
     if request.user == forum.user:
         forum.delete()
     return redirect('globalChat:global_chat')
 
-@login_required
+@login_required(login_url="main:login")
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     forum = get_object_or_404(Forum, id=comment.forum.id)
@@ -102,7 +103,7 @@ def delete_comment(request, comment_id):
     else:
         return redirect('globalChat:detail_chat', forum_id=forum.id)  # If not authorized, redirect back
     
-@login_required
+@login_required(login_url="main:login")
 def toggle_bookmark(request, forum_id):
     forum = get_object_or_404(Forum, id=forum_id)
     if request.user in forum.bookmarks.all():
