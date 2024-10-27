@@ -285,7 +285,7 @@
                 </div>
                 <!-- Section Tombol Review -->
                 <div id="modalReviewSection" class="fixed-bottom-review" style="background-color: transparent;">
-                    <a id="modalReviewLink" href="#" class="button-review bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg">Review</a>
+                    <a id="modalReviewLink" href="#" class="button-review bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg transition ease-in-out duration-300">Review</a>
                 </div>
             </div>
         </div>
@@ -351,11 +351,34 @@
             }
             
             button.setAttribute("onclick", `toggleWishlist('${productId}', ${!isInUserChoices})`);
+
+           try {
+                const modalButton = document.getElementById(`modalLikeButton_${productId}`);
+                const modalHeartIcon = document.getElementById(`modalHeartIcon_${productId}`);
+
+                // Toggle the liked class
+                modalButton.classList.toggle('liked');
+            
+                // Change the heart color based on the state
+                if (modalButton.classList.contains('liked')) {
+                    modalHeartIcon.setAttribute('stroke', '#E0245E'); // Red color when liked
+                    modalHeartIcon.setAttribute('fill', '#E0245E');   // Fill heart when liked
+                } else {
+                    modalHeartIcon.setAttribute('stroke', '#27144b'); // Original color
+                    modalHeartIcon.setAttribute('fill', 'none');       // No fill when unliked
+                }
+                
+                modalButton.setAttribute("onclick", `toggleWishlist('${productId}', ${!isInUserChoices})`);
+           } catch (error) {
+                console.error(error);
+           }
           }
 
     
           function getButton(productId) {
             const button = document.getElementById(`likeButton_${productId}`).cloneNode(true);
+            button.setAttribute('id', `modalLikeButton_${productId}`);
+            button.children[0].setAttribute('id', `modalHeartIcon_${productId}`);
             return button;
           }
 
@@ -384,6 +407,7 @@
                         $('#modalLikeButtonContainer').empty();
                         const likeButton = getButton(productId);
                         console.log(likeButton)
+
                         $('#modalLikeButtonContainer').html(likeButton);
 
                         $('#productModal').fadeIn(300); 
@@ -395,10 +419,6 @@
                 });
             }
         });
-
-        $('#modalLikeButtonContainer').click(function() {
-            $('#productModal').fadeOut(300);
-        })
 
         // Event klik untuk menutup modal
         $('#closeModal').click(function() {
