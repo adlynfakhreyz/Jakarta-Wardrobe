@@ -59,8 +59,8 @@
         }
 
         .profile-image img {
-            width: 100px;
-            height: 100px;
+            width: 300px;
+            height: 300px;
             object-fit: cover;
             border-radius: 10px;
         }
@@ -151,7 +151,7 @@
 <body>
     <div class="container">
         <div class="profile-image">
-            <img src="{% static 'images/defaults.png' %}" alt="User Image">
+            <img src="{{ user.profile.avatar.url }}" class = "h-40 w-40" alt="Profile Picture">
         </div>
         
         <div class="profile-content">
