@@ -17,12 +17,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <style> 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -33,141 +27,117 @@
         }
 
         .container {
-          width: 1081px;
-          height: 516px;
-          border-radius: 15px;
-          background: var(--Off-White, #FCFCFC);
-          box-shadow: 0px 4px 10px 0px rgba(136, 136, 136, 0.60);
-          flex-shrink: 0;
-          display: flex;
-        }
-        
-        .foto-profile {
-            flex: 1;
-            background: rgba(51, 51, 51, 0.60);
-            color: #fff;
+            width: 1080px;
+            height: 516px;
+            border-radius: 15px;
+            background: var(--Off-White, #FCFCFC);
+            box-shadow: 0px 4px 10px 0px rgba(136, 136, 136, 0.60);
+            flex-shrink: 0;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            margin: 2rem auto;
+            overflow: hidden; 
+        }
+
+        .profile-container {
+            display: flex;
             align-items: center;
+            justify-content: center;
+            margin: 2rem auto;
+            max-width: 800px;
+            background-color: #FCFCFC;
+            padding: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .profile-image {
+            flex: 0 0 35%; /* Occupies 40% of the container */
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-            width: 531px;
-            height: 516px;
-            flex-shrink: 0;
         }
 
-        .foto-profile img {
-            width: 531px;
-            height: 516px;
-            flex-shrink: 0;
+        .profile-image img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
         }
 
-        .detail-section {
-            flex: 1;
+        .profile-content {
+            flex: 1; /* Occupies 60% of the container */
+            margin-left: 5 px;
+            margin-top: 10 px;
             padding: 40px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        .detail-section form button {
+        .profile-content h1 {
+            font-size: 1.8 rem;
+            margin-bottom: 1rem;
+            color: #1E1E1E;
+        }
+
+        .profile-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
             width: 100%;
-            padding: 10px;
-            background-color: #333;
-            color: #fff;
-            font-size: 16px;
+        }
+
+        .profile-content label {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #1E1E1E;
+        }
+
+        .profile-content input[type="text"],
+        .profile-content input[type="file"],
+        .profile-content textarea {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            width: 90%;
+            font-size: 1rem;
+        }
+
+        .change-password {
+            color: #DD8560;
+            ;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .save-btn, .reset-btn {
+            padding: 0.7rem 1.5rem;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            width: 45%;
+            background-color: #1E1E1E;
+            color: #FCFCFC;
         }
 
-.profile-container {
-    display: flex;
-    margin: 2rem auto;
-    max-width: 800px;
-    background-color: #FCFCFC;
-    padding: 2rem;
-    box-shadow: 0px 4px 10px 0px rgba(136, 136, 136, 0.60);
-    border-radius: 15px;
-}
+        .activity h2 {
+            font-size: 1rem;
+            margin-top: 1.2rem;
+            color: #1E1E1E;
+        }
 
-.profile-image img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.profile-content {
-    margin-left: 2rem;
-    flex: 1;
-}
-
-.profile-content h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.profile-content form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.profile-content label {
-    font-weight: bold;
-}
-
-.profile-content input[type="text"],
-.profile-content input[type="file"],
-.profile-content textarea {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    width: 100%;
-}
-
-.change-password {
-    color: #ff6347;
-    text-decoration: none;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-}
-
-.save-btn, .reset-btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.save-btn {
-    background-color: #333;
-    color: #fff;
-}
-
-.reset-btn {
-    background-color: #ccc;
-    color: #333;
-}
-
-.activity h2 {
-    font-size: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.activity textarea {
-    width: 100%;
-    height: 100px;
-    resize: none;
-    padding: 0.5rem;
-}
-
-
+        .activity textarea {
+            width: 90%;
+            height: 80px;
+            resize: none;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <!DOCTYPE html>
@@ -181,26 +151,29 @@
 <body>
     <div class="container">
         <div class="profile-image">
-            <img src="{% static 'media/defaults.png' %}" alt="User Image">
+            <img src="{% static 'images/defaults.png' %}" alt="User Image">
         </div>
         <div class="profile-content">
-            <h1>Hai, User!</h1>
+            <h1>Hai, {{ user.username }}!</h1>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <label for="username">Username</label>
-                <input type="text" name="username" id="username" value="{{ user_form.username }}">
+                <input type="text" name="username" id="username" value="{{ user.username }}">
                 
-                <a href="#" class="change-password">Change Password</a>
+                <a href="{% url 'password_reset' %}" class="change-password">Change Password</a>
                 
                 <label for="avatar">Change Avatar</label>
                 <input type="file" name="avatar" id="avatar">
                 
+                <div>
                 <button type="submit" class="save-btn">Save Changes</button>
                 <button type="reset" class="reset-btn">Reset</button>
+                </div>
+                
             </form>
             
             <div class="activity">
-                <h2>Username's Activity</h2>
+                <h2>{{ user.username }}'s Activity</h2>
                 <textarea readonly>{{ user.activity }}</textarea>
             </div>
         </div>
