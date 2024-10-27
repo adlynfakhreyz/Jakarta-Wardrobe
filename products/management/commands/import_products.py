@@ -11,7 +11,7 @@ class Command(BaseCommand):
         filepath = 'Dataset.xlsx'
         
         # Load the data into a pandas DataFrame
-        data = pd.read_excel(filepath, engine='openpyxl')
+        data = pd.read_excel(filepath)
         
         # Iterate through the rows of the DataFrame, creating Product instances
         for _, row in data.iterrows():
