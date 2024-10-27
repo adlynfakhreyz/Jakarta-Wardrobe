@@ -51,7 +51,7 @@
                     <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
                     <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
                 </div>
-                <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold text-white py-1 px-4 mt-2 rounded-lg">Submit Rating</button>
+                <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold text-white py-1 px-4 mt-2 rounded-lg transition ease-in-out duration-300">Submit Rating</button>
             </form>
           </div>
         </div>
@@ -86,15 +86,15 @@
 
       <div class="bg-white shadow-md rounded-lg overflow-hidden w-full lg:w-2/3 p-4">
         <h2 class="text-xl font-bold mb-4 text-center">Add a Comment</h2>
-        <form id="commentForm" class="text-center mb-4">
+        <form id="commentForm" class="text-center mb-4" data-authenticated="{% if request.user.is_authenticated %}true{% else %}false{% endif %}">
             {% csrf_token %}
             <input type="hidden" name="product_id" value="{{ product.uuid }}">
             <textarea name="comment" rows="4" placeholder="Add a comment..." class="border w-full p-2 rounded mb-2"></textarea>
-            <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg">Submit Comment</button>
+            <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg transition ease-in-out duration-300">Submit Comment</button>
         </form>
       
         <h2 class="text-xl font-bold mb-4 text-center">Comments</h2>
-        <ul id="commentSection" class="space-y-4" data-authenticated="{% if request.user.is_authenticated %}true{% else %}false{% endif %}">
+        <ul id="commentSection" class="space-y-4">
                 {% for comment in comments %}
                 <li class="flex flex-col">
                     <div>
@@ -166,7 +166,7 @@ $(document).ready(function() {
         var isAuthenticated = $(this).attr('data-authenticated') === 'true';
         if (!isAuthenticated) {
             e.preventDefault(); // Hentikan pengiriman form
-            alert('You must be logged in to rate this product!');
+            window.location.href = "{% url 'main:login' %}"; // Redirect to login page
         } else {
           e.preventDefault();
           $.ajax({
@@ -211,10 +211,10 @@ $(document).ready(function() {
 
     // Comment Submission
     $('#commentForm').submit(function(e) {
-      var isAuthenticated = $(this).attr('data-authenticated') === 'true';
+        var isAuthenticated = $(this).attr('data-authenticated') === 'true';
         if (!isAuthenticated) {
             e.preventDefault(); // Hentikan pengiriman form
-            alert('You must be logged in to give comments!');
+            window.location.href = "{% url 'main:login' %}"; // Redirect to login page
         } else {
           e.preventDefault();
           var comment = $('textarea[name="comment"]').val().trim();

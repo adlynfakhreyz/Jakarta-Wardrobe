@@ -60,30 +60,45 @@
             <!-- Icons (bottom-right corner) -->
             <div class="absolute bottom-4 right-4 flex space-x-4 text-gray-600">
             <!-- Like Icon with Count -->
-            <a href="{% url 'globalChat:toggle_like_forum' forum.id %}" 
+            <a href="javascript:void(0);" 
+            onclick="toggleLike({{ forum.id }})" 
+            id="like-button" 
             class="flex items-center {% if request.user in forum.likes.all %}text-red-600{% else %}text-gray-600{% endif %} hover:text-red-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" 
-                    fill="{% if request.user in forum.likes.all %}red{% else %}none{% endif %}" 
-                    viewBox="0 0 24 24" 
-                    stroke="{% if request.user in forum.likes.all %}red{% else %}gray{% endif %}">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20l7.682-7.318a4.5 4.5 0 10-6.364-6.364L12 7.293l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" 
+                 fill="{% if request.user in forum.likes.all %}red{% else %}none{% endif %}" 
+                 viewBox="0 0 24 24" 
+                 stroke="{% if request.user in forum.likes.all %}red{% else %}gray{% endif %}">
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20l7.682-7.318a4.5 4.5 0 10-6.364-6.364L12 7.293l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+             </svg>
+             <span id="like-count">{{ forum.likes.count }}</span>
+         </a>
+         
+
+
+            <!-- Comment Icon with Count -->
+            <a href="#" class="flex items-center text-gray-500 hover:text-gray-500"> <!-- Updated color classes for light gray -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="#808080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-5 5V5a2 2 0 012-2h16a2 2 0 012 2z"></path>
                 </svg>
-                <span>{{ forum.likes.count }}</span>
+                <span class="ml-1">{{ comments.count }}</span>
             </a>
 
-
-                <!-- Comment Icon with Count -->
-                <a href="#" class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-5 5V5a2 2 0 012-2h16a2 2 0 012 2z"></path></svg>
-                    <span class="ml-1">{{ comments.count }}</span>
-                </a>
             <!-- Bookmark Icon -->
-            <a href="{% url 'globalChat:toggle_bookmark' forum.id %}" class="flex items-center {% if request.user in forum.bookmarks.all %}text-blue-600{% else %}text-gray-600{% endif %} hover:text-blue-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="{% if request.user in forum.bookmarks.all %}blue{% else %}none{% endif %}" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v16l7-5 7 5V5a2 2 0 00-2-2H7a2 2 0 00-2 2z" />
+            <!-- Bookmark Icon with AJAX Toggle -->
+            <a href="javascript:void(0);" 
+            onclick="toggleBookmark({{ forum.id }})" 
+            id="bookmark-button" 
+            class="flex items-center {% if request.user in forum.bookmarks.all %}text-blue-600{% else %}text-gray-600{% endif %} hover:text-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" 
+                    fill="{% if request.user in forum.bookmarks.all %}blue{% else %}none{% endif %}" 
+                    viewBox="0 0 24 24" 
+                    stroke="{% if request.user in forum.bookmarks.all %}blue{% else %}gray{% endif %}">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M5 5v16l7-5 7 5V5a2 2 0 00-2-2H7a2 2 0 00-2 2z" />
                 </svg>
             </a>
+
             </div>
         </div>
 
@@ -97,7 +112,8 @@
                         <p class="text-sm text-black">
                             <strong>{{ comment.user }}</strong> on {{ comment.posted_time|date:"d/m/Y" }} at {{ comment.posted_time|time:"H:i" }}
                         </p>
-                        <p class="mt-2 text-black">{{ comment.text }}</p>
+                        <p class="text-gray-600 mt-2" style="word-break: break-word; white-space: normal;">{{ comment.text }}</p>
+                        <!-- <p class="mt-2 text-black">{{ comment.text }}</p> -->
 
                         <!-- Check if the comment belongs to the current user or if the user is the forum owner -->
                         {% if comment.user == user or forum.user == user %}
@@ -131,5 +147,71 @@
 
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        function toggleLike(forumId) {
+            fetch(`/globalChat/forum/${forumId}/like/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeButton = document.getElementById('like-button');
+                const likeCount = document.getElementById('like-count');
+                const likeIcon = likeButton.querySelector('svg');
+        
+                // Update the like count
+                likeCount.textContent = data.like_count;
+        
+                // Toggle icon color and border based on like state
+                if (data.liked) {
+                    likeButton.classList.add('text-red-600');
+                    likeButton.classList.remove('text-gray-600');
+                    likeIcon.setAttribute('fill', 'red');      // Fill to red when liked
+                    likeIcon.setAttribute('stroke', 'red');    // Border to red when liked
+                } else {
+                    likeButton.classList.remove('text-red-600');
+                    likeButton.classList.add('text-gray-600');
+                    likeIcon.setAttribute('fill', 'none');     // Fill to none when unliked
+                    likeIcon.setAttribute('stroke', 'gray');   // Border to gray when unliked
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+            function toggleBookmark(forumId) {
+                fetch(`/globalChat/forum/${forumId}/bookmark/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const bookmarkButton = document.getElementById('bookmark-button');
+                    const bookmarkIcon = bookmarkButton.querySelector('svg');
+
+                    // Toggle icon color and fill based on bookmark state
+                    if (data.bookmarked) {
+                        bookmarkButton.classList.add('text-blue-600');
+                        bookmarkButton.classList.remove('text-gray-600');
+                        bookmarkIcon.setAttribute('fill', 'blue');    // Fill to blue when bookmarked
+                        bookmarkIcon.setAttribute('stroke', 'blue');  // Border to blue when bookmarked
+                    } else {
+                        bookmarkButton.classList.remove('text-blue-600');
+                        bookmarkButton.classList.add('text-gray-600');
+                        bookmarkIcon.setAttribute('fill', 'none');    // Fill to none when unbookmarked
+                        bookmarkIcon.setAttribute('stroke', 'gray');  // Border to gray when unbookmarked
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+
+        </script>
+        
+        
 </body>
 </html>

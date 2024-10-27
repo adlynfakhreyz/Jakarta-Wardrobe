@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
     <style>
       .hero-slide {
         display: flex;
@@ -47,24 +48,18 @@
     </style>
   </head> 
   {% include "navbar.html" %}
-  <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif;scrollbar-x-width: none;">  
+  <body class="bg-gray-100 flex flex-col min-h-screen" style="font-family: 'Urbanist', sans-serif; scrollbar-x-width: none;">
 
-    <div class="">
+    <div class="mt-16" data-aos="fade-up" data-aos-duration="1000">
       <div class="hero-slide" id="hero-slide">
-        <div class="hero-bg justify-center items-end" style="background-image: url('{% static 'images/HERO 1 FIX.png' %}');">
-            <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Shop Now</button>
-        </div>
-        <div class="hero-bg-2" style="background-image: url('{% static 'images/HERO 2 FIX.png' %}');">
-            <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Explore Now</button>
-        </div>
-        <div class="hero-bg-3" style="background-image: url('{% static 'images/HERO 3 FIX.png' %}');">
-          <button class="hero-btn bg-gray-700 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">Explore Now</button>
+        <div class="hero-bg justify-center items-end" style="background-image: url('{% static 'images/HERO 1 FIX.png' %}');"></div>
+        <div class="hero-bg-2" style="background-image: url('{% static 'images/HERO 2 FIX.png' %}');"></div>
+        <div class="hero-bg-3" style="background-image: url('{% static 'images/HERO 3 FIX.png' %}');"></div>
       </div>
-    </div>
 
     <!-- New "Our Advantages" Section Below Hero Slide -->
-    <div class="py-12 h-screen">
-      <h2 class="text-4xl font-bold text-gray-800 text-center mb-8">Why Choose Us</h2>
+    <div class="py-12 h-screen" data-aos="fade-up" data-aos-duration="1000">
+      <h2 class="text-4xl font-extrabold text-gray-800 text-center mb-8 mt-2">Why Choose Us</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mx-10 md:mx-40">
         <!-- Trendy Products -->
         <div class="flex flex-col items-center text-center transform hover:scale-105">
@@ -102,10 +97,10 @@
         </div>
       </div>
     </div>
-    
 
-    <div class="bg-gray-100 py-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+    <!-- Key Features -->
+    <div class="bg-gray-100" style="padding: 0; margin-top: -140px;" data-aos="fade-up" data-aos-duration="1000">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-2">
         <div class="text-center mb-20">
           <h2 class="text-4xl font-extrabold text-gray-800">Our Key Features</h2>
           <p class="mt-4 text-gray-600">Discover the tools that make your shopping experience unique.</p>
@@ -148,14 +143,14 @@
       </div>
     </div>
 
-    <div class="flex-grow">
+    <div class="flex-grow" style="margin-top: -48px;" data-aos="fade-up" data-aos-duration="1000">
       <!-- Hero Section with Slider -->
       <div class="relative flex justify-center items-center h-screen md:h-screen">
         <div class="overflow-hidden relative flex justify-center items-center">
-          <div class="flex transition-transform duration-500 ease-in-out" id="slider" style="width: calc(100% * 3);">
-            <img src="{% static 'images/HERO 2 FIX.png' %}" alt="slide1" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
-            <img src="{% static 'images/HERO 3 FIX.png' %}" alt="slide2" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
-            <img src="{% static 'images/jakaratah.webp' %}" alt="slide3" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
+          <div class="flex transition-transform duration-500 ease-in-out" id="slider" style="width: calc(100% * 3); ">
+            <img src="{% static 'images/scrolling2.png' %}" alt="slide1" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
+            <img src="{% static 'images/scrolling1.png' %}" alt="slide2" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
+            <img src="{% static 'images/scrolling3.png' %}" alt="slide3" class="h-96 w-full md:w-80 object-cover rounded-xl " style="min-width: 100%;">
           </div>
         </div>
         <!-- Navigation Buttons -->
@@ -170,8 +165,9 @@
           </svg>
         </button>
       </div>
+      
       <!-- Brands Section -->
-       <div class="h-screen">
+      <div class="h-screen" style="margin-top: -80px;" data-aos="fade-up" data-aos-duration="1000">
       <div class="brands-container relative flex flex-col">
         <h2 class="text-3xl flex justify-start font-bold text-gray-800 ml-10 md:ml-40">Brands</h2>
         <div class="relative flex justify-start items-center my-8 ml-10 md:ml-44">
@@ -192,19 +188,18 @@
           </div>
         </div>        
       </div>
+      
       <!-- Categories and Best Sellers Sections remain unchanged -->
-      <div class="categories-container mt-8">
+      <div class="categories-container mt-14" data-aos="fade-up" data-aos-duration="1000">
         <h2 class="text-3xl font-bold text-gray-800 ml-10 md:ml-40">Categories</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mx-10 md:mx-40 my-8">
-          <div class="relative group" style="background-color: #F8F0E7;">
-            <a href="{% url 'user_choices:show_user_choices' %}">
+          <div class="relative group bg-[#F8F0E7] rounded-lg" style="background-color: #F8F0E7;">
             <img src="{% static 'images/userchoices.png' %}" alt="User Choice" class="w-full h-44 object-contain rounded-lg">
             <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
               <span class="text-white text-lg font-bold">User Choice</span>
             </button>
-            </a>
           </div>
-          <div class="relative group " style="background-color: #E0CFBA;">
+          <div class="relative group bg-[#F8F0E7] rounded-lg" style="background-color: #E0CFBA;">
             <a href="{% url 'products:show_products_by_category' 'Men' %}">
             <img src="{% static 'images/menz.png' %}" alt="Men's Clothing" class="w-full h-44 object-contain rounded-lg">
             <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
@@ -212,7 +207,7 @@
             </button>
             </a>
           </div>
-          <div class="relative group" style="background-color: #333333;">
+          <div class="relative group bg-[#F8F0E7] rounded-lg" style="background-color: #333333;">
             <a href="{% url 'products:show_products_by_category' 'Women' %}">
             <img src="{% static 'images/womanz.png' %}" alt="Women's Clothing" class="w-full h-44 object-contain rounded-lg">
             <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
@@ -220,7 +215,7 @@
             </button>
             </a>
           </div>
-          <div class="relative group" style="background-color: #D7D6D6;">
+          <div class="relative group bg-[#F8F0E7] rounded-lg" style="background-color: #D7D6D6;">
             <a href="{% url 'products:show_products_by_category' 'Footwear' %}">
             <img src="{% static 'images/foot.png' %}" alt="Footwear" class="w-full h-44 object-contain rounded-lg">
             <button onclick="" class="absolute inset-0 bg-black bg-opacity-25 group-hover:bg-opacity-50 flex justify-center items-center rounded-lg transition duration-300 ease-in-out">
@@ -234,19 +229,17 @@
         
       </div>
       <!-- Updated Products Overview Section -->
-      <!-- Updated Products Overview Section -->
-      <div class="bg-gray-100 py-12">
+      <div class="flex-grow" style="margin-top: -180px;" data-aos="fade-up" data-aos-duration="1000">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 class="text-3xl font-bold text-gray-800 mb-8">Featured products</h2>
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 ml-8 md:ml-12">Featured Products</h2>
 
           <div class="flex space-x-4 overflow-x-scroll px-10 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none; margin-right:15px; overflow-y:hidden;">
             
             <!-- Product Card Loop -->
             {% for product in products %}
-            <div class="w-60 h-75% object-contain transition-transform duration-50 ease-in-out transform hover:scale-110 hover:shadow-lg {% cycle 'bg-yellow-50' 'bg-yellow-100' 'bg-yellow-200' 'bg-yellow-50' 'bg-yellow-100' %}" style="padding:15px"> 
-              
+            <div class="w-48 h-auto bg-white rounded-lg shadow-md transition-transform duration-200 ease-in-out transform hover:scale-105 hover:shadow-lg" style="padding: 10px;"> <!-- Reduced width and padding -->              
               <!-- Product Image -->
-              <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-64 object-contain group-hover:scale-105 transition-transform duration-300">
+              <img src="{{ product.img_url }}" alt="{{ product.name }}" class="w-full h-64 object-cover rounded-t-lg group-hover:scale-105 transition-transform duration-300"> <!-- Rounded top corners for image -->
 
               <!-- Product Details -->
               <div class="p-4">
@@ -259,7 +252,7 @@
 
                 <!-- Rating Section -->
                 <div class="flex items-center mt-2">
-                  <span class="text-yellow-400">★</span>
+                  <span class="text-yellow-500">★</span> <!-- Changed star color to a softer yellow -->
                   <span class="ml-1 text-gray-600">
                     {% if product.avg_rating %}
                         {{ product.avg_rating|floatformat:1 }}
@@ -277,12 +270,64 @@
         </div>
       </div>
 
+      <!-- FAQ Section -->
+      <div class="py-16" id="faq-section" style="margin-top: -56px;" data-aos="fade-up" data-aos-duration="1000">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-center gap-4" style="margin-bottom: -36px;"> <!-- Reduced margin further with inline style -->
+            <!-- Left Image -->
+            <img src="{% static 'images/QnA.png' %}" alt="QandA" class="object-contain" style="width: 300px; height: 300px;">
+
+            <!-- Center Text -->
+            <div class="text-center">
+              <h2 class="text-4xl font-extrabold text-gray-800">Need more help?</h2>
+              <p class="mt-4 text-gray-800">Temukan berbagai pertanyaan serta jawaban seputar JaWa di sini!</p>
+            </div>
+
+            <!-- Right Image -->
+            <img src="{% static 'images/ondelondel.png' %}" alt="Ondel Ondel" class="object-contain" style="width: 310px; height: 310px;">
+          </div>
+          
+          <div class="space-y-8 flex flex-col items-center">
+            <!-- FAQ Item 1 -->
+            <div class="bg-white rounded-lg shadow-lg p-6" style="width: 1050px;">
+              <h3 class="text-xl font-bold text-gray-800">What is JaWa?</h3>
+              <p class="mt-2 text-gray-800">JaWa, short for Jakarta Wardrobe, is an online platform dedicated to fashion enthusiasts in Jakarta. It provides a space for users to explore, discuss, and stay updated on the latest fashion trends in the city.</p>
+            </div>
+            
+            <!-- FAQ Item 2 -->
+            <div class="bg-white rounded-lg shadow-lg p-6" style="width: 1050px;">
+              <h3 class="text-xl font-bold text-gray-800">What are the main features of JaWa?</h3>
+              <p class="mt-2 text-gray-800">JaWa offers several features including Global Chat, a Product section to explore fashion items, and a "User Choice" feature.</p>
+            </div>
+            
+            <!-- FAQ Item 3 -->
+            <div class="bg-white rounded-lg shadow-lg p-6" style="width: 1050px;">
+              <h3 class="text-xl font-bold text-gray-800">How do I participate in discussions on JaWa?</h3>
+              <p class="mt-2 text-gray-800">Log in to your JaWa account, browse through discussions, and add your own comments or questions. You can also create a new post!</p>
+            </div>
+            
+            <!-- FAQ Item 4 -->
+            <div class="bg-white rounded-lg shadow-lg p-6" style="width: 1050px;">
+              <h3 class="text-xl font-bold text-gray-800">Is JaWa only for fashion-related content?</h3>
+              <p class="mt-2 text-gray-800">Yes, JaWa is primarily focused on fashion and style topics. It’s a platform meant to foster discussions, share tips, and provide recommendations centered around fashion, trends, and style, especially within Jakarta.</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
-    
-    {% include "footer.html" %}
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    });
+  </script>
+  {% include "footer.html" %}
   </body>  
-</html> 
+</html>
 
 <script>
   const slider = document.getElementById('slider');

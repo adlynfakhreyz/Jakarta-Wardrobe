@@ -109,8 +109,8 @@ def add_rating(request):
             'avg_rating': avg_rating,
             'ratings_with_users': ratings_data
         }, status=201)
-
     return JsonResponse({'message': 'Invalid request'}, status=400)
+
 @login_required
 @csrf_exempt
 @require_POST
@@ -121,7 +121,6 @@ def add_comment(request):
         product = get_object_or_404(Product, uuid=product_id)
         new_comment = Comment.objects.create(product=product, user=request.user, comment=comment_text)
         
-        # Mengembalikan respons dengan data komentar yang baru
         return JsonResponse({
             'message': 'Comment added successfully',
             'user': new_comment.user.username,
@@ -150,13 +149,13 @@ def find_product(request):
     query = request.GET.get('q', '')  # Search query
     category = request.GET.get('category', '')  # Selected category
     shop_name = request.GET.get('shop_name', '')  # Selected shop name
-    filter_type = request.GET.get('filter', '')  # Existing filter (e.g., price/rating)
+    filter_type = request.GET.get('filter', '')  # Existing filter
 
-    products = Product.objects.all()
+    products = Product.objects.annotate(avg_rating=Avg('rating__rating'))
 
     # Apply search filter if query is provided
     if query:
-        products = products.filter(Q(name__icontains=query) | Q(desc__icontains=query))
+        products = products.filter(Q(name__icontains=query) )
 
     # Apply category filter if a category is selected
     if category:
