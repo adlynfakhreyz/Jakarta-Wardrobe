@@ -12,145 +12,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Jakarta Wardrobe</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f9f9f9;
-        }
-
-        .container {
-          width: 1081px;
-          height: 516px;
-          border-radius: 15px;
-          background: var(--Off-White, #FCFCFC);
-          box-shadow: 0px 4px 10px 0px rgba(136, 136, 136, 0.60);
-          flex-shrink: 0;
-          display: flex;
-        }
-
-        .left-section {
-            flex: 1;
-            background: rgba(51, 51, 51, 0.60);
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-            width: 531px;
-            height: 516px;
-            flex-shrink: 0;
-        }
-
-        .left-section img {
-            width: 531px;
-            height: 516px;
-            flex-shrink: 0;
-        }
-
-        .right-section {
-            flex: 1;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .right-section h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .right-section p {
-            margin-bottom: 20px;
-            color: #666;
-        }
-
-        .right-section form input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .right-section form button {
-            width: 100%;
-            padding: 10px;
-            background-color: #333;
-            color: #fff;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .right-section form button:hover {
-            background-color: #555;
-        }
-
-        .register-link {
-            margin-top: 15px;
-            text-align: center;
-            color: #666;
-        }
-
-        .register-link a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-
-        
-    </style>
 </head>
-<body style="font-family: 'Urbanist', sans-serif;">
-    <div class="container">
-        <!-- Left section (Image and text) -->
-        <div class="left-section">
-            <img src="{% static 'images/login.png' %}" alt="JaWa Logo">
-        </div>
-
-        <!-- Right section (Login form) -->
-        <div class="right-section">
-            <h2>Jakarta Wardrobe</h2>
-            <p>Sign in to your JaWa account</p>
-
-            <form method="POST" action="{% url 'main:login' %}">
-                {% csrf_token %}
-                <input type="usernmae" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit" class="btn-login">Sign In</button>
-            </form>
-
-            <div class="register-link">
-                Don't have an account? <a href="{% url 'main:register' %}">Register here</a>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen" style="font-family: 'Urbanist', sans-serif;">
+    <div class="container mx-auto p-4">
+        <div class="bg-white shadow-lg rounded-lg flex flex-col md:flex-row overflow-hidden">
+            <!-- Left section (Image and text) -->
+            <div class="md:w-1/2 bg-gray-400 flex items-center justify-center p-4">
+                <img src="{% static 'images/login.png' %}" alt="JaWa Logo" class="w-full h-full object-cover">
             </div>
-            <div class="register-link">
-                <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
+
+            <!-- Right section (Login form) -->
+            <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Jakarta Wardrobe</h2>
+                <p class="text-gray-600 mb-6">Sign in to your JaWa account</p>
+
+                <form method="POST" action="{% url 'main:login' %}" class="space-y-4">
+                    {% csrf_token %}
+                    <input type="text" name="username" placeholder="Username" required class="w-full p-3 border border-gray-300 rounded-lg">
+                    <input type="password" name="password" placeholder="Password" required class="w-full p-3 border border-gray-300 rounded-lg">
+                    <button type="submit" class="w-full bg-gray-800 text-white p-3 rounded-lg hover:bg-gray-900 transition duration-300">Sign In</button>
+                </form>
+
+                <div class="mt-4 text-center text-gray-600">
+                    Don't have an account? <a href="{% url 'main:register' %}" class="text-blue-500 hover:underline">Register here</a>
+                </div>
+                <div class="mt-2 text-center text-gray-600">
+                    <a href="{% url 'password_reset' %}" class="text-blue-500 hover:underline"><i>Forgot Password?</i></a>
+                </div>
             </div>
         </div>
     </div>
