@@ -157,6 +157,12 @@
       .love-button:active {
           transform: scale(0.9); /* Scale down on click */
       }
+
+        .product-card-front,
+        .product-card-back {
+            transition: opacity 0.3s ease; /* Smooth transitions */
+        }
+
     </style>
   </head>
   {% include "navbar.html" %}
@@ -235,12 +241,23 @@
             document.getElementById('page-title').textContent = 'Your Choices';
             productData.forEach(product => {
                 productCards += `
-                <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card" data-id="${product.uuid}">
-                        <img src="${product.img_url}" alt="${product.name}" class="w-full h-48 object-cover">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start" ">
-                                <h2 class="text-xl font-bold">${product.name}</h2>
-                                <button id="likeButton_${product.uuid}" class="love-button liked}" onclick="toggleWishlist('${product.uuid}', true)">
+                <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer product-card relative transition-transform transform hover:scale-105 duration-300" data-id="${product.uuid}">
+                    <img src="${product.img_url}" alt="${product.name}" class="w-full h-48 object-cover">
+                    
+                    <div class="absolute top-2 right-2 z-10">
+                        <button onclick="flipCard('${product.uuid}')" class="bg-gray-100 rounded-full p-1 hover:bg-gray-300 transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 4" />
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="p-4 product-card-inner">
+                        <!-- Front Side -->
+                        <div class="product-card-front">
+                            <div class="flex justify-between items-start">
+                                <h2 class="text-xl font-bold text-gray-800">${product.name}</h2>
+                                <button id="likeButton_${product.uuid}" class="love-button liked transition-transform duration-300 hover:scale-110" onclick="toggleWishlist('${product.uuid}', true)">
                                     <svg id="heartIcon_${product.uuid}" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="#E0245E" viewBox="0 0 24 24" stroke="#E0245E">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                     </svg>
@@ -248,12 +265,29 @@
                             </div>
                             <p class="text-gray-600">${product.category}</p>
                             <p class="text-gray-800 font-semibold">Rp${product.price}</p>
-                            <p class="text-gray-600"><strong style="color:#FFD700">★</strong>
-                                ${product.avg_rating ? product.avg_rating.toFixed(1) : 'No ratings yet'}
-                            </p>
+                            <div class="flex justify-between items-center mt-2">
+                                <p class="text-gray-600"><strong style="color:#FFD700">★</strong>
+                                    ${product.avg_rating ? product.avg_rating.toFixed(1) : 'No ratings yet'}
+                                </p>
+                                <a href='edit_notes/${product.uuid}'>
+                                    <button class="bg-white text-black px-3 py-1 rounded hover:bg-gray-300 transition duration-200">
+                                        <span class="icon">+</span>
+                                        Edit Notes
+                                    </button>
+                                </a>
+                            </div>
                         </div>
-                    </div>`;
-            });
+            
+                        <!-- Back Side -->
+                        <div class="product-card-back hidden">
+                            <div class="p-1">
+                                <h2 class="text-xl font-bold">Notes</h2>
+                                <p>${product.notes || 'No notes available'}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            });            
         }
     
         document.getElementById('product-list').innerHTML = productCards;
@@ -382,7 +416,52 @@
             }
         });
     });
+
+    function edit_notes(productId){
+        windows.location.href = 'edit_notes/' + productId;
+    }
+
+    function flipCard(uuid) {
+        const card = document.querySelector(`.product-card[data-id="${uuid}"] .product-card-inner`);
+        const front = card.querySelector('.product-card-front');
+        const back = card.querySelector('.product-card-back');
+    
+        // Fade out the front side
+        if (!front.classList.contains('hidden')) {
+            front.style.transition = "opacity 0.3s ease";
+            front.style.opacity = 0; // Start fading out
+    
+            // Wait for the fade-out transition to complete
+            setTimeout(() => {
+                front.classList.add('hidden'); // Hide the front side after fading out
+                back.classList.remove('hidden'); // Show the back side
+                back.style.opacity = 0; // Start with back side hidden
+    
+                // Fade in the back side
+                back.style.transition = "opacity 0.3s ease";
+                back.style.opacity = 1; // Fade in
+            }, 300); // Match this with the fade-out duration
+        } else {
+            // If the back is visible, fade it out first
+            back.style.transition = "opacity 0.3s ease";
+            back.style.opacity = 0; // Start fading out
+    
+            // Wait for the fade-out transition to complete
+            setTimeout(() => {
+                back.classList.add('hidden'); // Hide the back side after fading out
+                front.classList.remove('hidden'); // Show the front side
+                front.style.opacity = 0; // Start with front side hidden
+    
+                // Fade in the front side
+                front.style.transition = "opacity 0.3s ease";
+                front.style.opacity = 1; // Fade in
+            }, 300); // Match this with the fade-out duration
+        }
+    }
+    
+    
     </script>
+    {% include "footer.html" %}
   </body>
 </html>
 {% endblock content %}
