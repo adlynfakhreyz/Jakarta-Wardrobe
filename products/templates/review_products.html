@@ -51,7 +51,7 @@
                     <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
                     <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
                 </div>
-                <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold text-white py-1 px-4 mt-2 rounded-lg">Submit Rating</button>
+                <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold text-white py-1 px-4 mt-2 rounded-lg transition ease-in-out duration-300">Submit Rating</button>
             </form>
           </div>
         </div>
@@ -90,7 +90,7 @@
             {% csrf_token %}
             <input type="hidden" name="product_id" value="{{ product.uuid }}">
             <textarea name="comment" rows="4" placeholder="Add a comment..." class="border w-full p-2 rounded mb-2"></textarea>
-            <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg">Submit Comment</button>
+            <button type="submit" class="button-submit bg-gray-700 hover:bg-gray-900 text-white font-bold py-1 px-4 mt-2 rounded-lg transition ease-in-out duration-300">Submit Comment</button>
         </form>
       
         <h2 class="text-xl font-bold mb-4 text-center">Comments</h2>
