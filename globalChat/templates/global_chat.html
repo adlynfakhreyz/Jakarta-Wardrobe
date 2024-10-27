@@ -25,6 +25,19 @@
             z-index: 10; /* Keep above other elements */
             padding: 10px 0; /* Padding for spacing */
         }
+
+        .dropdown-menu-enter {
+        position: absolute;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        display: none;
+        }
+
+        .dropdown-menu-exit {
+        transform: translateY(0);
+        transition: all 0.3s ease;
+        }
+
     </style>
 </head>
 <body style="font-family: 'Urbanist', sans-serif;">
@@ -68,17 +81,15 @@
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <div id="dropdownMenu" class="hidden absolute shadow-lg rounded-lg mt-2 py-2 w-64 z-10">
-                            <a href="?filter=newest" class="block px-4 py-2 text-sm bg-white text-gray-700 hover:bg-gray-100">All Post</a>
-                            <a href="?filter=your_posts" class="block px-4 py-2 text-sm bg-white text-gray-700 hover:bg-gray-100">Your Post</a>
-                            <a href="?filter=most_likes" class="block px-4 py-2 text-sm bg-white text-gray-700 hover:bg-gray-100">Most Likes</a>
-                            <a href="?filter=saved" class="block px-4 py-2 text-sm bg-white text-gray-700 hover:bg-gray-100">Saved</a>
+                        <!-- Dropdown Menu -->
+                        <div id="dropdownMenu" class="hidden absolute shadow-lg rounded-lg mt-2 py-2 w-64 bg-white z-20">
+                            <a href="?filter=newest" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Post</a>
+                            <a href="?filter=your_posts" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Post</a>
+                            <a href="?filter=most_likes" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Most Likes</a>
+                            <a href="?filter=saved" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Saved</a>
                         </div>
-                    </div>
+                    </div>                    
                     
-                    
-
-
                     <!-- Pagination Controls -->
                     <div class="flex items-center space-x-4 ml-auto mr-2">
                         {% if forums.has_previous %}
@@ -88,8 +99,6 @@
                                 </svg>
                             </a>
                         {% endif %}
-                    
-
                     
                         {% if forums.has_next %}
                             <a href="?page={{ forums.next_page_number }}{% if filter_option %}&filter={{ filter_option }}{% endif %}" class="p-2 rounded-full bg-gray-300 hover:bg-gray-200 active:scale-95 transition transform">
@@ -184,8 +193,10 @@
     <script>
         const dropdownFilterBtn = document.getElementById('dropdownFilterBtn');
         const dropdownMenu = document.getElementById('dropdownMenu');
-        dropdownFilterBtn.addEventListener('click', () => {
-            dropdownMenu.classList.toggle('hidden');
+
+        dropdownFilterBtn.addEventListener('click', function() {
+            const isHidden = dropdownMenu.classList.contains('hidden');
+            dropdownMenu.classList.toggle('hidden', !isHidden);
         });
     </script>
 </body>
