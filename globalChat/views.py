@@ -5,16 +5,35 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from .models import Forum, Comment
 from .forms import ForumForm, CommentForm
+from django.http import JsonResponse
+from django.db.models import Count
 
 # Global Chat: List all forums with pagination
 def global_chat(request):
-    forums_list = Forum.objects.all().order_by('-posted_time')  # Order by newest first
+    filter_option = request.GET.get('filter', 'newest')
+    
+    if filter_option == 'your_posts':
+        # Filter forums by the current user
+        forums_list = Forum.objects.filter(user=request.user).order_by('-posted_time')
+    elif filter_option == 'most_likes':
+        # Sort forums by likes count in descending order
+        forums_list = Forum.objects.annotate(num_likes=Count('likes')).order_by('-num_likes', '-posted_time')
+    elif filter_option == 'saved':
+        # Filter forums that are bookmarked by the current user
+        forums_list = Forum.objects.filter(bookmarks=request.user).order_by('-posted_time')
+    else:
+        # Default to newest posts (all posts)
+        forums_list = Forum.objects.all().order_by('-posted_time')
+    
     paginator = Paginator(forums_list, 5)  # Show 5 forums per page
-
     page_number = request.GET.get('page')
     forums = paginator.get_page(page_number)
 
-    return render(request, 'global_chat.html', {'forums': forums})
+    context = {
+        'forums': forums,
+        'filter_option': filter_option,  # Pass the current filter to the template
+    }
+    return render(request, 'global_chat.html', context)
 
 # Forum Detail View
 @login_required(login_url="main:login")
@@ -58,15 +77,16 @@ def new_forum(request):
     return render(request, 'new_forum.html', {'form': form})
 
 
-# Like a forum
 @login_required(login_url="main:login")
 def toggle_like_forum(request, forum_id):
     forum = get_object_or_404(Forum, id=forum_id)
     if request.user in forum.likes.all():
         forum.likes.remove(request.user)
+        liked = False
     else:
         forum.likes.add(request.user)
-    return redirect(request.META.get('HTTP_REFERER'))
+        liked = True
+    return JsonResponse({'liked': liked, 'like_count': forum.likes.count()})
 
 @login_required(login_url="main:login")
 def edit_forum(request, id):
@@ -107,7 +127,9 @@ def delete_comment(request, comment_id):
 def toggle_bookmark(request, forum_id):
     forum = get_object_or_404(Forum, id=forum_id)
     if request.user in forum.bookmarks.all():
-        forum.bookmarks.remove(request.user)  # Remove bookmark if it exists
+        forum.bookmarks.remove(request.user)
+        bookmarked = False
     else:
-        forum.bookmarks.add(request.user)  # Add bookmark if not exists
-    return redirect(request.META.get("HTTP_REFERER", "globalChat:global_chat"))
+        forum.bookmarks.add(request.user)
+        bookmarked = True
+    return JsonResponse({'bookmarked': bookmarked})
