@@ -12,4 +12,5 @@ urlpatterns = [
     path('comment/delete/<int:comment_id>/', views.delete_comment, name='delete_comment'),
     path('forum/<int:forum_id>/like/', views.toggle_like_forum, name='toggle_like_forum'),
     path('forum/<int:forum_id>/bookmark/', views.toggle_bookmark, name="toggle_bookmark"),
+    
 ]
