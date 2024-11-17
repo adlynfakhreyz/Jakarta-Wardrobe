@@ -11,173 +11,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Jakarta Wardrobe</title>
+    <title>Register - Jakarta Wardrobe</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-    <style>
-      * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f9f9f9;
-        }
-
-        .container {
-          width: 1081px;
-          height: 516px;
-          border-radius: 15px;
-          background: var(--Off-White, #FCFCFC);
-          box-shadow: 0px 4px 10px 0px rgba(136, 136, 136, 0.60);
-          flex-shrink: 0;
-          display: flex;
-        }
-
-        .left-section {
-          width: 531px;
-          height: 516px;
-          flex-shrink: 1;
-          border-radius: 15px;
-          background: rgba(51, 51, 51, 0.60);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          padding: 20px;
-          border-top-left-radius: 10px;
-          border-bottom-left-radius: 10px;
-        }
-
-        .left-section img {
-          width: 531px;
-          height: 516px;
-          flex-shrink: 0;
-          border-radius: 15px 0px 0px 15px;
-        }
-
-        .right-section {
-          flex: 1;
-          padding: 60px;
-          display: flex;
-          flex-direction: column;
-          flex-shrink: 0;
-          border-radius: 15px;
-          justify-content: center;
-          background-color: #fff;
-        }
-
-        h2 {
-          font-size: 24px;
-          margin-bottom: 20px;
-          color: #333;
-        }
-
-        .form-group {
-          margin-bottom: 20px;
-        }
-
-        .form-group label {
-          font-size: 14px;
-          margin-bottom: 5px;
-          color: #333;
-        }
-
-        .form-group input {
-          width: 100%;
-          padding: 10px;
-          font-size: 14px;
-          border: 1px solid #ccc;
-          border-radius: 7px;
-        }
-
-        button {
-          width: 100%;
-          padding: 12px;
-          font-size: 16px;
-          background-color: #555;
-          color: #fff;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-
-        button:hover {
-          background-color: #444;
-        }
-
-        p {
-          margin-top: 20px;
-          font-size: 14px;
-          color: #333;
-        }
-
-        p a {
-          color: #555;
-          text-decoration: none;
-        }
-
-        p a:hover {
-          text-decoration: underline;
-        }
-    </style>
 </head>
-<body style="font-family: 'Urbanist', sans-serif;"> 
-  <div class="container">
-    <div class="left-section">
-      <img src="{% static 'images/register.png' %}" alt="JaWa Logo">
-    </div>
-      
-  <div class="right-section">
-    <h2>Create Your JaWa Account</h2>
-    <form class="mt-8 space-y-6" method="POST">
-      {% csrf_token %}
-      <input type="hidden" name="remember" value="true">
-      <div class="form-group">
-        {% for field in form %}
-          <div class="{% if not forloop.first %}mt-4{% endif %}">
-            <label for="{{ field.id_for_label }}" class="mb-2 font-semibold text-black">
-              {{ field.label }}
-            </label>
-            <div class="relative">
-              {{ field }}
-              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                {% if field.errors %}
-                  <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 50 50">
-                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                  </svg>
-                {% endif %}
-              </div>
+<body class="bg-transparent-100 flex items-center justify-center min-h-screen" style="font-family: 'Urbanist', sans-serif;">
+    <div class="container mx-auto p-4">
+        <div class="bg-white shadow-lg rounded-lg flex flex-col md:flex-row overflow-hidden">
+            <!-- Left section (Image) -->
+            <div class="md:w-1/2 bg-gray-400 flex items-center justify-center p-4">
+                <img src="{% static 'images/register.png' %}" alt="JaWa Logo" class="w-full h-full object-cover rounded-lg">
             </div>
-            {% if field.errors %}
-              {% for error in field.errors %}
-                <p class="mt-1 text-sm text-red-600">{{ error }}</p>
-              {% endfor %}
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
 
-      <div>
-        <button type="submit">
-          Register
-        </button>
-      </div>
-    </form>
-
-    <p>Already have an account? <a href="{% url 'main:login' %}">Sign in here</a></p>
-  </div>
-</div>
-  </div>
+            <!-- Right section (Register form) -->
+            <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Create Your JaWa Account</h2>
+                <form method="POST" class="space-y-4">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                        <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}" placeholder="{{ field.label }}" required class="w-full p-3 border border-gray-300 rounded-lg">
+                        {% if field.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ field.errors }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="w-full bg-gray-800 text-white p-3 rounded-lg hover:bg-gray-900 transition duration-300">Register</button>
+                </form>
+                <p class="mt-4 text-center text-gray-600">
+                    Already have an account? <a href="{% url 'main:login' %}" class="text-blue-500 hover:underline">Sign in here</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </body>
-
-
+</html>
 {% endblock content %}

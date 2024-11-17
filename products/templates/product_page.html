@@ -215,7 +215,11 @@
                         <label for="shop_name" class="mr-2 text-sm md:text-base">Store:</label>
                         <select name="shop_name" id="shop_name" class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 text-sm md:text-base">
                             <option value="">All</option>
-                            <!-- Add shop options here -->
+                            <option value="THIS IS APRIL" {% if request.GET.shop_name == "THIS IS APRIL" %}selected{% endif %}>THIS IS APRIL</option>
+                            <option value="Nayara Batik" {% if request.GET.shop_name == "Nayara Batik" %}selected{% endif %}>Nayara Batik</option>
+                            <option value="Buttonscarves" {% if request.GET.shop_name == "Buttonscarves" %}selected{% endif %}>Buttonscarves</option>
+                            <option value="THENBLANK" {% if request.GET.shop_name == "THENBLANK" %}selected{% endif %}>THENBLANK</option>
+                            <option value="PARANG KENCANA" {% if request.GET.shop_name == "PARANG KENCANA" %}selected{% endif %}>PARANG KENCANA</option>
                         </select>
                     </div>
                 </div>
