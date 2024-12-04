@@ -178,3 +178,24 @@ def find_product(request):
 def show_best_10_products(request):
     products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('-avg_rating')[:10]
     return render(request, 'main.html', {'products': products})
+
+from django.http import JsonResponse
+from .models import Product
+
+def product_list(request):
+    products = Product.objects.all()
+    data = []
+    for product in products:
+        data.append({
+            "uuid": str(product.uuid),
+            "category": product.category,
+            "name": product.name,
+            "price": float(product.price),
+            "desc": product.desc,
+            "color": product.color,
+            "stock": product.stock,
+            "shop_name": product.shop_name,
+            "location": product.location,
+            "img_url": product.img_url,
+        })
+    return JsonResponse(data, safe=False)
