@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'globalChat',
     'users',
     'authentication',
-    'corsheaders'
+    'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

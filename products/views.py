@@ -207,7 +207,9 @@ import json
 from .models import Product, Comment
 from django.contrib.auth.models import User
 
-@csrf_exempt  # Jika tidak menggunakan CSRF Token di Flutter
+@login_required
+@csrf_exempt
+@require_POST
 def add_comment_flutter(request):
     if request.method == 'POST':
         try:
@@ -244,3 +246,24 @@ def add_comment_flutter(request):
             return JsonResponse({"status": "error", "message": str(e)}, status=500)
 
     return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Comment
+
+from rest_framework import serializers
+from .models import Comment
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['uuid', 'product', 'user', 'comment', 'timestamp']
+
+class CommentList(APIView):
+    def get(self, request, format=None):
+        # Ambil semua komentar
+        comments = Comment.objects.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+

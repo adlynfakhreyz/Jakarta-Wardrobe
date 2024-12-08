@@ -1,7 +1,7 @@
 from django.urls import path
 
 from . import views
-from .views import show_products_by_price, show_products_by_category, review_products, add_rating, add_comment, get_ratings_comments, show_products_by_category, product_detail, find_product, add_comment_flutter
+from .views import CommentList, show_products_by_price, show_products_by_category, review_products, add_rating, add_comment, get_ratings_comments, show_products_by_category, product_detail, find_product, add_comment_flutter
 from django.urls import path
 app_name = 'products'
 
@@ -15,5 +15,6 @@ urlpatterns = [
     path('category/<str:category_keyword>/', show_products_by_category, name='show_products_by_category'),
     path('products/find/', find_product, name='find_product'),
     path('json/', views.product_list, name='product_list'),
-     path('products/add_comment_flutter/', views.add_comment_flutter, name='add_comment'),  # Menambahkan URL untuk add_comment
+    path('products/add_comment_flutter/', add_comment_flutter, name='add_comment'),  # Menambahkan URL untuk add_comment
+    path('comments/', CommentList.as_view(), name='comment-list'),
 ]
