@@ -30,7 +30,6 @@ DEBUG = not PRODUCTION
 ALLOWED_HOSTS = [
     "localhost", 
     "127.0.0.1", 
-    "andi-muhammad37-jawaapp.pbp.cs.ui.ac.id"
 ]
 
 
@@ -49,7 +48,8 @@ INSTALLED_APPS = [
     'globalChat',
     'users',
     'authentication',
-    'corsheaders'
+    'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
