@@ -127,6 +127,7 @@ def add_comment(request):
             'comment': new_comment.comment,
             'timestamp': new_comment.timestamp.strftime("%d %B %Y, %H:%M")
         }, status=201)
+    
     return JsonResponse({'message': 'Invalid request'}, status=400)
 
 def get_ratings_comments(request, product_id):
@@ -267,3 +268,33 @@ class CommentList(APIView):
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+from django.views.decorators.http import require_GET
+from django.utils.decorators import method_decorator
+
+@require_GET
+def get_comments_by_product(request, product_id):
+    try:
+        # Cari produk berdasarkan UUID
+        product = Product.objects.get(uuid=product_id)
+
+        # Ambil semua komentar untuk produk tersebut
+        comments = Comment.objects.filter(product=product).select_related('user').order_by('-timestamp')
+
+        # Serialisasi komentar menjadi JSON
+        comments_data = [
+            {
+                'uuid': str(comment.uuid),
+                'user': comment.user.username,
+                'comment': comment.comment,
+                'timestamp': comment.timestamp.strftime('%d %B %Y, %H:%M')
+            }
+            for comment in comments
+        ]
+
+        return JsonResponse({'comments': comments_data}, safe=False, status=200)
+
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
