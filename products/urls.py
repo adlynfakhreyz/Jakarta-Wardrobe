@@ -18,5 +18,7 @@ urlpatterns = [
     path('products/add_comment_flutter/', add_comment_flutter, name='add_comment'),  # Menambahkan URL untuk add_comment
     path('comments/', CommentList.as_view(), name='comment-list'),
     path('products/<uuid:product_id>/comments/', get_comments_by_product, name='get_comments_by_product'),
+    path('comments/delete/<str:comment_id>/', views.delete_comment, name='delete_comment'),
+
 
 ]

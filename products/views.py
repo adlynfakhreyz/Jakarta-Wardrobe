@@ -298,3 +298,30 @@ def get_comments_by_product(request, product_id):
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+@login_required
+def delete_comment(request, comment_id):
+    try:
+        # Ambil komentar berdasarkan ID
+        comment = get_object_or_404(Comment, uuid=comment_id)
+
+        # Hanya izinkan user pemilik komentar untuk menghapus
+        if request.user != comment.user:
+            return JsonResponse(
+                {'message': 'You are not allowed to delete this comment'},
+                status=403
+            )
+
+        # Hapus komentar
+        comment.delete()
+
+        return JsonResponse({'message': 'Comment deleted successfully'}, status=200)
+
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=400)
