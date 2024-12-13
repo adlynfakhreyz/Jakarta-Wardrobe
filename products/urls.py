@@ -19,6 +19,8 @@ urlpatterns = [
     path('comments/', CommentList.as_view(), name='comment-list'),
     path('products/<uuid:product_id>/comments/', get_comments_by_product, name='get_comments_by_product'),
     path('comments/delete/<str:comment_id>/', views.delete_comment, name='delete_comment'),
+    path('comments/edit/<uuid:comment_id>/', views.edit_comment, name='edit_comment'),
+
 
 
 ]

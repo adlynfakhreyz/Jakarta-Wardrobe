@@ -182,6 +182,8 @@ def show_best_10_products(request):
 
 from django.http import JsonResponse
 from .models import Product
+import json
+from .models import Comment
 
 def product_list(request):
     products = Product.objects.all()
@@ -325,3 +327,34 @@ def delete_comment(request, comment_id):
 
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=400)
+
+@csrf_exempt
+@login_required
+@require_POST
+def edit_comment(request, comment_id):
+    try:
+        new_comment_text = request.POST.get('comment')
+        if not new_comment_text:
+            return JsonResponse({"status": "error", "message": "No comment text provided"}, status=400)
+
+        comment = Comment.objects.get(uuid=comment_id)
+        if comment.user != request.user:
+            return JsonResponse({"status": "error", "message": "You do not have permission to edit this comment"}, status=403)
+
+        comment.comment = new_comment_text
+        comment.timestamp = timezone.now()
+        comment.save()
+
+        return JsonResponse({
+            "status": "success",
+            "message": "Comment edited successfully",
+            "comment_id": str(comment.uuid),
+            "user": comment.user.username,
+            "comment": comment.comment,
+            "timestamp": comment.timestamp.strftime("%d %B %Y, %H:%M"),
+        }, status=200)
+
+    except Comment.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Comment not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)
