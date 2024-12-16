@@ -38,9 +38,6 @@ def profile(request):
         profile_form = UpdateProfileForm(instance=request.user.profile)
         return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
-    # return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
-
-
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'users/password_reset.html'
@@ -51,3 +48,13 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
                       " If you don't receive an email, " \
                       "please make sure you've entered the address you registered with, and check your spam folder."
     success_url = reverse_lazy('users-home')
+
+def profile_json(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'You must be logged in to view this data.'}, status=401)
+    
+    data = {
+        'username': request.user.username,
+        'profile_picture': request.user.profile.avatar.url if request.user.profile.avatar else None
+    }
+    return JsonResponse(data)
