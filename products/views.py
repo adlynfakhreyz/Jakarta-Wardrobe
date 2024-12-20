@@ -127,6 +127,7 @@ def add_comment(request):
             'comment': new_comment.comment,
             'timestamp': new_comment.timestamp.strftime("%d %B %Y, %H:%M")
         }, status=201)
+    
     return JsonResponse({'message': 'Invalid request'}, status=400)
 
 def get_ratings_comments(request, product_id):
@@ -178,3 +179,274 @@ def find_product(request):
 def show_best_10_products(request):
     products = Product.objects.annotate(avg_rating=Avg('rating__rating')).order_by('-avg_rating')[:10]
     return render(request, 'main.html', {'products': products})
+
+from django.http import JsonResponse
+from .models import Product
+import json
+from .models import Comment
+
+def product_list(request):
+    products = Product.objects.all()
+    data = []
+    for product in products:
+        data.append({
+            "uuid": str(product.uuid),
+            "category": product.category,
+            "name": product.name,
+            "price": float(product.price),
+            "desc": product.desc,
+            "color": product.color,
+            "stock": product.stock,
+            "shop_name": product.shop_name,
+            "location": product.location,
+            "img_url": product.img_url,
+        })
+    return JsonResponse(data, safe=False)
+
+# views.py
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import Product, Comment
+from django.contrib.auth.models import User
+
+@login_required
+@csrf_exempt
+@require_POST
+def add_comment_flutter(request):
+    if request.method == 'POST':
+        try:
+            # Mengambil data JSON dari body request
+            data = json.loads(request.body)
+
+            # Mendapatkan data dari body JSON
+            product_id = data['product_id']
+            comment_text = data['comment']
+
+            # Ambil produk berdasarkan UUID yang diberikan
+            product = Product.objects.get(uuid=product_id)
+
+            # Membuat dan menyimpan komentar baru
+            new_comment = Comment.objects.create(
+                product=product,
+                user=request.user,  # Menggunakan user yang sedang login
+                comment=comment_text
+            )
+            new_comment.save()
+
+            return JsonResponse({
+                "status": "success",
+                "message": "Comment added successfully",
+                "comment_id": new_comment.uuid,
+                "user": new_comment.user.username,
+                "timestamp": new_comment.timestamp.strftime("%d %B %Y, %H:%M"),
+            }, status=200)
+        except KeyError as e:
+            return JsonResponse({"status": "error", "message": f"Missing field: {str(e)}"}, status=400)
+        except Product.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Product not found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+    return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)
+
+@login_required
+@csrf_exempt
+@require_POST
+@csrf_exempt
+def add_rating_flutter(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            product_id = data.get('product_id')
+            rating_value = data.get('rating')
+
+            # Validasi input
+            if not product_id or not rating_value:
+                return JsonResponse({'error': 'Invalid input'}, status=400)
+
+            # Cari produk terkait
+            product = Product.objects.filter(uuid=product_id).first()
+            if not product:
+                return JsonResponse({'error': 'Product not found'}, status=404)
+
+            # Simpan rating
+            Rating.objects.create(product=product, user=request.user, rating=rating_value)
+            return JsonResponse({'message': 'Rating submitted successfully'}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Comment
+
+from rest_framework import serializers
+from .models import Comment
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['uuid', 'product', 'user', 'comment', 'timestamp']
+
+class CommentList(APIView):
+    def get(self, request, format=None):
+        # Ambil semua komentar
+        comments = Comment.objects.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ['RATING_CHOICES', 'uuid', 'product', 'user', 'rating', 'timestamp']
+
+class RatingList(APIView):
+    def get(self, request, format=None):
+        # Ambil semua rating
+        ratings = Rating.objects.all()
+        serializer = RatingSerializer(ratings, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+from django.views.decorators.http import require_GET
+from django.utils.decorators import method_decorator
+
+@require_GET
+def get_comments_by_product(request, product_id):
+    try:
+        # Cari produk berdasarkan UUID
+        product = Product.objects.get(uuid=product_id)
+
+        # Ambil semua komentar untuk produk tersebut
+        comments = Comment.objects.filter(product=product).select_related('user').order_by('-timestamp')
+
+        # Serialisasi komentar menjadi JSON
+        comments_data = [
+            {
+                'uuid': str(comment.uuid),
+                'user': comment.user.username,
+                'comment': comment.comment,
+                'timestamp': comment.timestamp.strftime('%d %B %Y, %H:%M')
+            }
+            for comment in comments
+        ]
+
+        return JsonResponse({'comments': comments_data}, safe=False, status=200)
+
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    
+@require_GET
+def get_ratings_by_product(request, product_id):
+    try:
+        # Cari produk berdasarkan UUID
+        product = Product.objects.get(uuid=product_id)
+
+        # Ambil semua rating untuk produk tersebut
+        ratings = Rating.objects.filter(product=product).select_related('user').order_by('-timestamp')
+
+        # Serialisasi rating menjadi JSON
+        ratings_data = [
+            {
+                'uuid': str(rating.uuid),
+                'user': rating.user.username,
+                'rating': rating.rating,
+                'timestamp': rating.timestamp.strftime('%d %B %Y, %H:%M')
+            }
+            for rating in ratings
+        ]
+
+        return JsonResponse({'ratings': ratings_data}, safe=False, status=200)
+
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+@login_required
+def delete_comment(request, comment_id):
+    try:
+        # Ambil komentar berdasarkan ID
+        comment = get_object_or_404(Comment, uuid=comment_id)
+
+        # Hanya izinkan user pemilik komentar untuk menghapus
+        if request.user != comment.user:
+            return JsonResponse(
+                {'message': 'You are not allowed to delete this comment'},
+                status=403
+            )
+
+        # Hapus komentar
+        comment.delete()
+
+        return JsonResponse({'message': 'Comment deleted successfully'}, status=200)
+
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=400)
+    
+@csrf_exempt
+@login_required
+def delete_rating(request, rating_id):
+    try:
+        # Ambil rating berdasarkan ID
+        rating = get_object_or_404(Rating, uuid=rating_id)
+
+        # Hanya izinkan user pemilik rating untuk menghapus
+        if request.user != rating.user:
+            return JsonResponse(
+                {'message': 'You are not allowed to delete this rating'},
+                status=403
+            )
+
+        # Hapus rating
+        rating.delete()
+
+        return JsonResponse({'message': 'Rating deleted successfully'}, status=200)
+
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=400)
+
+
+@csrf_exempt
+@login_required
+@require_POST
+def edit_comment(request, comment_id):
+    try:
+        new_comment_text = request.POST.get('comment')
+        if not new_comment_text:
+            return JsonResponse({"status": "error", "message": "No comment text provided"}, status=400)
+
+        comment = Comment.objects.get(uuid=comment_id)
+        if comment.user != request.user:
+            return JsonResponse({"status": "error", "message": "You do not have permission to edit this comment"}, status=403)
+
+        comment.comment = new_comment_text
+        comment.timestamp = timezone.now()
+        comment.save()
+
+        return JsonResponse({
+            "status": "success",
+            "message": "Comment edited successfully",
+            "comment_id": str(comment.uuid),
+            "user": comment.user.username,
+            "comment": comment.comment,
+            "timestamp": comment.timestamp.strftime("%d %B %Y, %H:%M"),
+        }, status=200)
+
+    except Comment.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Comment not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)}, status=500)

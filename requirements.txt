@@ -1,7 +1,9 @@
 django
 gunicorn
 whitenoise
-psycopg2-binary
+psycopg2-binary==2.9.10
 requests
 urllib3
 pillow
+django-cors-headers
+djangorestframework

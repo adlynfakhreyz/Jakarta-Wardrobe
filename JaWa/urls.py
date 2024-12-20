@@ -27,9 +27,12 @@ urlpatterns = [
     path('products/', include('products.urls', namespace='products')),
     path('user_choices/', include('user_choices.urls', namespace='user_choices')),
     path('globalChat/', include('globalChat.urls', namespace='globalChat')),
-    path('users', include('users.urls', namespace='users')),
+    path('users/', include('users.urls', namespace='users')),
     path('password-reset/', ResetPasswordView.as_view(), name='password_reset'),
     path('password-reset-complete/',
          auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
          name='password_reset_complete'),
+    path('auth/', include('authentication.urls')),
+    path('articles/', include('articles.urls')),  # Include app articles di bawah /articles/
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

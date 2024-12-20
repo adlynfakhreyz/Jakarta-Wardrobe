@@ -8,12 +8,16 @@ from django.shortcuts import get_object_or_404,  render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import NotesForm
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @login_required(login_url='/login')
 def show_user_choices(request):
     return render(request, 'user_choices.html')
 
+
+@login_required(login_url='/login')
+@csrf_exempt
 def add_user_choices(request, id):
     if not request.user.is_authenticated:
         # Return a JSON response if the user is not authenticated
@@ -40,8 +44,9 @@ def add_user_choices(request, id):
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
 
 @login_required(login_url='/login')
+@csrf_exempt
 def delete_user_choices(request, id):
-    if request.method == 'DELETE':
+    if request.method == 'DELETE' or request.method == 'POST':
         # Get the current logged-in user and the selected item
         current_user = request.user
         selected_item = get_object_or_404(Product, pk=id)

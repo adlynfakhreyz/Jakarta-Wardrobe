@@ -4,14 +4,14 @@ from products.models import Product
 import uuid
 
 class Command(BaseCommand):
-    help = 'Import products from an Excel file into the database.'
-
-    def add_arguments(self, parser):
-        parser.add_argument('filepath', type=str, help='C:\\Users\\sayyi\\Downloads\\Dataset.xlsx')
+    help = 'Import products from Dataset.xlsx into the database.'
 
     def handle(self, *args, **options):
+        # Define the file path
+        filepath = 'Dataset.xlsx'
+        
         # Load the data into a pandas DataFrame
-        data = pd.read_excel(options['filepath'], engine='openpyxl')
+        data = pd.read_excel(filepath)
         
         # Iterate through the rows of the DataFrame, creating Product instances
         for _, row in data.iterrows():
@@ -29,4 +29,4 @@ class Command(BaseCommand):
                     'img_url': row['img_url'],
                 }
             )
-        self.stdout.write(self.style.SUCCESS(f'Successfully imported products from {options["filepath"]}'))
+        self.stdout.write(self.style.SUCCESS(f'Successfully imported products from {filepath}'))
