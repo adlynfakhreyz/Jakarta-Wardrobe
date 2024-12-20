@@ -396,6 +396,29 @@ def delete_comment(request, comment_id):
 
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=400)
+    
+@csrf_exempt
+@login_required
+def delete_rating(request, rating_id):
+    try:
+        # Ambil rating berdasarkan ID
+        rating = get_object_or_404(Rating, uuid=rating_id)
+
+        # Hanya izinkan user pemilik rating untuk menghapus
+        if request.user != rating.user:
+            return JsonResponse(
+                {'message': 'You are not allowed to delete this rating'},
+                status=403
+            )
+
+        # Hapus rating
+        rating.delete()
+
+        return JsonResponse({'message': 'Rating deleted successfully'}, status=200)
+
+    except Exception as e:
+        return JsonResponse({'message': str(e)}, status=400)
+
 
 @csrf_exempt
 @login_required
