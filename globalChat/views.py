@@ -178,7 +178,10 @@ def global_chat_flutter(request):
             'user': forum.user.username,
             'posted_time': forum.posted_time.strftime('%Y-%m-%d %H:%M:%S'),
             'like_count': forum.likes.count(),
-            'bookmark_count': forum.bookmarks.count()
+            'bookmark_count': forum.bookmarks.count(),
+            'is_liked': request.user in forum.likes.all(),
+            'is_bookmarked': request.user in forum.bookmarks.all(),
+
         }
         for forum in page_obj.object_list
     ]
@@ -374,3 +377,52 @@ def add_comment_flutter(request, forum_id):
         except Exception as e:
             return JsonResponse({"success": False, "message": str(e)}, status=400)
     return JsonResponse({"success": False, "message": "Invalid request method"}, status=405)
+
+@csrf_exempt
+def get_comments_flutter(request, forum_id):
+    try:
+        forum = get_object_or_404(Forum, id=forum_id)
+        comments = Comment.objects.filter(forum=forum).order_by('-posted_time')
+        
+        comments_data = [{
+            'id': comment.id,
+            'text': comment.text,
+            'user': comment.user.username,
+            'posted_time': comment.posted_time.strftime('%Y-%m-%d %H:%M:%S')
+        } for comment in comments]
+        
+        return JsonResponse({
+            'comments': comments_data
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': str(e)
+        }, status=400)
+
+@csrf_exempt
+def delete_comment_flutter(request, comment_id):
+    if request.method == 'POST':
+        try:
+            comment = get_object_or_404(Comment, id=comment_id)
+            
+            if request.user != comment.user and request.user != comment.forum.user:
+                return JsonResponse({
+                    'success': False,
+                    'message': 'Unauthorized'
+                }, status=403)
+                
+            comment.delete()
+            return JsonResponse({
+                'success': True,
+                'message': 'Comment deleted successfully'
+            })
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'message': str(e)
+            }, status=400)
+    return JsonResponse({
+        'success': False,
+        'message': 'Invalid request method'
+    }, status=405)

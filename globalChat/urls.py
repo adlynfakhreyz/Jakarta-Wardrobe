@@ -20,4 +20,6 @@ urlpatterns = [
     path('api/forum/delete/<int:forum_id>/', views.delete_forum_flutter, name='delete_forum_flutter'),  # Hapus forum (API JSON)
     path('api/forum/<int:forum_id>/like/', views.toggle_like_forum_flutter, name='toggle_like_forum_flutter'),  # Like/unlike forum (API JSON)
     path('api/forum/<int:forum_id>/comment/', views.add_comment_flutter, name='add_comment_flutter'),  # Tambahkan komentar (API JSON)
+    path('api/forum/<int:forum_id>/comments/', views.get_comments_flutter, name='get_comments_flutter'),
+    path('api/comment/delete/<int:comment_id>/', views.delete_comment_flutter, name='delete_comment_flutter'),
 ]
