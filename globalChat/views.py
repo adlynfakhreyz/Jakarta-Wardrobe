@@ -139,3 +139,5 @@ def toggle_bookmark(request, forum_id):
         forum.bookmarks.add(request.user)
         bookmarked = True
     return JsonResponse({'bookmarked': bookmarked})
+
+#test
