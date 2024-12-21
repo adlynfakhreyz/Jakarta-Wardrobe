@@ -52,6 +52,19 @@ def product_detail(request, product_id):
         return JsonResponse(response_data)
     except Product.DoesNotExist:
         return JsonResponse({'error': 'Produk tidak ditemukan'}, status=404)
+    
+#only admin can delete product
+
+@csrf_exempt
+@login_required
+@require_POST
+def delete_product(request, product_id):
+    try:
+        product = Product.objects.get(uuid=product_id)
+        product.delete()
+        return JsonResponse({'success': 'Produk berhasil dihapus'}, status=200)
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Produk tidak ditemukan'}, status=404)
 
 
 def review_products(request, id):
