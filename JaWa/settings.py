@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,6 +32,8 @@ DEBUG = not PRODUCTION
 ALLOWED_HOSTS = [
     "localhost", 
     "127.0.0.1", 
+    ".vercel.app",
+
 ]
 
 
@@ -62,7 +66,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.staticfiles'
 ]
 
 ROOT_URLCONF = 'JaWa.urls'

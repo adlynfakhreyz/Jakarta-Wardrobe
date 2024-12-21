@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import NotesForm
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models.functions import Cast
+from django.db.models import FloatField
 
 # Create your views here.
 @login_required(login_url='/login')
@@ -63,15 +65,14 @@ def delete_user_choices(request, id):
 
 @login_required(login_url='/login')
 def show_user_choices_json(request):
-    # Filter products selected by the logged-in user and annotate with average rating
+    # Fetch user products with existing fields
     user_products = Product.objects.filter(userchoice__user=request.user).annotate(
         avg_rating=Avg('rating__rating'),
-        notes=F('userchoice__notes')  # Adjust field name if different
+        notes=F('userchoice__notes')
     ).values(
         'uuid',
         'category',
         'name',
-        'price',
         'desc',
         'color',
         'stock',
@@ -79,11 +80,17 @@ def show_user_choices_json(request):
         'location',
         'img_url',
         'avg_rating',
-        'notes'
+        'notes',
+        'price',  # Original price
     )
 
-    # Return the JSON response with the constructed data
-    return JsonResponse(list(user_products), safe=False)
+    # Convert price to float manually
+    result = []
+    for product in user_products:
+        product['price'] = float(product['price'])  # Convert to float in Python
+        result.append(product)
+
+    return JsonResponse(result, safe=False)
 
 @login_required
 def edit_notes(request, id):
@@ -103,6 +110,34 @@ def edit_notes(request, id):
         if form.is_valid():
             form.save()
             return redirect('/user_choices')  # Adjust this to your product detail URL name
+    else:
+        form = NotesForm(instance=user_choice)
+        
+    context = {
+        'form': form,
+        'product': selected_item
+    }
+    return render(request, 'edit_notes.html', context)
+
+@login_required
+@csrf_exempt
+def edit_notes_flutter(request, id):
+    """
+    View for editing notes for a specific product.
+    Creates a new UserChoice if it doesn't exist.
+    """
+    selected_item = Product.objects.get(pk=id)
+    user_choice, created = UserChoice.objects.get_or_create(
+        user=request.user,
+        selected_item=selected_item,
+        defaults={'notes': ''}
+    )
+
+    if request.method == 'POST':
+        form = NotesForm(request.POST, instance=user_choice)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success', 'notes': user_choice.notes}, status=200)
     else:
         form = NotesForm(instance=user_choice)
         
