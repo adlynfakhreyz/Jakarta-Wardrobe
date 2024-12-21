@@ -7,7 +7,3 @@ urllib3
 pillow
 django-cors-headers
 djangorestframework
-psycopg2-binary
-dj-database-url
-pandas
-openpyxl
