@@ -24,6 +24,8 @@ urlpatterns = [
     path('comments/delete/<str:comment_id>/', views.delete_comment, name='delete_comment'),
     path('comments/edit/<uuid:comment_id>/', views.edit_comment, name='edit_comment'),
     path('ratings/delete/<str:rating_id>/', views.delete_rating, name='delete_rating'),
+    path('products/<uuid:product_id>/my_comments/', views.get_my_comments, name='get_my_comments'),
+
 
 
 
