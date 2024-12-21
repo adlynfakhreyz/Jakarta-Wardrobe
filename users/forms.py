@@ -14,8 +14,12 @@ class UpdateUserForm(forms.ModelForm):
 
 
 class UpdateProfileForm(forms.ModelForm):
-    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+
+    avatar_url = forms.URLField(
+        required=False,
+        widget=forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Enter avatar URL'})
+    )
 
     class Meta:
         model = Profile
-        fields = ['avatar']
+        fields = ['avatar_url']
