@@ -17,13 +17,10 @@
     ],
     "routes": [
       {
-        "src": "/static/(.*)",
-        "dest": "/static/$1"
-      },
-      {
         "src": "/(.*)",
         "dest": "JaWa/wsgi.py"
       }
-    ]
+    ],
+    "outputDirectory": "staticfiles"
   }
   

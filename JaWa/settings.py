@@ -157,7 +157,7 @@ if DEBUG:
         BASE_DIR / 'static' # merujuk ke /static root project pada mode development
     ]
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles', 'static') # merujuk ke /static root project pada mode production
+    STATIC_ROOT = BASE_DIR / 'staticfiles' # merujuk ke /static root project pada mode production
     
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
