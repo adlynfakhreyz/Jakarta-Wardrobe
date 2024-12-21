@@ -195,7 +195,6 @@ def global_chat_flutter(request):
     })
 
 @csrf_exempt
-@csrf_exempt
 def create_forum_flutter(request):
     if request.method == 'POST':
         try:
