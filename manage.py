@@ -2,7 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+from django.core.asgi import get_asgi_application  # Import the ASGI app
 
 def main():
     """Run administrative tasks."""
@@ -17,6 +17,10 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+# If the file is used in a serverless context, define `app`
+# This allows Vercel to run the ASGI app
+if 'VERCEL' in os.environ:  # This check helps to identify if running on Vercel
+    app = get_asgi_application()  # Set up the ASGI app for serverless functions
 
 if __name__ == '__main__':
     main()
