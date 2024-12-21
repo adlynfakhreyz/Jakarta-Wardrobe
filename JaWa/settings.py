@@ -30,7 +30,8 @@ DEBUG = not PRODUCTION
 ALLOWED_HOSTS = [
     "localhost", 
     "127.0.0.1",
-    "https://jakarta-wardrobe-5wazf8o4e-adlyn-projects.vercel.app",
+    ".vercel.app",
+    "https://jakarta-wardrobe-dun.vercel.app/"
 ]
 
 
