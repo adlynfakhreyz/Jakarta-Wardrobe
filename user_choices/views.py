@@ -111,3 +111,31 @@ def edit_notes(request, id):
         'product': selected_item
     }
     return render(request, 'edit_notes.html', context)
+
+@login_required
+@csrf_exempt
+def edit_notes_flutter(request, id):
+    """
+    View for editing notes for a specific product.
+    Creates a new UserChoice if it doesn't exist.
+    """
+    selected_item = Product.objects.get(pk=id)
+    user_choice, created = UserChoice.objects.get_or_create(
+        user=request.user,
+        selected_item=selected_item,
+        defaults={'notes': ''}
+    )
+
+    if request.method == 'POST':
+        form = NotesForm(request.POST, instance=user_choice)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success', 'notes': user_choice.notes}, status=200)
+    else:
+        form = NotesForm(instance=user_choice)
+        
+    context = {
+        'form': form,
+        'product': selected_item
+    }
+    return render(request, 'edit_notes.html', context)
