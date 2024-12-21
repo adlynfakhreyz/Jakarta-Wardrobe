@@ -7,5 +7,3 @@ urllib3
 pillow
 django-cors-headers
 djangorestframework
-pandas
-openpyxl
