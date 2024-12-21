@@ -425,3 +425,27 @@ def delete_comment_flutter(request, comment_id):
         'success': False,
         'message': 'Invalid request method'
     }, status=405)
+
+@csrf_exempt
+def toggle_bookmark_flutter(request, forum_id):
+    if request.method == 'POST':
+        try:
+            forum = get_object_or_404(Forum, id=forum_id)
+
+            if request.user in forum.bookmarks.all():
+                forum.bookmarks.remove(request.user)
+                bookmarked = False
+            else:
+                forum.bookmarks.add(request.user)
+                bookmarked = True
+
+            return JsonResponse({
+                "success": True,
+                "is_bookmarked": bookmarked,
+                "bookmark_count": forum.bookmarks.count()
+            }, status=200)
+        except Forum.DoesNotExist:
+            return JsonResponse({"success": False, "message": "Forum not found"}, status=404)
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)}, status=400)
+    return JsonResponse({"success": False, "message": "Invalid request method"}, status=405)

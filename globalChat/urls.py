@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/forum/<int:forum_id>/comment/', views.add_comment_flutter, name='add_comment_flutter'),  # Tambahkan komentar (API JSON)
     path('api/forum/<int:forum_id>/comments/', views.get_comments_flutter, name='get_comments_flutter'),
     path('api/comment/delete/<int:comment_id>/', views.delete_comment_flutter, name='delete_comment_flutter'),
+    path('api/forum/<int:forum_id>/bookmark/', views.toggle_bookmark_flutter, name='toggle_bookmark_flutter'),
 ]
