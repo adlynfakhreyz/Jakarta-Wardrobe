@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    # avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
-
     # Menggunakan URLField dengan validator kustom
     avatar_url = models.URLField(max_length=500, default='https://i.pinimg.com/736x/50/42/90/504290aa11c08e6aa19831be382c8de2.jpg')  # Link gambar
 
