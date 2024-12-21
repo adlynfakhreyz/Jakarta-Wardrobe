@@ -8,3 +8,4 @@ pillow
 django-cors-headers
 djangorestframework
 pandas
+openpyxl
