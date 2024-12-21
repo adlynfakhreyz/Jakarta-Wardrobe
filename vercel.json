@@ -1,13 +1,23 @@
 {
-    "build": {
-      "env": {
-        "DJANGO_SETTINGS_MODULE": "JaWa.settings.production"
-      },
-      "cmd": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    "version": 2,
+    "builds": [
+      {
+        "src": "manage.py",
+        "use": "@vercel/python",
+        "config": {
+          "maxLambdaSize": "50mb"
+        }
+      }
+    ],
+    "env": {
+      "DJANGO_SECRET_KEY": "django-insecure-1-uvrhew1=b)cwklcyh%92ck%1n$j^cb9iplbwo7ccq$h+6x%*",
+      "DEBUG": "False"
     },
     "routes": [
-      { "src": "/static/(.*)", "dest": "/static/$1" },
-      { "src": "/(.*)", "dest": "index.html" }
+      {
+        "src": "/(.*)",
+        "dest": "manage.py"
+      }
     ]
   }
   
