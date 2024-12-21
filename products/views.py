@@ -342,6 +342,7 @@ def get_comments_by_product(request, product_id):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
     
+    
 @require_GET
 def get_ratings_by_product(request, product_id):
     try:
@@ -450,3 +451,32 @@ def edit_comment(request, comment_id):
         return JsonResponse({"status": "error", "message": "Comment not found"}, status=404)
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)}, status=500)
+
+@require_GET
+@login_required
+def get_my_comments(request, product_id):
+    try:
+        # Cari produk berdasarkan UUID
+        product = Product.objects.get(uuid=product_id)
+
+        # Ambil komentar hanya dari user yang sedang login
+        comments = Comment.objects.filter(product=product, user=request.user).order_by('-timestamp')
+
+        # Serialisasi komentar menjadi JSON
+        comments_data = [
+            {
+                'uuid': str(comment.uuid),
+                'user': comment.user.username,
+                'comment': comment.comment,
+                'timestamp': comment.timestamp.strftime('%d %B %Y, %H:%M')
+            }
+            for comment in comments
+        ]
+
+        return JsonResponse({'comments': comments_data}, safe=False, status=200)
+
+    except Product.DoesNotExist:
+        return JsonResponse({'error': 'Product not found'}, status=404)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
