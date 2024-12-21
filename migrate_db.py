@@ -1,17 +1,14 @@
-# migrate_db.py
-import sqlite3
+import pandas as pd
 import psycopg2
-from urllib.parse import urlparse
 import os
+from urllib.parse import urlparse
 
-def migrate_sqlite_to_postgres():
-    # Connect to SQLite
-    sqlite_conn = sqlite3.connect('db.sqlite3')
-    sqlite_cursor = sqlite_conn.cursor()
+def migrate_excel_to_postgres():
+    # Define the path to your Excel file
+    excel_file = 'Dataset.xlsx'
     
-    # Get all tables
-    sqlite_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    tables = sqlite_cursor.fetchall()
+    # Read the Excel file
+    excel_data = pd.ExcelFile(excel_file)
     
     # Parse PostgreSQL URL
     db_url = urlparse(os.getenv('DATABASE_URL'))
@@ -26,35 +23,33 @@ def migrate_sqlite_to_postgres():
     )
     pg_cursor = pg_conn.cursor()
     
-    # For each table
-    for table in tables:
-        table_name = table[0]
-        if table_name != 'sqlite_sequence' and not table_name.startswith('django_'):
-            # Get all data
-            sqlite_cursor.execute(f"SELECT * FROM {table_name};")
-            rows = sqlite_cursor.fetchall()
-            
-            if rows:
-                # Get column names
-                sqlite_cursor.execute(f"PRAGMA table_info({table_name});")
-                columns = sqlite_cursor.fetchall()
-                column_names = [col[1] for col in columns]
-                
-                # Create INSERT query
-                placeholders = ','.join(['%s'] * len(column_names))
-                column_str = ','.join(column_names)
-                insert_query = f"INSERT INTO {table_name} ({column_str}) VALUES ({placeholders})"
-                
-                # Insert data
-                for row in rows:
-                    pg_cursor.execute(insert_query, row)
+    # For each sheet in the Excel file
+    for sheet_name in excel_data.sheet_names:
+        # Load the sheet as a DataFrame
+        df = excel_data.parse(sheet_name)
+        
+        # Get column names
+        column_names = list(df.columns)
+        print(column_names)
+        
+        # Create a table in PostgreSQL
+        table_name = sheet_name.lower()  # Use sheet name as the table name
+        column_definitions = ', '.join([f'"{col}" TEXT' for col in column_names])  # Assuming TEXT type for simplicity
+        create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({column_definitions});"
+        pg_cursor.execute(create_table_query)
+        
+        # Prepare insert query
+        placeholders = ', '.join(['%s'] * len(column_names))
+        column_str = ', '.join([f'"{col}"' for col in column_names])
+        insert_query = f"INSERT INTO {table_name} ({column_str}) VALUES ({placeholders})"
+        
+        # Insert data into the table
+        for _, row in df.iterrows():
+            pg_cursor.execute(insert_query, tuple(row))
     
     # Commit and close
     pg_conn.commit()
     pg_cursor.close()
-    pg_conn.close()
-    sqlite_cursor.close()
-    sqlite_conn.close()
 
 if __name__ == "__main__":
-    migrate_sqlite_to_postgres()
+    migrate_excel_to_postgres()

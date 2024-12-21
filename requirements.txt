@@ -9,4 +9,5 @@ django-cors-headers
 djangorestframework
 psycopg2-binary
 dj-database-url
-dotenv
+pandas
+openpyxl
