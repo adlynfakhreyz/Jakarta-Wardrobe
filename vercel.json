@@ -1,20 +1,13 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "manage.py",
-        "use": "@vercel/python",
-        "config": {
-          "maxLambdaSize": "50mb"
-        }
-      }
-    ],
+    "build": {
+      "env": {
+        "DJANGO_SETTINGS_MODULE": "JaWa.settings.production"
+      },
+      "cmd": "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    },
     "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "manage.py"
-      }
-    ],
-    "buildCommand": "python manage.py migrate && python manage.py collectstatic --noinput"
+      { "src": "/static/(.*)", "dest": "/static/$1" },
+      { "src": "/(.*)", "dest": "index.html" }
+    ]
   }
   
