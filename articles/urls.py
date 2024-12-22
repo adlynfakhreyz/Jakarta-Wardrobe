@@ -6,6 +6,4 @@ urlpatterns = [
     path('<uuid:article_id>/', views.article_detail, name='article_detail'),  # /articles/<uuid>
     path('add/', views.add_article, name='add_article'),  # /articles/add/
     path('delete/<uuid:article_id>/', views.delete_article, name='delete_article'),
-    path('articles/edit/<uuid:article_id>/', views.edit_article, name='edit_article'),
-
 ]
