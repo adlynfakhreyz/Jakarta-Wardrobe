@@ -54,35 +54,69 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
 @csrf_exempt
 def profile_json(request):
     if not request.user.is_authenticated:
-        return JsonResponse({'error': 'Not authenticated'}, status=401)
-
+        return JsonResponse({'status': 'error', 'message': 'Not authenticated'}, status=401)
+    
     if request.method == 'GET':
         data = {
-            'username': request.user.username,
-            'profile_picture': request.user.profile.avatar_url if request.user.profile.avatar_url else None
+            'status': 'success',
+            'data': {
+                'username': request.user.username,
+                'profile_picture': request.user.profile.avatar_url if request.user.profile.avatar_url else ''
+            }
         }
         return JsonResponse(data)
-
+    
     elif request.method == 'POST':
         try:
-            # Mendekode data dari request body
-            data = json.loads(request.body.decode('utf-8'))
+            # Handle both JSON and form-data
+            if request.content_type == 'application/json':
+                data = json.loads(request.body)
+            else:
+                data = request.POST
             
-            # Perbarui username
+            # Validate data
+            if not data.get('username'):
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Username is required'
+                }, status=400)
+            
+            # Debug print untuk memeriksa data yang diterima
+            print("Received data:", data)
+            
+            # Update username
             if 'username' in data:
                 request.user.username = data['username']
                 request.user.save()
-
-            # Perbarui avatar URL
+            
+            # Update profile picture
             if 'profile_picture' in data and data['profile_picture']:
+                print("Updating profile picture to:", data['profile_picture'])
                 request.user.profile.avatar_url = data['profile_picture']
                 request.user.profile.save()
-
-            return JsonResponse({'message': 'Your profile is updated successfully'})
-
+                print("Profile picture updated to:", request.user.profile.avatar_url)
+            
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Profile updated successfully',
+                'data': {
+                    'username': request.user.username,
+                    'profile_picture': request.user.profile.avatar_url
+                }
+            })
+            
         except json.JSONDecodeError:
-            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+            return JsonResponse({
+                'status': 'error',
+                'message': 'Invalid JSON data'
+            }, status=400)
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=400)
-
-    return JsonResponse({'error': 'Method not allowed'}, status=405)
+            return JsonResponse({
+                'status': 'error',
+                'message': str(e)
+            }, status=400)
+    
+    return JsonResponse({
+        'status': 'error',
+        'message': 'Method not allowed'
+    }, status=405)
