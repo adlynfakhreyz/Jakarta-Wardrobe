@@ -167,5 +167,5 @@ CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
 
 CSRF_TRUSTED_ORIGINS = [
-    "andi-muhammad37-jawaapp.pbp.cs.ui.ac.id",
+    "https://andi-muhammad37-jawaapp.pbp.cs.ui.ac.id/",
 ]
