@@ -31,9 +31,7 @@ DEBUG = not PRODUCTION
 
 ALLOWED_HOSTS = [
     "localhost", 
-    "127.0.0.1",
-    ".vercel.app",
-    "https://jakarta-wardrobe-dun.vercel.app/"
+    "127.0.0.1", 
 ]
 
 
@@ -66,7 +64,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.staticfiles'
 ]
 
 ROOT_URLCONF = 'JaWa.urls'

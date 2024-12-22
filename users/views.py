@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
@@ -49,12 +50,39 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
                       "please make sure you've entered the address you registered with, and check your spam folder."
     success_url = reverse_lazy('users-home')
 
+
+@csrf_exempt
 def profile_json(request):
     if not request.user.is_authenticated:
-        return JsonResponse({'error': 'You must be logged in to view this data.'}, status=401)
-    
-    data = {
-        'username': request.user.username,
-        'profile_picture': request.user.profile.avatar.url if request.user.profile.avatar else None
-    }
-    return JsonResponse(data)
+        return JsonResponse({'error': 'Not authenticated'}, status=401)
+
+    if request.method == 'GET':
+        data = {
+            'username': request.user.username,
+            'profile_picture': request.user.profile.avatar_url if request.user.profile.avatar_url else None
+        }
+        return JsonResponse(data)
+
+    elif request.method == 'POST':
+        try:
+            # Mendekode data dari request body
+            data = json.loads(request.body.decode('utf-8'))
+            
+            # Perbarui username
+            if 'username' in data:
+                request.user.username = data['username']
+                request.user.save()
+
+            # Perbarui avatar URL
+            if 'profile_picture' in data and data['profile_picture']:
+                request.user.profile.avatar_url = data['profile_picture']
+                request.user.profile.save()
+
+            return JsonResponse({'message': 'Your profile is updated successfully'})
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
