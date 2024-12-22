@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     ".vercel.app",
     "https://jakarta-wardrobe-dun.vercel.app/"
+    "andi-muhammad37-jawaapp.pbp.cs.ui.ac.id"
 ]
 
 
@@ -182,3 +183,8 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://andi-muhammad37-jawaapp.pbp.cs.ui.ac.id",
+    "http://andi-muhammad37-jawaapp.pbp.cs.ui.ac.id",
+]
