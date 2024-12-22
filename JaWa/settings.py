@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
     "localhost", 
     "127.0.0.1", 
     ".vercel.app",
-
+    "https://andi-muhammad37-jawaapp.pbp.cs.ui.ac.id/"
 ]
 
 
